@@ -1,0 +1,21 @@
+{
+ "runs": [
+  {
+   "expect": {
+    "original_status": "VIOLATION_FOUND",
+    "checker_accepted": true,
+    "profile_status": {
+     "ordered,enforced,ordered,enforced": "VERIFIED_SAFE_WITHIN_SCOPE",
+     "unordered,enforced,unordered,enforced": "VERIFIED_SAFE_WITHIN_SCOPE",
+     "ordered,enforced,unordered,enforced": "VIOLATION_FOUND"
+    },
+    "profile_class": {
+     "ordered,enforced,unordered,enforced": "mixed",
+     "unordered,enforced,unordered,enforced": "common-mode"
+    }
+   }
+  }
+ ],
+ "synthetic": true,
+ "note": "Synthetic engineered fixture; not real-world validation"
+}

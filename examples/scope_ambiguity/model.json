@@ -1,0 +1,185 @@
+{
+ "name": "SCOPE ambiguity (hypothetical)",
+ "default_properties": [
+  "P1",
+  "P2"
+ ],
+ "messages": [
+  "REQ",
+  "OK"
+ ],
+ "roles": {
+  "client": {
+   "initial": "C0",
+   "states": {
+    "C0": {},
+    "C1": {},
+    "C2": {},
+    "C3": {},
+    "C4": {},
+    "C5": {
+     "closed": true
+    }
+   },
+   "transitions": [
+    {
+     "id": "c1",
+     "src": "C0",
+     "dst": "C1",
+     "action": "!REQ"
+    },
+    {
+     "id": "c2",
+     "src": "C1",
+     "dst": "C2",
+     "action": "!REQ"
+    },
+    {
+     "id": "c3",
+     "src": "C2",
+     "dst": "C3",
+     "action": "!REQ"
+    },
+    {
+     "id": "c4",
+     "src": "C3",
+     "dst": "C4",
+     "action": "?OK"
+    },
+    {
+     "id": "c5",
+     "src": "C4",
+     "dst": "C5",
+     "action": "close"
+    }
+   ]
+  },
+  "server": {
+   "initial": "S0",
+   "states": {
+    "S0": {},
+    "S1": {},
+    "S2": {},
+    "S3": {},
+    "S4": {},
+    "S5": {},
+    "S6": {
+     "closed": true
+    }
+   },
+   "transitions": [
+    {
+     "id": "s1",
+     "src": "S0",
+     "dst": "S1",
+     "action": "?REQ"
+    },
+    {
+     "id": "s2",
+     "src": "S1",
+     "dst": "S2",
+     "action": "!OK"
+    },
+    {
+     "id": "s3",
+     "src": "S2",
+     "dst": "S3",
+     "action": "?REQ"
+    },
+    {
+     "id": "s4",
+     "src": "S3",
+     "dst": "S4",
+     "action": "!OK"
+    },
+    {
+     "id": "s5",
+     "src": "S4",
+     "dst": "S5",
+     "action": "?REQ"
+    },
+    {
+     "id": "s6",
+     "src": "S5",
+     "dst": "S6",
+     "action": "!OK"
+    }
+   ]
+  }
+ },
+ "system": {
+  "implementations": {
+   "C": {
+    "role": "client",
+    "peer": "S"
+   },
+   "S": {
+    "role": "server",
+    "peer": "C"
+   }
+  },
+  "channel_capacity": 3,
+  "assumptions": {
+   "communication": "asynchronous",
+   "channels": "FIFO",
+   "message_loss": false
+  }
+ },
+ "definitions": {},
+ "errata": {},
+ "bindings": {
+  "I-01": {
+   "role": "server",
+   "SCOPE": {
+    "trigger": "\\brepeated request\\b",
+    "scopes": [
+     {
+      "id": "narrow",
+      "silence": [
+       "s4"
+      ],
+      "cue": "immediately repeated",
+      "text": "The server MUST NOT reply to an immediately repeated request."
+     },
+     {
+      "id": "broad",
+      "silence": [
+       "s4",
+       "s6"
+      ],
+      "cue": "any repeated request",
+      "text": "The server MUST NOT reply to any repeated request in the session."
+     }
+    ]
+   }
+  }
+ },
+ "properties": [
+  {
+   "id": "P1",
+   "kind": "safety",
+   "type": "no_orphan_message",
+   "description": "No message is pending for a closed endpoint.",
+   "scope": "bounded FIFO channels",
+   "assumptions": {},
+   "bounds": {}
+  },
+  {
+   "id": "P2",
+   "kind": "functionality",
+   "type": "always_can_complete",
+   "description": "Both sides can always close with empty channels.",
+   "scope": "bounded FIFO channels",
+   "assumptions": {},
+   "bounds": {},
+   "goal": {
+    "C": [
+     "C5"
+    ],
+    "S": [
+     "S6"
+    ]
+   }
+  }
+ ]
+}

@@ -1,0 +1,13 @@
+{
+ "k": 24,
+ "compared": 8,
+ "agree": 8,
+ "disagree": [],
+ "unsupported": 6,
+ "skipped_incomplete": 0,
+ "by_type": {
+  "state_invariant": "compared",
+  "always_can_complete": "UNSUPPORTED",
+  "forbidden_action": "compared"
+ }
+}

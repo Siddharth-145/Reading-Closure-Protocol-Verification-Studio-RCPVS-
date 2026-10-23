@@ -1,0 +1,148 @@
+{
+ "name": "REF ambiguity (hypothetical)",
+ "default_properties": [
+  "P1",
+  "P2"
+ ],
+ "messages": [
+  "REQ",
+  "PING",
+  "ACKREQ",
+  "ACKPING"
+ ],
+ "roles": {
+  "client": {
+   "initial": "C0",
+   "states": {
+    "C0": {},
+    "C1": {},
+    "C2": {},
+    "C3": {
+     "closed": true
+    }
+   },
+   "transitions": [
+    {
+     "id": "c1",
+     "src": "C0",
+     "dst": "C1",
+     "action": "!REQ"
+    },
+    {
+     "id": "c2",
+     "src": "C1",
+     "dst": "C2",
+     "action": "!PING"
+    },
+    {
+     "id": "c3",
+     "src": "C2",
+     "dst": "C3",
+     "action": "?ACKREQ"
+    }
+   ]
+  },
+  "server": {
+   "initial": "S0",
+   "states": {
+    "S0": {},
+    "S1": {},
+    "S2": {},
+    "S3": {
+     "closed": true
+    }
+   },
+   "transitions": [
+    {
+     "id": "s1",
+     "src": "S0",
+     "dst": "S1",
+     "action": "?REQ"
+    },
+    {
+     "id": "s2",
+     "src": "S1",
+     "dst": "S2",
+     "action": "?PING"
+    },
+    {
+     "id": "s3",
+     "src": "S2",
+     "dst": "S3",
+     "action": "!ACKREQ"
+    }
+   ]
+  }
+ },
+ "system": {
+  "implementations": {
+   "C": {
+    "role": "client",
+    "peer": "S"
+   },
+   "S": {
+    "role": "server",
+    "peer": "C"
+   }
+  },
+  "channel_capacity": 2,
+  "assumptions": {
+   "communication": "asynchronous",
+   "channels": "FIFO",
+   "message_loss": false
+  }
+ },
+ "definitions": {},
+ "errata": {},
+ "bindings": {
+  "I-01": {
+   "role": "server",
+   "REF": {
+    "phrase": "it",
+    "transition": "s3",
+    "candidates": [
+     {
+      "id": "request",
+      "msg": "ACKREQ",
+      "cue": "\\bthe request\\b",
+      "text": "The server MUST acknowledge the request."
+     },
+     {
+      "id": "ping",
+      "msg": "ACKPING",
+      "cue": "\\bthe ping\\b",
+      "text": "The server MUST acknowledge the ping."
+     }
+    ]
+   }
+  }
+ },
+ "properties": [
+  {
+   "id": "P1",
+   "kind": "safety",
+   "type": "unspecified_reception",
+   "description": "No message at a channel head can never be consumed.",
+   "scope": "bounded FIFO channels",
+   "assumptions": {},
+   "bounds": {}
+  },
+  {
+   "id": "P2",
+   "kind": "functionality",
+   "type": "always_can_complete",
+   "description": "Both sides can always reach their closed states.",
+   "scope": "bounded FIFO channels",
+   "assumptions": {},
+   "bounds": {},
+   "goal": {
+    "C": [
+     "C3"
+    ],
+    "S": [
+     "S3"
+    ]
+   }
+  }
+ ]
+}

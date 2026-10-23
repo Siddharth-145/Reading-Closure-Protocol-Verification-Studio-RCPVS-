@@ -1,0 +1,993 @@
+[
+ {
+  "id": "CT-001",
+  "setup": {
+   "implementation_under_test": "R",
+   "profile": [
+    "enforced"
+   ],
+   "profile_readings": {
+    "R::I-02": "enforced"
+   },
+   "model_version": "revised",
+   "reference_peer": "verified model of the other implementation(s)"
+  },
+  "steps": [
+   {
+    "impl": "S",
+    "tid": "s1",
+    "action": "!DATA"
+   },
+   {
+    "impl": "R",
+    "tid": "r1",
+    "action": "?DATA"
+   }
+  ],
+  "expected": {
+   "iut_inputs": [
+    "?DATA"
+   ],
+   "iut_outputs": [],
+   "final_locals": {
+    "R": "R1",
+    "S": "S1"
+   },
+   "channels_non_empty": false
+  },
+  "targets": "covers transition r1",
+  "assumptions": {
+   "channel_capacity": 2,
+   "communication": "asynchronous",
+   "channels": "FIFO",
+   "message_loss": false,
+   "defaulted": []
+  },
+  "certified": true,
+  "kind": "normal_success_coverage",
+  "source_instructions": [
+   "I-01",
+   "I-02"
+  ],
+  "motivating_property": "P1,P2,PROH-I-01",
+  "preconditions": {
+   "initial_locals": {
+    "R": "R0",
+    "S": "S0"
+   },
+   "channels": "empty"
+  },
+  "expected_transitions": [
+   {
+    "impl": "S",
+    "from": "S0",
+    "to": "S1",
+    "action": "!DATA"
+   },
+   {
+    "impl": "R",
+    "from": "R0",
+    "to": "R1",
+    "action": "?DATA"
+   }
+  ],
+  "execution_status": "executed_against_implementation",
+  "traceability": {
+   "spec_sha256": "c3b7d1f22a567a60afb11c8591f1d4c22f42a45b2d8228a1f5df3d2a8ee440ee",
+   "certificate_claim": "profile ['enforced']: all selected properties"
+  },
+  "signature": "71db3ea6297c",
+  "duplicate_of": null,
+  "external_result": {
+   "passed": true,
+   "implementation": "OS TCP stack via sockets (see environment)",
+   "notes": "2/2 repetitions reproduced the model sequence",
+   "reproduced_count": 2,
+   "repeats": 2,
+   "environment": {
+    "platform": "Windows-11-10.0.26200-SP0",
+    "python": "3.12.10",
+    "uname": "Windows_NT sid 10.0 26200 x86_64 MS/Windows",
+    "transport": "TCP over 127.0.0.1 loopback via the socket API",
+    "note": "single host, single kernel, observations are socket-API-level (not packet captures)"
+   },
+   "observations": [
+    {
+     "impl": "S",
+     "action": "!DATA",
+     "observed": "sent"
+    },
+    {
+     "impl": "R",
+     "action": "?DATA",
+     "observed": "pending"
+    }
+   ]
+  }
+ },
+ {
+  "id": "CT-002",
+  "setup": {
+   "implementation_under_test": "R",
+   "profile": [
+    "enforced"
+   ],
+   "profile_readings": {
+    "R::I-02": "enforced"
+   },
+   "model_version": "revised",
+   "reference_peer": "verified model of the other implementation(s)"
+  },
+  "steps": [
+   {
+    "impl": "S",
+    "tid": "s1",
+    "action": "!DATA"
+   },
+   {
+    "impl": "R",
+    "tid": "r1",
+    "action": "?DATA"
+   },
+   {
+    "impl": "R",
+    "tid": "r2",
+    "action": "read"
+   }
+  ],
+  "expected": {
+   "iut_inputs": [
+    "?DATA"
+   ],
+   "iut_outputs": [],
+   "final_locals": {
+    "R": "R2",
+    "S": "S1"
+   },
+   "channels_non_empty": false
+  },
+  "targets": "covers transition r2",
+  "assumptions": {
+   "channel_capacity": 2,
+   "communication": "asynchronous",
+   "channels": "FIFO",
+   "message_loss": false,
+   "defaulted": []
+  },
+  "certified": true,
+  "kind": "normal_success_coverage",
+  "source_instructions": [
+   "I-01",
+   "I-02"
+  ],
+  "motivating_property": "P1,P2,PROH-I-01",
+  "preconditions": {
+   "initial_locals": {
+    "R": "R0",
+    "S": "S0"
+   },
+   "channels": "empty"
+  },
+  "expected_transitions": [
+   {
+    "impl": "S",
+    "from": "S0",
+    "to": "S1",
+    "action": "!DATA"
+   },
+   {
+    "impl": "R",
+    "from": "R0",
+    "to": "R1",
+    "action": "?DATA"
+   },
+   {
+    "impl": "R",
+    "from": "R1",
+    "to": "R2",
+    "action": "read"
+   }
+  ],
+  "execution_status": "executed_against_implementation",
+  "traceability": {
+   "spec_sha256": "c3b7d1f22a567a60afb11c8591f1d4c22f42a45b2d8228a1f5df3d2a8ee440ee",
+   "certificate_claim": "profile ['enforced']: all selected properties"
+  },
+  "signature": "3bd07107f610",
+  "duplicate_of": null,
+  "external_result": {
+   "passed": true,
+   "implementation": "OS TCP stack via sockets (see environment)",
+   "notes": "2/2 repetitions reproduced the model sequence",
+   "reproduced_count": 2,
+   "repeats": 2,
+   "environment": {
+    "platform": "Windows-11-10.0.26200-SP0",
+    "python": "3.12.10",
+    "uname": "Windows_NT sid 10.0 26200 x86_64 MS/Windows",
+    "transport": "TCP over 127.0.0.1 loopback via the socket API",
+    "note": "single host, single kernel, observations are socket-API-level (not packet captures)"
+   },
+   "observations": [
+    {
+     "impl": "S",
+     "action": "!DATA",
+     "observed": "sent"
+    },
+    {
+     "impl": "R",
+     "action": "?DATA",
+     "observed": "pending"
+    },
+    {
+     "impl": "R",
+     "action": "read",
+     "observed": "read:b'DATA'"
+    }
+   ]
+  }
+ },
+ {
+  "id": "CT-003",
+  "setup": {
+   "implementation_under_test": "R",
+   "profile": [
+    "enforced"
+   ],
+   "profile_readings": {
+    "R::I-02": "enforced"
+   },
+   "model_version": "revised",
+   "reference_peer": "verified model of the other implementation(s)"
+  },
+  "steps": [
+   {
+    "impl": "S",
+    "tid": "s1",
+    "action": "!DATA"
+   },
+   {
+    "impl": "R",
+    "tid": "r1",
+    "action": "?DATA"
+   },
+   {
+    "impl": "R",
+    "tid": "r2",
+    "action": "read"
+   },
+   {
+    "impl": "R",
+    "tid": "r3",
+    "action": "!FIN"
+   }
+  ],
+  "expected": {
+   "iut_inputs": [
+    "?DATA"
+   ],
+   "iut_outputs": [
+    "!FIN"
+   ],
+   "final_locals": {
+    "R": "R5",
+    "S": "S1"
+   },
+   "channels_non_empty": true
+  },
+  "targets": "covers transition r3",
+  "assumptions": {
+   "channel_capacity": 2,
+   "communication": "asynchronous",
+   "channels": "FIFO",
+   "message_loss": false,
+   "defaulted": []
+  },
+  "certified": true,
+  "kind": "normal_success_coverage",
+  "source_instructions": [
+   "I-01",
+   "I-02"
+  ],
+  "motivating_property": "P1,P2,PROH-I-01",
+  "preconditions": {
+   "initial_locals": {
+    "R": "R0",
+    "S": "S0"
+   },
+   "channels": "empty"
+  },
+  "expected_transitions": [
+   {
+    "impl": "S",
+    "from": "S0",
+    "to": "S1",
+    "action": "!DATA"
+   },
+   {
+    "impl": "R",
+    "from": "R0",
+    "to": "R1",
+    "action": "?DATA"
+   },
+   {
+    "impl": "R",
+    "from": "R1",
+    "to": "R2",
+    "action": "read"
+   },
+   {
+    "impl": "R",
+    "from": "R2",
+    "to": "R5",
+    "action": "!FIN"
+   }
+  ],
+  "execution_status": "executed_against_implementation",
+  "traceability": {
+   "spec_sha256": "c3b7d1f22a567a60afb11c8591f1d4c22f42a45b2d8228a1f5df3d2a8ee440ee",
+   "certificate_claim": "profile ['enforced']: all selected properties"
+  },
+  "signature": "e4edf1aace30",
+  "duplicate_of": null,
+  "external_result": {
+   "passed": true,
+   "implementation": "OS TCP stack via sockets (see environment)",
+   "notes": "2/2 repetitions reproduced the model sequence",
+   "reproduced_count": 2,
+   "repeats": 2,
+   "environment": {
+    "platform": "Windows-11-10.0.26200-SP0",
+    "python": "3.12.10",
+    "uname": "Windows_NT sid 10.0 26200 x86_64 MS/Windows",
+    "transport": "TCP over 127.0.0.1 loopback via the socket API",
+    "note": "single host, single kernel, observations are socket-API-level (not packet captures)"
+   },
+   "observations": [
+    {
+     "impl": "S",
+     "action": "!DATA",
+     "observed": "sent"
+    },
+    {
+     "impl": "R",
+     "action": "?DATA",
+     "observed": "pending"
+    },
+    {
+     "impl": "R",
+     "action": "read",
+     "observed": "read:b'DATA'"
+    },
+    {
+     "impl": "R",
+     "action": "!FIN",
+     "observed": "kernel event (observed via S)"
+    }
+   ]
+  }
+ },
+ {
+  "id": "CT-004",
+  "setup": {
+   "implementation_under_test": "R",
+   "profile": [
+    "relaxed"
+   ],
+   "profile_readings": {
+    "R::I-02": "relaxed"
+   },
+   "model_version": "revised",
+   "reference_peer": "verified model of the other implementation(s)"
+  },
+  "steps": [
+   {
+    "impl": "S",
+    "tid": "s1",
+    "action": "!DATA"
+   },
+   {
+    "impl": "R",
+    "tid": "r1",
+    "action": "?DATA"
+   }
+  ],
+  "expected": {
+   "iut_inputs": [
+    "?DATA"
+   ],
+   "iut_outputs": [],
+   "final_locals": {
+    "R": "R1",
+    "S": "S1"
+   },
+   "channels_non_empty": false
+  },
+  "targets": "covers transition r1",
+  "assumptions": {
+   "channel_capacity": 2,
+   "communication": "asynchronous",
+   "channels": "FIFO",
+   "message_loss": false,
+   "defaulted": []
+  },
+  "certified": true,
+  "kind": "normal_success_coverage",
+  "source_instructions": [
+   "I-01",
+   "I-02"
+  ],
+  "motivating_property": "P1,P2,PROH-I-01",
+  "preconditions": {
+   "initial_locals": {
+    "R": "R0",
+    "S": "S0"
+   },
+   "channels": "empty"
+  },
+  "expected_transitions": [
+   {
+    "impl": "S",
+    "from": "S0",
+    "to": "S1",
+    "action": "!DATA"
+   },
+   {
+    "impl": "R",
+    "from": "R0",
+    "to": "R1",
+    "action": "?DATA"
+   }
+  ],
+  "execution_status": "executed_against_implementation",
+  "traceability": {
+   "spec_sha256": "c3b7d1f22a567a60afb11c8591f1d4c22f42a45b2d8228a1f5df3d2a8ee440ee",
+   "certificate_claim": "profile ['relaxed']: all selected properties"
+  },
+  "signature": "71db3ea6297c",
+  "duplicate_of": "CT-001",
+  "external_result": {
+   "passed": true,
+   "implementation": "OS TCP stack via sockets (see environment)",
+   "notes": "2/2 repetitions reproduced the model sequence",
+   "reproduced_count": 2,
+   "repeats": 2,
+   "environment": {
+    "platform": "Windows-11-10.0.26200-SP0",
+    "python": "3.12.10",
+    "uname": "Windows_NT sid 10.0 26200 x86_64 MS/Windows",
+    "transport": "TCP over 127.0.0.1 loopback via the socket API",
+    "note": "single host, single kernel, observations are socket-API-level (not packet captures)"
+   },
+   "observations": [
+    {
+     "impl": "S",
+     "action": "!DATA",
+     "observed": "sent"
+    },
+    {
+     "impl": "R",
+     "action": "?DATA",
+     "observed": "pending"
+    }
+   ]
+  }
+ },
+ {
+  "id": "CT-005",
+  "setup": {
+   "implementation_under_test": "R",
+   "profile": [
+    "relaxed"
+   ],
+   "profile_readings": {
+    "R::I-02": "relaxed"
+   },
+   "model_version": "revised",
+   "reference_peer": "verified model of the other implementation(s)"
+  },
+  "steps": [
+   {
+    "impl": "S",
+    "tid": "s1",
+    "action": "!DATA"
+   },
+   {
+    "impl": "R",
+    "tid": "r1",
+    "action": "?DATA"
+   },
+   {
+    "impl": "R",
+    "tid": "r2",
+    "action": "read"
+   }
+  ],
+  "expected": {
+   "iut_inputs": [
+    "?DATA"
+   ],
+   "iut_outputs": [],
+   "final_locals": {
+    "R": "R2",
+    "S": "S1"
+   },
+   "channels_non_empty": false
+  },
+  "targets": "covers transition r2",
+  "assumptions": {
+   "channel_capacity": 2,
+   "communication": "asynchronous",
+   "channels": "FIFO",
+   "message_loss": false,
+   "defaulted": []
+  },
+  "certified": true,
+  "kind": "normal_success_coverage",
+  "source_instructions": [
+   "I-01",
+   "I-02"
+  ],
+  "motivating_property": "P1,P2,PROH-I-01",
+  "preconditions": {
+   "initial_locals": {
+    "R": "R0",
+    "S": "S0"
+   },
+   "channels": "empty"
+  },
+  "expected_transitions": [
+   {
+    "impl": "S",
+    "from": "S0",
+    "to": "S1",
+    "action": "!DATA"
+   },
+   {
+    "impl": "R",
+    "from": "R0",
+    "to": "R1",
+    "action": "?DATA"
+   },
+   {
+    "impl": "R",
+    "from": "R1",
+    "to": "R2",
+    "action": "read"
+   }
+  ],
+  "execution_status": "executed_against_implementation",
+  "traceability": {
+   "spec_sha256": "c3b7d1f22a567a60afb11c8591f1d4c22f42a45b2d8228a1f5df3d2a8ee440ee",
+   "certificate_claim": "profile ['relaxed']: all selected properties"
+  },
+  "signature": "3bd07107f610",
+  "duplicate_of": "CT-002",
+  "external_result": {
+   "passed": true,
+   "implementation": "OS TCP stack via sockets (see environment)",
+   "notes": "2/2 repetitions reproduced the model sequence",
+   "reproduced_count": 2,
+   "repeats": 2,
+   "environment": {
+    "platform": "Windows-11-10.0.26200-SP0",
+    "python": "3.12.10",
+    "uname": "Windows_NT sid 10.0 26200 x86_64 MS/Windows",
+    "transport": "TCP over 127.0.0.1 loopback via the socket API",
+    "note": "single host, single kernel, observations are socket-API-level (not packet captures)"
+   },
+   "observations": [
+    {
+     "impl": "S",
+     "action": "!DATA",
+     "observed": "sent"
+    },
+    {
+     "impl": "R",
+     "action": "?DATA",
+     "observed": "pending"
+    },
+    {
+     "impl": "R",
+     "action": "read",
+     "observed": "read:b'DATA'"
+    }
+   ]
+  }
+ },
+ {
+  "id": "CT-006",
+  "setup": {
+   "implementation_under_test": "R",
+   "profile": [
+    "relaxed"
+   ],
+   "profile_readings": {
+    "R::I-02": "relaxed"
+   },
+   "model_version": "revised",
+   "reference_peer": "verified model of the other implementation(s)"
+  },
+  "steps": [
+   {
+    "impl": "S",
+    "tid": "s1",
+    "action": "!DATA"
+   },
+   {
+    "impl": "R",
+    "tid": "r1",
+    "action": "?DATA"
+   },
+   {
+    "impl": "R",
+    "tid": "r2",
+    "action": "read"
+   },
+   {
+    "impl": "R",
+    "tid": "r3",
+    "action": "!FIN"
+   }
+  ],
+  "expected": {
+   "iut_inputs": [
+    "?DATA"
+   ],
+   "iut_outputs": [
+    "!FIN"
+   ],
+   "final_locals": {
+    "R": "R5",
+    "S": "S1"
+   },
+   "channels_non_empty": true
+  },
+  "targets": "covers transition r3",
+  "assumptions": {
+   "channel_capacity": 2,
+   "communication": "asynchronous",
+   "channels": "FIFO",
+   "message_loss": false,
+   "defaulted": []
+  },
+  "certified": true,
+  "kind": "normal_success_coverage",
+  "source_instructions": [
+   "I-01",
+   "I-02"
+  ],
+  "motivating_property": "P1,P2,PROH-I-01",
+  "preconditions": {
+   "initial_locals": {
+    "R": "R0",
+    "S": "S0"
+   },
+   "channels": "empty"
+  },
+  "expected_transitions": [
+   {
+    "impl": "S",
+    "from": "S0",
+    "to": "S1",
+    "action": "!DATA"
+   },
+   {
+    "impl": "R",
+    "from": "R0",
+    "to": "R1",
+    "action": "?DATA"
+   },
+   {
+    "impl": "R",
+    "from": "R1",
+    "to": "R2",
+    "action": "read"
+   },
+   {
+    "impl": "R",
+    "from": "R2",
+    "to": "R5",
+    "action": "!FIN"
+   }
+  ],
+  "execution_status": "executed_against_implementation",
+  "traceability": {
+   "spec_sha256": "c3b7d1f22a567a60afb11c8591f1d4c22f42a45b2d8228a1f5df3d2a8ee440ee",
+   "certificate_claim": "profile ['relaxed']: all selected properties"
+  },
+  "signature": "e4edf1aace30",
+  "duplicate_of": "CT-003",
+  "external_result": {
+   "passed": true,
+   "implementation": "OS TCP stack via sockets (see environment)",
+   "notes": "2/2 repetitions reproduced the model sequence",
+   "reproduced_count": 2,
+   "repeats": 2,
+   "environment": {
+    "platform": "Windows-11-10.0.26200-SP0",
+    "python": "3.12.10",
+    "uname": "Windows_NT sid 10.0 26200 x86_64 MS/Windows",
+    "transport": "TCP over 127.0.0.1 loopback via the socket API",
+    "note": "single host, single kernel, observations are socket-API-level (not packet captures)"
+   },
+   "observations": [
+    {
+     "impl": "S",
+     "action": "!DATA",
+     "observed": "sent"
+    },
+    {
+     "impl": "R",
+     "action": "?DATA",
+     "observed": "pending"
+    },
+    {
+     "impl": "R",
+     "action": "read",
+     "observed": "read:b'DATA'"
+    },
+    {
+     "impl": "R",
+     "action": "!FIN",
+     "observed": "kernel event (observed via S)"
+    }
+   ]
+  }
+ },
+ {
+  "id": "CT-007",
+  "setup": {
+   "profile": [
+    "enforced"
+   ],
+   "alternative_profile": [
+    "relaxed"
+   ],
+   "model_version": "revised",
+   "instruction": "I-02",
+   "baseline_reading": "enforced",
+   "alternative_reading": "relaxed",
+   "depth": 10
+  },
+  "steps": [],
+  "expected": {
+   "outcome": "no observable difference between the readings within depth 10; no distinguishing test invented"
+  },
+  "targets": "readings enforced / relaxed of I-02 indistinguishable within bound",
+  "assumptions": {
+   "depth": 10
+  },
+  "certified": false,
+  "kind": "no_difference_found",
+  "source_instructions": [
+   "I-02"
+  ],
+  "motivating_property": null,
+  "preconditions": {},
+  "expected_transitions": [],
+  "execution_status": "not_applicable",
+  "traceability": {
+   "spec_sha256": "c3b7d1f22a567a60afb11c8591f1d4c22f42a45b2d8228a1f5df3d2a8ee440ee",
+   "certificate_claim": "remaining open reading"
+  },
+  "signature": "90d84c2c55b2",
+  "duplicate_of": null
+ },
+ {
+  "id": "CT-008",
+  "setup": {
+   "profile": [
+    "implemented",
+    "relaxed"
+   ],
+   "profile_readings": {
+    "R::I-01": "implemented",
+    "R::I-02": "relaxed"
+   },
+   "model_version": "original"
+  },
+  "steps": [
+   {
+    "impl": "S",
+    "tid": "s1",
+    "action": "!DATA"
+   },
+   {
+    "impl": "R",
+    "tid": "r1",
+    "action": "?DATA"
+   },
+   {
+    "impl": "R",
+    "tid": "r4",
+    "action": "close"
+   },
+   {
+    "impl": "R",
+    "tid": "r5",
+    "action": "!FIN"
+   },
+   {
+    "impl": "S",
+    "tid": "s3",
+    "action": "?FIN"
+   }
+  ],
+  "expected": {
+   "outcome": "property P1 violated by this sequence under the ORIGINAL reading profile",
+   "witness_kind": "forbidden state invariant violated"
+  },
+  "targets": "reproduces counterexample for P1",
+  "assumptions": {
+   "channel_capacity": 2,
+   "communication": "asynchronous",
+   "channels": "FIFO",
+   "message_loss": false,
+   "defaulted": []
+  },
+  "certified": true,
+  "kind": "counterexample",
+  "source_instructions": [
+   "I-01",
+   "I-02"
+  ],
+  "motivating_property": "P1",
+  "preconditions": {},
+  "expected_transitions": [],
+  "execution_status": "executed_against_implementation",
+  "traceability": {
+   "spec_sha256": "cfb46a000cdf54f032b41d8c06306db17f60758ec132406ca625c414c24cfebb",
+   "certificate_claim": "original: profile ['implemented', 'relaxed'] / P1"
+  },
+  "signature": "d96e6ff61ecd",
+  "duplicate_of": null,
+  "external_result": {
+   "passed": true,
+   "implementation": "OS TCP stack via sockets (see environment)",
+   "notes": "0/2 repetitions reproduced the model sequence",
+   "reproduced_count": 0,
+   "repeats": 2,
+   "environment": {
+    "platform": "Windows-11-10.0.26200-SP0",
+    "python": "3.12.10",
+    "uname": "Windows_NT sid 10.0 26200 x86_64 MS/Windows",
+    "transport": "TCP over 127.0.0.1 loopback via the socket API",
+    "note": "single host, single kernel, observations are socket-API-level (not packet captures)"
+   },
+   "observations": [
+    {
+     "impl": "S",
+     "action": "!DATA",
+     "observed": "sent"
+    },
+    {
+     "impl": "R",
+     "action": "?DATA",
+     "observed": "pending"
+    },
+    {
+     "impl": "R",
+     "action": "close",
+     "observed": "closed"
+    },
+    {
+     "impl": "R",
+     "action": "!FIN",
+     "observed": "kernel event (observed via S)"
+    },
+    {
+     "impl": "S",
+     "action": "?FIN",
+     "observed": "RST"
+    }
+   ]
+  }
+ },
+ {
+  "id": "CT-009",
+  "setup": {
+   "profile": [
+    "implemented",
+    "relaxed"
+   ],
+   "model_version": "revised"
+  },
+  "steps": [
+   {
+    "impl": "S",
+    "tid": "s1",
+    "action": "!DATA"
+   },
+   {
+    "impl": "R",
+    "tid": "r1",
+    "action": "?DATA"
+   },
+   {
+    "impl": "R",
+    "tid": "r4",
+    "action": "close"
+   },
+   {
+    "impl": "R",
+    "tid": "r5",
+    "action": "!FIN"
+   },
+   {
+    "impl": "S",
+    "tid": "s3",
+    "action": "?FIN"
+   }
+  ],
+  "expected": {
+   "outcome": "a conforming implementation of the REVISED specification must not be able to produce this sequence",
+   "model_check": "sequence not enabled in revised baseline model"
+  },
+  "targets": "clarification intended to remove the P1 violation",
+  "assumptions": {
+   "channel_capacity": 2,
+   "communication": "asynchronous",
+   "channels": "FIFO",
+   "message_loss": false,
+   "defaulted": []
+  },
+  "certified": false,
+  "kind": "clarification_regression",
+  "source_instructions": [
+   "I-01",
+   "I-02"
+  ],
+  "motivating_property": "P1",
+  "preconditions": {},
+  "expected_transitions": [],
+  "execution_status": "executed_against_implementation",
+  "traceability": {
+   "spec_sha256": "c3b7d1f22a567a60afb11c8591f1d4c22f42a45b2d8228a1f5df3d2a8ee440ee",
+   "certificate_claim": "revised: targeted profiles removed"
+  },
+  "signature": "945c6cf71968",
+  "duplicate_of": null,
+  "external_result": {
+   "passed": true,
+   "implementation": "OS TCP stack via sockets (see environment)",
+   "notes": "0/2 repetitions reproduced the model sequence",
+   "reproduced_count": 0,
+   "repeats": 2,
+   "environment": {
+    "platform": "Windows-11-10.0.26200-SP0",
+    "python": "3.12.10",
+    "uname": "Windows_NT sid 10.0 26200 x86_64 MS/Windows",
+    "transport": "TCP over 127.0.0.1 loopback via the socket API",
+    "note": "single host, single kernel, observations are socket-API-level (not packet captures)"
+   },
+   "observations": [
+    {
+     "impl": "S",
+     "action": "!DATA",
+     "observed": "sent"
+    },
+    {
+     "impl": "R",
+     "action": "?DATA",
+     "observed": "pending"
+    },
+    {
+     "impl": "R",
+     "action": "close",
+     "observed": "closed"
+    },
+    {
+     "impl": "R",
+     "action": "!FIN",
+     "observed": "kernel event (observed via S)"
+    },
+    {
+     "impl": "S",
+     "action": "?FIN",
+     "observed": "RST"
+    }
+   ]
+  }
+ }
+]

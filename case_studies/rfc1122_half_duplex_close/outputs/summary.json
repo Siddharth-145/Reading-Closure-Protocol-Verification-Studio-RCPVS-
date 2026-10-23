@@ -1,0 +1,181 @@
+{
+ "environment": {
+  "platform": "Windows-11-10.0.26200-SP0",
+  "python": "3.12.10",
+  "uname": "Windows_NT sid 10.0 26200 x86_64 MS/Windows",
+  "transport": "TCP over 127.0.0.1 loopback via the socket API",
+  "note": "single host, single kernel, observations are socket-API-level (not packet captures)"
+ },
+ "scenarios": {
+  "A_tool_default": {
+   "original_status": "VIOLATION_FOUND",
+   "final_status": "VERIFIED_SAFE_WITHIN_SCOPE",
+   "checker": "CERTIFICATE_ACCEPTED",
+   "edits": [
+    [
+     "I-01",
+     "omitted",
+     "A host MUST NOT implement a half-duplex close."
+    ]
+   ],
+   "latitude_profile_level": 0.3333333333333333,
+   "smt": {
+    "k": 24,
+    "compared": 8,
+    "agree": 8,
+    "disagree": 0,
+    "unsupported": 6
+   },
+   "executed": [
+    [
+     "CT-001",
+     "normal_success_coverage",
+     "covers transition r1",
+     "2/2",
+     true
+    ],
+    [
+     "CT-002",
+     "normal_success_coverage",
+     "covers transition r2",
+     "2/2",
+     true
+    ],
+    [
+     "CT-003",
+     "normal_success_coverage",
+     "covers transition r3",
+     "2/2",
+     true
+    ],
+    [
+     "CT-004",
+     "normal_success_coverage",
+     "covers transition r1",
+     "2/2",
+     true
+    ],
+    [
+     "CT-005",
+     "normal_success_coverage",
+     "covers transition r2",
+     "2/2",
+     true
+    ],
+    [
+     "CT-006",
+     "normal_success_coverage",
+     "covers transition r3",
+     "2/2",
+     true
+    ],
+    [
+     "CT-008",
+     "counterexample",
+     "reproduces counterexample for P1",
+     "0/2",
+     true
+    ],
+    [
+     "CT-009",
+     "clarification_regression",
+     "clarification intended to remove the P1 violation",
+     "0/2",
+     true
+    ]
+   ]
+  },
+  "B_author_veto_on_I-01": {
+   "original_status": "VIOLATION_FOUND",
+   "final_status": "VERIFIED_SAFE_WITHIN_SCOPE",
+   "checker": "CERTIFICATE_ACCEPTED",
+   "edits": [
+    [
+     "I-02",
+     "enforced",
+     "If a host with half-duplex close closes the connection while received data is still pending, its TCP MUST send a reset to show the data was lost."
+    ]
+   ],
+   "latitude_profile_level": 0.3333333333333333,
+   "smt": {
+    "k": 24,
+    "compared": 6,
+    "agree": 6,
+    "disagree": 0,
+    "unsupported": 6
+   },
+   "executed": [
+    [
+     "CT-001",
+     "normal_success_coverage",
+     "covers transition r1",
+     "2/2",
+     true
+    ],
+    [
+     "CT-002",
+     "normal_success_coverage",
+     "covers transition r2",
+     "2/2",
+     true
+    ],
+    [
+     "CT-003",
+     "normal_success_coverage",
+     "covers transition r3",
+     "2/2",
+     true
+    ],
+    [
+     "CT-004",
+     "normal_success_coverage",
+     "covers transition r4",
+     "2/2",
+     true
+    ],
+    [
+     "CT-005",
+     "normal_success_coverage",
+     "covers transition r5",
+     "2/2",
+     true
+    ],
+    [
+     "CT-006",
+     "normal_success_coverage",
+     "covers transition r1",
+     "2/2",
+     true
+    ],
+    [
+     "CT-007",
+     "normal_success_coverage",
+     "covers transition r2",
+     "2/2",
+     true
+    ],
+    [
+     "CT-008",
+     "normal_success_coverage",
+     "covers transition r3",
+     "2/2",
+     true
+    ],
+    [
+     "CT-010",
+     "counterexample",
+     "reproduces counterexample for P1",
+     "0/2",
+     true
+    ],
+    [
+     "CT-011",
+     "clarification_regression",
+     "clarification intended to remove the P1 violation",
+     "0/2",
+     true
+    ]
+   ]
+  }
+ }
+}

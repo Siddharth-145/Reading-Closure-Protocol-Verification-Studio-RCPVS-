@@ -1,0 +1,155 @@
+{
+ "name": "Modality: MAY / MUST NOT (hypothetical)",
+ "default_properties": [
+  "P1",
+  "P2"
+ ],
+ "messages": [
+  "REQ",
+  "RESP"
+ ],
+ "roles": {
+  "client": {
+   "initial": "C0",
+   "states": {
+    "C0": {},
+    "C1": {},
+    "C2": {},
+    "C3": {
+     "closed": true
+    }
+   },
+   "transitions": [
+    {
+     "id": "c1",
+     "src": "C0",
+     "dst": "C1",
+     "action": "!REQ"
+    },
+    {
+     "id": "c2",
+     "src": "C1",
+     "dst": "C2",
+     "action": "?RESP"
+    },
+    {
+     "id": "c3",
+     "src": "C2",
+     "dst": "C3",
+     "action": "close"
+    }
+   ]
+  },
+  "server": {
+   "initial": "S0",
+   "states": {
+    "S0": {},
+    "S1": {},
+    "S2": {},
+    "S3": {
+     "closed": true
+    }
+   },
+   "transitions": [
+    {
+     "id": "s1",
+     "src": "S0",
+     "dst": "S1",
+     "action": "?REQ"
+    },
+    {
+     "id": "s2",
+     "src": "S1",
+     "dst": "S2",
+     "action": "!RESP"
+    },
+    {
+     "id": "s3",
+     "src": "S2",
+     "dst": "S3",
+     "action": "close"
+    }
+   ]
+  }
+ },
+ "system": {
+  "implementations": {
+   "C": {
+    "role": "client",
+    "peer": "S"
+   },
+   "S": {
+    "role": "server",
+    "peer": "C"
+   }
+  },
+  "channel_capacity": 2,
+  "assumptions": {
+   "communication": "asynchronous",
+   "channels": "FIFO",
+   "message_loss": false
+  }
+ },
+ "definitions": {},
+ "errata": {},
+ "bindings": {
+  "I-01": {
+   "role": "client",
+   "MODALITY": {
+    "optional": {
+     "id": "c_retx",
+     "src": "C1",
+     "dst": "C1",
+     "action": "!REQ"
+    },
+    "must_reading": "implemented",
+    "prohibit": {
+     "type": "forbidden_action",
+     "tid": "c_retx",
+     "reading": "omitted"
+    },
+    "omitted_text": "The client MUST NOT retransmit the request.",
+    "implemented_text": "The client MUST retransmit the request."
+   }
+  },
+  "I-02": {
+   "role": "client",
+   "MODALITY": {
+    "prohibit": {
+     "type": "required_ordering",
+     "later": "close",
+     "earlier": "?RESP",
+     "impl": "C"
+    }
+   }
+  }
+ },
+ "properties": [
+  {
+   "id": "P1",
+   "kind": "safety",
+   "type": "no_orphan_message",
+   "description": "No message is pending for a closed endpoint.",
+   "scope": "bounded FIFO channels",
+   "assumptions": {},
+   "bounds": {}
+  },
+  {
+   "id": "P2",
+   "kind": "functionality",
+   "type": "always_can_complete",
+   "description": "Both sides can close.",
+   "scope": "bounded FIFO channels",
+   "assumptions": {},
+   "bounds": {},
+   "goal": {
+    "C": [
+     "C3"
+    ],
+    "S": [
+     "S3"
+    ]
+   }
+  }
+ ]
+}

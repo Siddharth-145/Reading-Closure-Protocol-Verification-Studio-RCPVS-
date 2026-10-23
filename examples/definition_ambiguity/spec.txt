@@ -1,0 +1,1 @@
+[I-01] The server MUST ignore messages once the session is closed.

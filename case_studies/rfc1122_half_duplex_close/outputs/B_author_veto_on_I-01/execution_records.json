@@ -1,0 +1,377 @@
+[
+ {
+  "test_id": "CT-001",
+  "kind": "normal_success_coverage",
+  "targets": "covers transition r1",
+  "executed": true,
+  "repeats": 2,
+  "reproduced_count": 2,
+  "passed": true,
+  "pass_semantics": "model sequence must be reproduced",
+  "first_run_observations": [
+   {
+    "impl": "S",
+    "action": "!DATA",
+    "observed": "sent"
+   },
+   {
+    "impl": "R",
+    "action": "?DATA",
+    "observed": "pending"
+   }
+  ],
+  "implementation": "OS TCP stack via sockets (see environment)",
+  "environment": {
+   "platform": "Windows-11-10.0.26200-SP0",
+   "python": "3.12.10",
+   "uname": "Windows_NT sid 10.0 26200 x86_64 MS/Windows",
+   "transport": "TCP over 127.0.0.1 loopback via the socket API",
+   "note": "single host, single kernel, observations are socket-API-level (not packet captures)"
+  }
+ },
+ {
+  "test_id": "CT-002",
+  "kind": "normal_success_coverage",
+  "targets": "covers transition r2",
+  "executed": true,
+  "repeats": 2,
+  "reproduced_count": 2,
+  "passed": true,
+  "pass_semantics": "model sequence must be reproduced",
+  "first_run_observations": [
+   {
+    "impl": "S",
+    "action": "!DATA",
+    "observed": "sent"
+   },
+   {
+    "impl": "R",
+    "action": "?DATA",
+    "observed": "pending"
+   },
+   {
+    "impl": "R",
+    "action": "read",
+    "observed": "read:b'DATA'"
+   }
+  ],
+  "implementation": "OS TCP stack via sockets (see environment)",
+  "environment": {
+   "platform": "Windows-11-10.0.26200-SP0",
+   "python": "3.12.10",
+   "uname": "Windows_NT sid 10.0 26200 x86_64 MS/Windows",
+   "transport": "TCP over 127.0.0.1 loopback via the socket API",
+   "note": "single host, single kernel, observations are socket-API-level (not packet captures)"
+  }
+ },
+ {
+  "test_id": "CT-003",
+  "kind": "normal_success_coverage",
+  "targets": "covers transition r3",
+  "executed": true,
+  "repeats": 2,
+  "reproduced_count": 2,
+  "passed": true,
+  "pass_semantics": "model sequence must be reproduced",
+  "first_run_observations": [
+   {
+    "impl": "S",
+    "action": "!DATA",
+    "observed": "sent"
+   },
+   {
+    "impl": "R",
+    "action": "?DATA",
+    "observed": "pending"
+   },
+   {
+    "impl": "R",
+    "action": "read",
+    "observed": "read:b'DATA'"
+   },
+   {
+    "impl": "R",
+    "action": "!FIN",
+    "observed": "kernel event (observed via S)"
+   }
+  ],
+  "implementation": "OS TCP stack via sockets (see environment)",
+  "environment": {
+   "platform": "Windows-11-10.0.26200-SP0",
+   "python": "3.12.10",
+   "uname": "Windows_NT sid 10.0 26200 x86_64 MS/Windows",
+   "transport": "TCP over 127.0.0.1 loopback via the socket API",
+   "note": "single host, single kernel, observations are socket-API-level (not packet captures)"
+  }
+ },
+ {
+  "test_id": "CT-004",
+  "kind": "normal_success_coverage",
+  "targets": "covers transition r4",
+  "executed": true,
+  "repeats": 2,
+  "reproduced_count": 2,
+  "passed": true,
+  "pass_semantics": "model sequence must be reproduced",
+  "first_run_observations": [
+   {
+    "impl": "S",
+    "action": "!DATA",
+    "observed": "sent"
+   },
+   {
+    "impl": "R",
+    "action": "?DATA",
+    "observed": "pending"
+   },
+   {
+    "impl": "R",
+    "action": "close",
+    "observed": "closed"
+   }
+  ],
+  "implementation": "OS TCP stack via sockets (see environment)",
+  "environment": {
+   "platform": "Windows-11-10.0.26200-SP0",
+   "python": "3.12.10",
+   "uname": "Windows_NT sid 10.0 26200 x86_64 MS/Windows",
+   "transport": "TCP over 127.0.0.1 loopback via the socket API",
+   "note": "single host, single kernel, observations are socket-API-level (not packet captures)"
+  }
+ },
+ {
+  "test_id": "CT-005",
+  "kind": "normal_success_coverage",
+  "targets": "covers transition r5",
+  "executed": true,
+  "repeats": 2,
+  "reproduced_count": 2,
+  "passed": true,
+  "pass_semantics": "model sequence must be reproduced",
+  "first_run_observations": [
+   {
+    "impl": "S",
+    "action": "!DATA",
+    "observed": "sent"
+   },
+   {
+    "impl": "R",
+    "action": "?DATA",
+    "observed": "pending"
+   },
+   {
+    "impl": "R",
+    "action": "close",
+    "observed": "closed"
+   },
+   {
+    "impl": "R",
+    "action": "!RST",
+    "observed": "kernel event (observed via S)"
+   }
+  ],
+  "implementation": "OS TCP stack via sockets (see environment)",
+  "environment": {
+   "platform": "Windows-11-10.0.26200-SP0",
+   "python": "3.12.10",
+   "uname": "Windows_NT sid 10.0 26200 x86_64 MS/Windows",
+   "transport": "TCP over 127.0.0.1 loopback via the socket API",
+   "note": "single host, single kernel, observations are socket-API-level (not packet captures)"
+  }
+ },
+ {
+  "test_id": "CT-006",
+  "kind": "normal_success_coverage",
+  "targets": "covers transition r1",
+  "executed": true,
+  "repeats": 2,
+  "reproduced_count": 2,
+  "passed": true,
+  "pass_semantics": "model sequence must be reproduced",
+  "first_run_observations": [
+   {
+    "impl": "S",
+    "action": "!DATA",
+    "observed": "sent"
+   },
+   {
+    "impl": "R",
+    "action": "?DATA",
+    "observed": "pending"
+   }
+  ],
+  "implementation": "OS TCP stack via sockets (see environment)",
+  "environment": {
+   "platform": "Windows-11-10.0.26200-SP0",
+   "python": "3.12.10",
+   "uname": "Windows_NT sid 10.0 26200 x86_64 MS/Windows",
+   "transport": "TCP over 127.0.0.1 loopback via the socket API",
+   "note": "single host, single kernel, observations are socket-API-level (not packet captures)"
+  }
+ },
+ {
+  "test_id": "CT-007",
+  "kind": "normal_success_coverage",
+  "targets": "covers transition r2",
+  "executed": true,
+  "repeats": 2,
+  "reproduced_count": 2,
+  "passed": true,
+  "pass_semantics": "model sequence must be reproduced",
+  "first_run_observations": [
+   {
+    "impl": "S",
+    "action": "!DATA",
+    "observed": "sent"
+   },
+   {
+    "impl": "R",
+    "action": "?DATA",
+    "observed": "pending"
+   },
+   {
+    "impl": "R",
+    "action": "read",
+    "observed": "read:b'DATA'"
+   }
+  ],
+  "implementation": "OS TCP stack via sockets (see environment)",
+  "environment": {
+   "platform": "Windows-11-10.0.26200-SP0",
+   "python": "3.12.10",
+   "uname": "Windows_NT sid 10.0 26200 x86_64 MS/Windows",
+   "transport": "TCP over 127.0.0.1 loopback via the socket API",
+   "note": "single host, single kernel, observations are socket-API-level (not packet captures)"
+  }
+ },
+ {
+  "test_id": "CT-008",
+  "kind": "normal_success_coverage",
+  "targets": "covers transition r3",
+  "executed": true,
+  "repeats": 2,
+  "reproduced_count": 2,
+  "passed": true,
+  "pass_semantics": "model sequence must be reproduced",
+  "first_run_observations": [
+   {
+    "impl": "S",
+    "action": "!DATA",
+    "observed": "sent"
+   },
+   {
+    "impl": "R",
+    "action": "?DATA",
+    "observed": "pending"
+   },
+   {
+    "impl": "R",
+    "action": "read",
+    "observed": "read:b'DATA'"
+   },
+   {
+    "impl": "R",
+    "action": "!FIN",
+    "observed": "kernel event (observed via S)"
+   }
+  ],
+  "implementation": "OS TCP stack via sockets (see environment)",
+  "environment": {
+   "platform": "Windows-11-10.0.26200-SP0",
+   "python": "3.12.10",
+   "uname": "Windows_NT sid 10.0 26200 x86_64 MS/Windows",
+   "transport": "TCP over 127.0.0.1 loopback via the socket API",
+   "note": "single host, single kernel, observations are socket-API-level (not packet captures)"
+  }
+ },
+ {
+  "test_id": "CT-010",
+  "kind": "counterexample",
+  "targets": "reproduces counterexample for P1",
+  "executed": true,
+  "repeats": 2,
+  "reproduced_count": 0,
+  "passed": true,
+  "pass_semantics": "unsafe/removed sequence must NOT be reproduced",
+  "first_run_observations": [
+   {
+    "impl": "S",
+    "action": "!DATA",
+    "observed": "sent"
+   },
+   {
+    "impl": "R",
+    "action": "?DATA",
+    "observed": "pending"
+   },
+   {
+    "impl": "R",
+    "action": "close",
+    "observed": "closed"
+   },
+   {
+    "impl": "R",
+    "action": "!FIN",
+    "observed": "kernel event (observed via S)"
+   },
+   {
+    "impl": "S",
+    "action": "?FIN",
+    "observed": "RST"
+   }
+  ],
+  "implementation": "OS TCP stack via sockets (see environment)",
+  "environment": {
+   "platform": "Windows-11-10.0.26200-SP0",
+   "python": "3.12.10",
+   "uname": "Windows_NT sid 10.0 26200 x86_64 MS/Windows",
+   "transport": "TCP over 127.0.0.1 loopback via the socket API",
+   "note": "single host, single kernel, observations are socket-API-level (not packet captures)"
+  }
+ },
+ {
+  "test_id": "CT-011",
+  "kind": "clarification_regression",
+  "targets": "clarification intended to remove the P1 violation",
+  "executed": true,
+  "repeats": 2,
+  "reproduced_count": 0,
+  "passed": true,
+  "pass_semantics": "unsafe/removed sequence must NOT be reproduced",
+  "first_run_observations": [
+   {
+    "impl": "S",
+    "action": "!DATA",
+    "observed": "sent"
+   },
+   {
+    "impl": "R",
+    "action": "?DATA",
+    "observed": "pending"
+   },
+   {
+    "impl": "R",
+    "action": "close",
+    "observed": "closed"
+   },
+   {
+    "impl": "R",
+    "action": "!FIN",
+    "observed": "kernel event (observed via S)"
+   },
+   {
+    "impl": "S",
+    "action": "?FIN",
+    "observed": "RST"
+   }
+  ],
+  "implementation": "OS TCP stack via sockets (see environment)",
+  "environment": {
+   "platform": "Windows-11-10.0.26200-SP0",
+   "python": "3.12.10",
+   "uname": "Windows_NT sid 10.0 26200 x86_64 MS/Windows",
+   "transport": "TCP over 127.0.0.1 loopback via the socket API",
+   "note": "single host, single kernel, observations are socket-API-level (not packet captures)"
+  }
+ }
+]

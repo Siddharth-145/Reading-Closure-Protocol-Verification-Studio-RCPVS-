@@ -1,0 +1,1 @@
+[I-01] The server MUST NOT reply to a repeated request in the session.

@@ -1,0 +1,155 @@
+{
+ "name": "DEF ambiguity (hypothetical)",
+ "default_properties": [
+  "P1",
+  "P2"
+ ],
+ "messages": [
+  "REQ",
+  "RESP",
+  "CLOSE"
+ ],
+ "roles": {
+  "client": {
+   "initial": "C0",
+   "states": {
+    "C0": {},
+    "C1": {},
+    "C2": {},
+    "C3": {
+     "closed": true
+    }
+   },
+   "transitions": [
+    {
+     "id": "c1",
+     "src": "C0",
+     "dst": "C1",
+     "action": "!REQ"
+    },
+    {
+     "id": "c2",
+     "src": "C1",
+     "dst": "C2",
+     "action": "?RESP"
+    },
+    {
+     "id": "c3",
+     "src": "C2",
+     "dst": "C3",
+     "action": "!CLOSE"
+    }
+   ]
+  },
+  "server": {
+   "initial": "S0",
+   "states": {
+    "S0": {},
+    "S1": {},
+    "S2": {},
+    "S3": {
+     "closed": true
+    }
+   },
+   "transitions": [
+    {
+     "id": "s1",
+     "src": "S0",
+     "dst": "S1",
+     "action": "?REQ"
+    },
+    {
+     "id": "s2",
+     "src": "S1",
+     "dst": "S2",
+     "action": "!RESP"
+    },
+    {
+     "id": "s3",
+     "src": "S2",
+     "dst": "S3",
+     "action": "?CLOSE"
+    }
+   ]
+  }
+ },
+ "system": {
+  "implementations": {
+   "C": {
+    "role": "client",
+    "peer": "S"
+   },
+   "S": {
+    "role": "server",
+    "peer": "C"
+   }
+  },
+  "channel_capacity": 2,
+  "assumptions": {
+   "communication": "asynchronous",
+   "channels": "FIFO",
+   "message_loss": false
+  }
+ },
+ "errata": {},
+ "definitions": {
+  "closed": {
+   "source": "\u00a72.1 (hypothetical)",
+   "senses": [
+    {
+     "id": "strict",
+     "states": [
+      "S3"
+     ],
+     "cue": "fully closed",
+     "text": "The server MUST ignore messages once the session is fully closed."
+    },
+    {
+     "id": "half",
+     "states": [
+      "S2",
+      "S3"
+     ],
+     "cue": "half-closed",
+     "text": "The server MUST ignore messages once the session is half-closed."
+    }
+   ]
+  }
+ },
+ "bindings": {
+  "I-01": {
+   "role": "server",
+   "DEF": {
+    "term": "closed"
+   }
+  }
+ },
+ "properties": [
+  {
+   "id": "P1",
+   "kind": "safety",
+   "type": "no_orphan_message",
+   "description": "No message is pending for a closed endpoint.",
+   "scope": "bounded FIFO channels",
+   "assumptions": {},
+   "bounds": {}
+  },
+  {
+   "id": "P2",
+   "kind": "functionality",
+   "type": "always_can_complete",
+   "description": "Both sides can always close.",
+   "scope": "bounded FIFO channels",
+   "assumptions": {},
+   "bounds": {},
+   "goal": {
+    "C": [
+     "C3"
+    ],
+    "S": [
+     "S3"
+    ]
+   }
+  }
+ ]
+}

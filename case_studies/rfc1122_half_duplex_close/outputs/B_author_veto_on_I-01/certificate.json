@@ -1,0 +1,2046 @@
+{
+ "format": "RCPVS-certificate/2",
+ "rule_set_version": "2.0.0",
+ "model": {
+  "name": "RFC 1122 4.2.2.13 half-duplex close (author's abstraction)",
+  "default_properties": [
+   "P1",
+   "P2"
+  ],
+  "messages": [
+   "DATA",
+   "RST",
+   "FIN"
+  ],
+  "roles": {
+   "sender": {
+    "initial": "S0",
+    "states": {
+     "S0": {},
+     "S1": {},
+     "S2": {
+      "closed": true
+     },
+     "S3": {
+      "closed": true
+     }
+    },
+    "transitions": [
+     {
+      "id": "s1",
+      "src": "S0",
+      "dst": "S1",
+      "action": "!DATA"
+     },
+     {
+      "id": "s2",
+      "src": "S1",
+      "dst": "S2",
+      "action": "?RST"
+     },
+     {
+      "id": "s3",
+      "src": "S1",
+      "dst": "S3",
+      "action": "?FIN"
+     }
+    ]
+   },
+   "receiver": {
+    "initial": "R0",
+    "states": {
+     "R0": {},
+     "R1": {},
+     "R2": {},
+     "R3": {},
+     "R4": {
+      "closed": true
+     },
+     "R5": {
+      "closed": true
+     }
+    },
+    "transitions": [
+     {
+      "id": "r1",
+      "src": "R0",
+      "dst": "R1",
+      "action": "?DATA"
+     },
+     {
+      "id": "r2",
+      "src": "R1",
+      "dst": "R2",
+      "action": "read"
+     },
+     {
+      "id": "r3",
+      "src": "R2",
+      "dst": "R5",
+      "action": "!FIN"
+     },
+     {
+      "id": "r5",
+      "src": "R3",
+      "dst": "R4",
+      "action": "!RST"
+     }
+    ]
+   }
+  },
+  "system": {
+   "implementations": {
+    "S": {
+     "role": "sender",
+     "peer": "R"
+    },
+    "R": {
+     "role": "receiver",
+     "peer": "S"
+    }
+   },
+   "channel_capacity": 2,
+   "assumptions": {
+    "communication": "asynchronous",
+    "channels": "FIFO",
+    "message_loss": false,
+    "channel_capacity": 2,
+    "defaulted": []
+   }
+  },
+  "definitions": {},
+  "errata": {},
+  "bindings": {
+   "I-01": {
+    "role": "receiver",
+    "MODALITY": {
+     "optional": {
+      "id": "r4",
+      "src": "R1",
+      "dst": "R3",
+      "action": "close"
+     },
+     "must_reading": "implemented",
+     "prohibit": {
+      "type": "forbidden_action",
+      "tid": "r4",
+      "reading": "omitted"
+     },
+     "implemented_text": "A host MUST implement a half-duplex close, after which the application cannot read further data."
+    }
+   },
+   "I-02": {
+    "role": "receiver",
+    "MODALITY": {
+     "relaxed_patch": [
+      {
+       "op": "rename_msg",
+       "tid": "r5",
+       "msg": "FIN"
+      }
+     ],
+     "relaxed_cue": "without sending a reset",
+     "relaxed_text": "If a host with half-duplex close closes the connection while received data is still pending, its TCP MUST close without sending a reset."
+    }
+   }
+  },
+  "properties": [
+   {
+    "id": "P1",
+    "kind": "safety",
+    "type": "state_invariant",
+    "description": "Silent data loss: the sender sees an orderly close (S3) although the receiver closed with unread data (R4).",
+    "scope": "bounded FIFO mailboxes, one scenario",
+    "assumptions": {},
+    "bounds": {},
+    "forbid": [
+     {
+      "locals": {
+       "S": [
+        "S3"
+       ],
+       "R": [
+        "R4"
+       ]
+      }
+     }
+    ]
+   },
+   {
+    "id": "P2",
+    "kind": "functionality",
+    "type": "always_can_complete",
+    "description": "Both hosts can always finish.",
+    "scope": "bounded FIFO mailboxes, one scenario",
+    "assumptions": {},
+    "bounds": {},
+    "goal": {
+     "S": [
+      "S2",
+      "S3"
+     ],
+     "R": [
+      "R4",
+      "R5"
+     ]
+    }
+   }
+  ]
+ },
+ "model_sha256": "c356155d8852e90633a840ffb963e58ec082ca227cdb0d270168f9603b0faddd",
+ "properties": [
+  {
+   "id": "P1",
+   "kind": "safety",
+   "type": "state_invariant",
+   "description": "Silent data loss: the sender sees an orderly close (S3) although the receiver closed with unread data (R4).",
+   "scope": "bounded FIFO mailboxes, one scenario",
+   "assumptions": {},
+   "bounds": {},
+   "forbid": [
+    {
+     "locals": {
+      "S": [
+       "S3"
+      ],
+      "R": [
+       "R4"
+      ]
+     }
+    }
+   ],
+   "provenance": {
+    "source": "model",
+    "spec_version": "original"
+   }
+  },
+  {
+   "id": "P2",
+   "kind": "functionality",
+   "type": "always_can_complete",
+   "description": "Both hosts can always finish.",
+   "scope": "bounded FIFO mailboxes, one scenario",
+   "assumptions": {},
+   "bounds": {},
+   "goal": {
+    "S": [
+     "S2",
+     "S3"
+    ],
+    "R": [
+     "R4",
+     "R5"
+    ]
+   },
+   "provenance": {
+    "source": "model",
+    "spec_version": "original"
+   }
+  }
+ ],
+ "properties_sha256": "b0a434b239f61d2e402cebcd3a2de335c4e2c4806fe4c0b3526ea638ef26c32f",
+ "limits": {
+  "max_states": 100000,
+  "max_profiles": 5000,
+  "max_rounds": 3,
+  "behaviour_depth": 10,
+  "max_words": 20000,
+  "exhaustive_minimisation_max_literals": 12,
+  "max_combos": 200000,
+  "property_policy": "rederive",
+  "optimiser": "enumeration"
+ },
+ "model_assumptions": {
+  "communication": "asynchronous",
+  "channels": "FIFO",
+  "message_loss": false,
+  "channel_capacity": 2,
+  "defaulted": []
+ },
+ "spec": "# Author's PARAPHRASE of RFC 1122 section 4.2.2.13 (not the RFC text; see SOURCES.md and MODELLING.md)\n[I-01] A host MAY implement a half-duplex close, after which the application cannot read further data.\n[I-02] If a host with half-duplex close closes the connection while received data is still pending, its TCP SHOULD send a reset to show the data was lost.\n",
+ "spec_sha256": "cfb46a000cdf54f032b41d8c06306db17f60758ec132406ca625c414c24cfebb",
+ "revised_spec": "# Author's PARAPHRASE of RFC 1122 section 4.2.2.13 (not the RFC text; see SOURCES.md and MODELLING.md)\n[I-01] A host MAY implement a half-duplex close, after which the application cannot read further data.\n[I-02] If a host with half-duplex close closes the connection while received data is still pending, its TCP MUST send a reset to show the data was lost.\n",
+ "revised_sha256": "e8a0ba6db4f375f95ae69b9e56f536e62e5bc95a2430ae77e462576547b60089",
+ "original": {
+  "slots": [
+   [
+    "R",
+    "I-01"
+   ],
+   [
+    "R",
+    "I-02"
+   ]
+  ],
+  "domains": {
+   "R::I-01": [
+    "omitted",
+    "implemented"
+   ],
+   "R::I-02": [
+    "enforced",
+    "relaxed"
+   ]
+  },
+  "results": [
+   {
+    "profile": [
+     "omitted",
+     "enforced"
+    ],
+    "property": "P1",
+    "status": "VERIFIED_SAFE_WITHIN_SCOPE",
+    "trace": null,
+    "states_explored": 6,
+    "complete": true,
+    "reason": null
+   },
+   {
+    "profile": [
+     "omitted",
+     "enforced"
+    ],
+    "property": "P2",
+    "status": "VERIFIED_SAFE_WITHIN_SCOPE",
+    "trace": null,
+    "states_explored": 6,
+    "complete": true,
+    "reason": null
+   },
+   {
+    "profile": [
+     "omitted",
+     "relaxed"
+    ],
+    "property": "P1",
+    "status": "VERIFIED_SAFE_WITHIN_SCOPE",
+    "trace": null,
+    "states_explored": 6,
+    "complete": true,
+    "reason": null
+   },
+   {
+    "profile": [
+     "omitted",
+     "relaxed"
+    ],
+    "property": "P2",
+    "status": "VERIFIED_SAFE_WITHIN_SCOPE",
+    "trace": null,
+    "states_explored": 6,
+    "complete": true,
+    "reason": null
+   },
+   {
+    "profile": [
+     "implemented",
+     "enforced"
+    ],
+    "property": "P1",
+    "status": "VERIFIED_SAFE_WITHIN_SCOPE",
+    "trace": null,
+    "states_explored": 9,
+    "complete": true,
+    "reason": null
+   },
+   {
+    "profile": [
+     "implemented",
+     "enforced"
+    ],
+    "property": "P2",
+    "status": "VERIFIED_SAFE_WITHIN_SCOPE",
+    "trace": null,
+    "states_explored": 9,
+    "complete": true,
+    "reason": null
+   },
+   {
+    "profile": [
+     "implemented",
+     "relaxed"
+    ],
+    "property": "P1",
+    "status": "VIOLATION_FOUND",
+    "trace": [
+     {
+      "step": 1,
+      "impl": "S",
+      "tid": "s1",
+      "action": "!DATA",
+      "from": "S0",
+      "to": "S1",
+      "reading": "base",
+      "locals": {
+       "R": "R0",
+       "S": "S1"
+      },
+      "channels": {
+       "R": [
+        "DATA"
+       ],
+       "S": []
+      }
+     },
+     {
+      "step": 2,
+      "impl": "R",
+      "tid": "r1",
+      "action": "?DATA",
+      "from": "R0",
+      "to": "R1",
+      "reading": "base",
+      "locals": {
+       "R": "R1",
+       "S": "S1"
+      },
+      "channels": {
+       "R": [],
+       "S": []
+      }
+     },
+     {
+      "step": 3,
+      "impl": "R",
+      "tid": "r4",
+      "action": "close",
+      "from": "R1",
+      "to": "R3",
+      "reading": "I-01:implemented",
+      "locals": {
+       "R": "R3",
+       "S": "S1"
+      },
+      "channels": {
+       "R": [],
+       "S": []
+      }
+     },
+     {
+      "step": 4,
+      "impl": "R",
+      "tid": "r5",
+      "action": "!FIN",
+      "from": "R3",
+      "to": "R4",
+      "reading": "I-02:relaxed",
+      "locals": {
+       "R": "R4",
+       "S": "S1"
+      },
+      "channels": {
+       "R": [],
+       "S": [
+        "FIN"
+       ]
+      }
+     },
+     {
+      "step": 5,
+      "impl": "S",
+      "tid": "s3",
+      "action": "?FIN",
+      "from": "S1",
+      "to": "S3",
+      "reading": "base",
+      "locals": {
+       "R": "R4",
+       "S": "S3"
+      },
+      "channels": {
+       "R": [],
+       "S": []
+      }
+     }
+    ],
+    "states_explored": 9,
+    "complete": true,
+    "reason": null
+   },
+   {
+    "profile": [
+     "implemented",
+     "relaxed"
+    ],
+    "property": "P2",
+    "status": "VERIFIED_SAFE_WITHIN_SCOPE",
+    "trace": null,
+    "states_explored": 9,
+    "complete": true,
+    "reason": null
+   }
+  ],
+  "coverage": {
+   "I-01": "ANALYSED",
+   "I-02": "ANALYSED"
+  },
+  "coverage_records": [
+   [
+    "I-01",
+    "ORDER-1",
+    "INAPPLICABLE"
+   ],
+   [
+    "I-01",
+    "MOD-1",
+    "ANALYSED"
+   ],
+   [
+    "I-01",
+    "REF-1",
+    "INAPPLICABLE"
+   ],
+   [
+    "I-01",
+    "DEF-1",
+    "INAPPLICABLE"
+   ],
+   [
+    "I-01",
+    "SCOPE-1",
+    "INAPPLICABLE"
+   ],
+   [
+    "I-01",
+    "TOL-1",
+    "INAPPLICABLE"
+   ],
+   [
+    "I-02",
+    "ORDER-1",
+    "INAPPLICABLE"
+   ],
+   [
+    "I-02",
+    "MOD-1",
+    "ANALYSED"
+   ],
+   [
+    "I-02",
+    "REF-1",
+    "INAPPLICABLE"
+   ],
+   [
+    "I-02",
+    "DEF-1",
+    "INAPPLICABLE"
+   ],
+   [
+    "I-02",
+    "SCOPE-1",
+    "INAPPLICABLE"
+   ],
+   [
+    "I-02",
+    "TOL-1",
+    "INAPPLICABLE"
+   ]
+  ],
+  "profiles_total": 4,
+  "profiles_checked": 4,
+  "instructions": [
+   {
+    "id": "I-01",
+    "line": 2,
+    "col": 8,
+    "start": 110,
+    "end": 205,
+    "text_sha256": "2d8e9e36b2703971e39954a16b280ab17a1b1978d5199916ceb1413a7438e7c7"
+   },
+   {
+    "id": "I-02",
+    "line": 3,
+    "col": 8,
+    "start": 213,
+    "end": 360,
+    "text_sha256": "fbfba32a6eb5c963aa08bb6228ad8a1cf744c36e413fc4962e783c9a3723ef0f"
+   }
+  ],
+  "readings": [
+   {
+    "instruction_id": "I-01",
+    "reading_id": "omitted",
+    "rule_id": "MOD-1",
+    "rule_version": "2.0.0",
+    "span": [
+     110,
+     205
+    ],
+    "patch_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+   },
+   {
+    "instruction_id": "I-01",
+    "reading_id": "implemented",
+    "rule_id": "MOD-1",
+    "rule_version": "2.0.0",
+    "span": [
+     110,
+     205
+    ],
+    "patch_sha256": "96b43fc8f08f31bc8b8ae2177725b4d6d3dc46883b78fdb3a39464922f23ee2b"
+   },
+   {
+    "instruction_id": "I-02",
+    "reading_id": "enforced",
+    "rule_id": "MOD-1",
+    "rule_version": "2.0.0",
+    "span": [
+     213,
+     360
+    ],
+    "patch_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+   },
+   {
+    "instruction_id": "I-02",
+    "reading_id": "relaxed",
+    "rule_id": "MOD-1",
+    "rule_version": "2.0.0",
+    "span": [
+     213,
+     360
+    ],
+    "patch_sha256": "aab2c03d18ea4b3eb7b76b5eac247a9095e91535f58e50de0dc8c9d32af1fc62"
+   }
+  ],
+  "claimed_status": "VIOLATION_FOUND"
+ },
+ "revised": {
+  "slots": [
+   [
+    "R",
+    "I-01"
+   ]
+  ],
+  "domains": {
+   "R::I-01": [
+    "omitted",
+    "implemented"
+   ]
+  },
+  "results": [
+   {
+    "profile": [
+     "omitted"
+    ],
+    "property": "P1",
+    "status": "VERIFIED_SAFE_WITHIN_SCOPE",
+    "trace": null,
+    "states_explored": 6,
+    "complete": true,
+    "reason": null
+   },
+   {
+    "profile": [
+     "omitted"
+    ],
+    "property": "P2",
+    "status": "VERIFIED_SAFE_WITHIN_SCOPE",
+    "trace": null,
+    "states_explored": 6,
+    "complete": true,
+    "reason": null
+   },
+   {
+    "profile": [
+     "implemented"
+    ],
+    "property": "P1",
+    "status": "VERIFIED_SAFE_WITHIN_SCOPE",
+    "trace": null,
+    "states_explored": 9,
+    "complete": true,
+    "reason": null
+   },
+   {
+    "profile": [
+     "implemented"
+    ],
+    "property": "P2",
+    "status": "VERIFIED_SAFE_WITHIN_SCOPE",
+    "trace": null,
+    "states_explored": 9,
+    "complete": true,
+    "reason": null
+   }
+  ],
+  "coverage": {
+   "I-01": "ANALYSED",
+   "I-02": "ANALYSED_SINGLE"
+  },
+  "coverage_records": [
+   [
+    "I-01",
+    "ORDER-1",
+    "INAPPLICABLE"
+   ],
+   [
+    "I-01",
+    "MOD-1",
+    "ANALYSED"
+   ],
+   [
+    "I-01",
+    "REF-1",
+    "INAPPLICABLE"
+   ],
+   [
+    "I-01",
+    "DEF-1",
+    "INAPPLICABLE"
+   ],
+   [
+    "I-01",
+    "SCOPE-1",
+    "INAPPLICABLE"
+   ],
+   [
+    "I-01",
+    "TOL-1",
+    "INAPPLICABLE"
+   ],
+   [
+    "I-02",
+    "ORDER-1",
+    "INAPPLICABLE"
+   ],
+   [
+    "I-02",
+    "MOD-1",
+    "ANALYSED_SINGLE"
+   ],
+   [
+    "I-02",
+    "REF-1",
+    "INAPPLICABLE"
+   ],
+   [
+    "I-02",
+    "DEF-1",
+    "INAPPLICABLE"
+   ],
+   [
+    "I-02",
+    "SCOPE-1",
+    "INAPPLICABLE"
+   ],
+   [
+    "I-02",
+    "TOL-1",
+    "INAPPLICABLE"
+   ]
+  ],
+  "profiles_total": 2,
+  "profiles_checked": 2,
+  "instructions": [
+   {
+    "id": "I-01",
+    "line": 2,
+    "col": 8,
+    "start": 110,
+    "end": 205,
+    "text_sha256": "2d8e9e36b2703971e39954a16b280ab17a1b1978d5199916ceb1413a7438e7c7"
+   },
+   {
+    "id": "I-02",
+    "line": 3,
+    "col": 8,
+    "start": 213,
+    "end": 358,
+    "text_sha256": "5c1f29c7efa180c0e6ea8a4b1c59a65d1a052e825a48b78f3935752e026149d8"
+   }
+  ],
+  "readings": [
+   {
+    "instruction_id": "I-01",
+    "reading_id": "omitted",
+    "rule_id": "MOD-1",
+    "rule_version": "2.0.0",
+    "span": [
+     110,
+     205
+    ],
+    "patch_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+   },
+   {
+    "instruction_id": "I-01",
+    "reading_id": "implemented",
+    "rule_id": "MOD-1",
+    "rule_version": "2.0.0",
+    "span": [
+     110,
+     205
+    ],
+    "patch_sha256": "96b43fc8f08f31bc8b8ae2177725b4d6d3dc46883b78fdb3a39464922f23ee2b"
+   },
+   {
+    "instruction_id": "I-02",
+    "reading_id": "enforced",
+    "rule_id": "MOD-1",
+    "rule_version": "2.0.0",
+    "span": [
+     213,
+     358
+    ],
+    "patch_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+   }
+  ],
+  "claimed_status": "VERIFIED_SAFE_WITHIN_SCOPE"
+ },
+ "revised_properties": [
+  {
+   "id": "P1",
+   "kind": "safety",
+   "type": "state_invariant",
+   "description": "Silent data loss: the sender sees an orderly close (S3) although the receiver closed with unread data (R4).",
+   "scope": "bounded FIFO mailboxes, one scenario",
+   "assumptions": {},
+   "bounds": {},
+   "forbid": [
+    {
+     "locals": {
+      "S": [
+       "S3"
+      ],
+      "R": [
+       "R4"
+      ]
+     }
+    }
+   ],
+   "provenance": {
+    "source": "model",
+    "spec_version": "original"
+   }
+  },
+  {
+   "id": "P2",
+   "kind": "functionality",
+   "type": "always_can_complete",
+   "description": "Both hosts can always finish.",
+   "scope": "bounded FIFO mailboxes, one scenario",
+   "assumptions": {},
+   "bounds": {},
+   "goal": {
+    "S": [
+     "S2",
+     "S3"
+    ],
+    "R": [
+     "R4",
+     "R5"
+    ]
+   },
+   "provenance": {
+    "source": "model",
+    "spec_version": "original"
+   }
+  }
+ ],
+ "revised_properties_sha256": "b0a434b239f61d2e402cebcd3a2de335c4e2c4806fe4c0b3526ea638ef26c32f",
+ "property_comparison": {
+  "policy": "rederive",
+  "held_constant": [
+   "P1",
+   "P2"
+  ],
+  "added": [],
+  "changed": [],
+  "removed_in_revised_text": [],
+  "not_checked": []
+ },
+ "nogoods": [
+  {
+   "id": "NG-01",
+   "literals": [
+    [
+     "R",
+     "I-01",
+     "implemented"
+    ],
+    [
+     "R",
+     "I-02",
+     "relaxed"
+    ]
+   ]
+  }
+ ],
+ "selected_nogoods": [
+  "NG-01"
+ ],
+ "edits": [
+  {
+   "instruction_id": "I-02",
+   "new_text": "If a host with half-duplex close closes the connection while received data is still pending, its TCP MUST send a reset to show the data was lost.",
+   "keep_reading": "enforced"
+  }
+ ],
+ "removal_claim": {
+  "targeted_remaining": 0
+ },
+ "tests": [
+  {
+   "id": "CT-001",
+   "setup": {
+    "implementation_under_test": "R",
+    "profile": [
+     "implemented"
+    ],
+    "profile_readings": {
+     "R::I-01": "implemented"
+    },
+    "model_version": "revised",
+    "reference_peer": "verified model of the other implementation(s)"
+   },
+   "steps": [
+    {
+     "impl": "S",
+     "tid": "s1",
+     "action": "!DATA"
+    },
+    {
+     "impl": "R",
+     "tid": "r1",
+     "action": "?DATA"
+    }
+   ],
+   "expected": {
+    "iut_inputs": [
+     "?DATA"
+    ],
+    "iut_outputs": [],
+    "final_locals": {
+     "R": "R1",
+     "S": "S1"
+    },
+    "channels_non_empty": false
+   },
+   "targets": "covers transition r1",
+   "assumptions": {
+    "channel_capacity": 2,
+    "communication": "asynchronous",
+    "channels": "FIFO",
+    "message_loss": false,
+    "defaulted": []
+   },
+   "certified": true,
+   "kind": "normal_success_coverage",
+   "source_instructions": [
+    "I-01",
+    "I-02"
+   ],
+   "motivating_property": "P1,P2",
+   "preconditions": {
+    "initial_locals": {
+     "R": "R0",
+     "S": "S0"
+    },
+    "channels": "empty"
+   },
+   "expected_transitions": [
+    {
+     "impl": "S",
+     "from": "S0",
+     "to": "S1",
+     "action": "!DATA"
+    },
+    {
+     "impl": "R",
+     "from": "R0",
+     "to": "R1",
+     "action": "?DATA"
+    }
+   ],
+   "execution_status": "executed_against_implementation",
+   "traceability": {
+    "spec_sha256": "e8a0ba6db4f375f95ae69b9e56f536e62e5bc95a2430ae77e462576547b60089",
+    "certificate_claim": "profile ['implemented']: all selected properties"
+   },
+   "signature": "71db3ea6297c",
+   "duplicate_of": null,
+   "external_result": {
+    "passed": true,
+    "implementation": "OS TCP stack via sockets (see environment)",
+    "notes": "2/2 repetitions reproduced the model sequence",
+    "reproduced_count": 2,
+    "repeats": 2,
+    "environment": {
+     "platform": "Windows-11-10.0.26200-SP0",
+     "python": "3.12.10",
+     "uname": "Windows_NT sid 10.0 26200 x86_64 MS/Windows",
+     "transport": "TCP over 127.0.0.1 loopback via the socket API",
+     "note": "single host, single kernel, observations are socket-API-level (not packet captures)"
+    },
+    "observations": [
+     {
+      "impl": "S",
+      "action": "!DATA",
+      "observed": "sent"
+     },
+     {
+      "impl": "R",
+      "action": "?DATA",
+      "observed": "pending"
+     }
+    ]
+   }
+  },
+  {
+   "id": "CT-002",
+   "setup": {
+    "implementation_under_test": "R",
+    "profile": [
+     "implemented"
+    ],
+    "profile_readings": {
+     "R::I-01": "implemented"
+    },
+    "model_version": "revised",
+    "reference_peer": "verified model of the other implementation(s)"
+   },
+   "steps": [
+    {
+     "impl": "S",
+     "tid": "s1",
+     "action": "!DATA"
+    },
+    {
+     "impl": "R",
+     "tid": "r1",
+     "action": "?DATA"
+    },
+    {
+     "impl": "R",
+     "tid": "r2",
+     "action": "read"
+    }
+   ],
+   "expected": {
+    "iut_inputs": [
+     "?DATA"
+    ],
+    "iut_outputs": [],
+    "final_locals": {
+     "R": "R2",
+     "S": "S1"
+    },
+    "channels_non_empty": false
+   },
+   "targets": "covers transition r2",
+   "assumptions": {
+    "channel_capacity": 2,
+    "communication": "asynchronous",
+    "channels": "FIFO",
+    "message_loss": false,
+    "defaulted": []
+   },
+   "certified": true,
+   "kind": "normal_success_coverage",
+   "source_instructions": [
+    "I-01",
+    "I-02"
+   ],
+   "motivating_property": "P1,P2",
+   "preconditions": {
+    "initial_locals": {
+     "R": "R0",
+     "S": "S0"
+    },
+    "channels": "empty"
+   },
+   "expected_transitions": [
+    {
+     "impl": "S",
+     "from": "S0",
+     "to": "S1",
+     "action": "!DATA"
+    },
+    {
+     "impl": "R",
+     "from": "R0",
+     "to": "R1",
+     "action": "?DATA"
+    },
+    {
+     "impl": "R",
+     "from": "R1",
+     "to": "R2",
+     "action": "read"
+    }
+   ],
+   "execution_status": "executed_against_implementation",
+   "traceability": {
+    "spec_sha256": "e8a0ba6db4f375f95ae69b9e56f536e62e5bc95a2430ae77e462576547b60089",
+    "certificate_claim": "profile ['implemented']: all selected properties"
+   },
+   "signature": "3bd07107f610",
+   "duplicate_of": null,
+   "external_result": {
+    "passed": true,
+    "implementation": "OS TCP stack via sockets (see environment)",
+    "notes": "2/2 repetitions reproduced the model sequence",
+    "reproduced_count": 2,
+    "repeats": 2,
+    "environment": {
+     "platform": "Windows-11-10.0.26200-SP0",
+     "python": "3.12.10",
+     "uname": "Windows_NT sid 10.0 26200 x86_64 MS/Windows",
+     "transport": "TCP over 127.0.0.1 loopback via the socket API",
+     "note": "single host, single kernel, observations are socket-API-level (not packet captures)"
+    },
+    "observations": [
+     {
+      "impl": "S",
+      "action": "!DATA",
+      "observed": "sent"
+     },
+     {
+      "impl": "R",
+      "action": "?DATA",
+      "observed": "pending"
+     },
+     {
+      "impl": "R",
+      "action": "read",
+      "observed": "read:b'DATA'"
+     }
+    ]
+   }
+  },
+  {
+   "id": "CT-003",
+   "setup": {
+    "implementation_under_test": "R",
+    "profile": [
+     "implemented"
+    ],
+    "profile_readings": {
+     "R::I-01": "implemented"
+    },
+    "model_version": "revised",
+    "reference_peer": "verified model of the other implementation(s)"
+   },
+   "steps": [
+    {
+     "impl": "S",
+     "tid": "s1",
+     "action": "!DATA"
+    },
+    {
+     "impl": "R",
+     "tid": "r1",
+     "action": "?DATA"
+    },
+    {
+     "impl": "R",
+     "tid": "r2",
+     "action": "read"
+    },
+    {
+     "impl": "R",
+     "tid": "r3",
+     "action": "!FIN"
+    }
+   ],
+   "expected": {
+    "iut_inputs": [
+     "?DATA"
+    ],
+    "iut_outputs": [
+     "!FIN"
+    ],
+    "final_locals": {
+     "R": "R5",
+     "S": "S1"
+    },
+    "channels_non_empty": true
+   },
+   "targets": "covers transition r3",
+   "assumptions": {
+    "channel_capacity": 2,
+    "communication": "asynchronous",
+    "channels": "FIFO",
+    "message_loss": false,
+    "defaulted": []
+   },
+   "certified": true,
+   "kind": "normal_success_coverage",
+   "source_instructions": [
+    "I-01",
+    "I-02"
+   ],
+   "motivating_property": "P1,P2",
+   "preconditions": {
+    "initial_locals": {
+     "R": "R0",
+     "S": "S0"
+    },
+    "channels": "empty"
+   },
+   "expected_transitions": [
+    {
+     "impl": "S",
+     "from": "S0",
+     "to": "S1",
+     "action": "!DATA"
+    },
+    {
+     "impl": "R",
+     "from": "R0",
+     "to": "R1",
+     "action": "?DATA"
+    },
+    {
+     "impl": "R",
+     "from": "R1",
+     "to": "R2",
+     "action": "read"
+    },
+    {
+     "impl": "R",
+     "from": "R2",
+     "to": "R5",
+     "action": "!FIN"
+    }
+   ],
+   "execution_status": "executed_against_implementation",
+   "traceability": {
+    "spec_sha256": "e8a0ba6db4f375f95ae69b9e56f536e62e5bc95a2430ae77e462576547b60089",
+    "certificate_claim": "profile ['implemented']: all selected properties"
+   },
+   "signature": "e4edf1aace30",
+   "duplicate_of": null,
+   "external_result": {
+    "passed": true,
+    "implementation": "OS TCP stack via sockets (see environment)",
+    "notes": "2/2 repetitions reproduced the model sequence",
+    "reproduced_count": 2,
+    "repeats": 2,
+    "environment": {
+     "platform": "Windows-11-10.0.26200-SP0",
+     "python": "3.12.10",
+     "uname": "Windows_NT sid 10.0 26200 x86_64 MS/Windows",
+     "transport": "TCP over 127.0.0.1 loopback via the socket API",
+     "note": "single host, single kernel, observations are socket-API-level (not packet captures)"
+    },
+    "observations": [
+     {
+      "impl": "S",
+      "action": "!DATA",
+      "observed": "sent"
+     },
+     {
+      "impl": "R",
+      "action": "?DATA",
+      "observed": "pending"
+     },
+     {
+      "impl": "R",
+      "action": "read",
+      "observed": "read:b'DATA'"
+     },
+     {
+      "impl": "R",
+      "action": "!FIN",
+      "observed": "kernel event (observed via S)"
+     }
+    ]
+   }
+  },
+  {
+   "id": "CT-004",
+   "setup": {
+    "implementation_under_test": "R",
+    "profile": [
+     "implemented"
+    ],
+    "profile_readings": {
+     "R::I-01": "implemented"
+    },
+    "model_version": "revised",
+    "reference_peer": "verified model of the other implementation(s)"
+   },
+   "steps": [
+    {
+     "impl": "S",
+     "tid": "s1",
+     "action": "!DATA"
+    },
+    {
+     "impl": "R",
+     "tid": "r1",
+     "action": "?DATA"
+    },
+    {
+     "impl": "R",
+     "tid": "r4",
+     "action": "close"
+    }
+   ],
+   "expected": {
+    "iut_inputs": [
+     "?DATA"
+    ],
+    "iut_outputs": [],
+    "final_locals": {
+     "R": "R3",
+     "S": "S1"
+    },
+    "channels_non_empty": false
+   },
+   "targets": "covers transition r4",
+   "assumptions": {
+    "channel_capacity": 2,
+    "communication": "asynchronous",
+    "channels": "FIFO",
+    "message_loss": false,
+    "defaulted": []
+   },
+   "certified": true,
+   "kind": "normal_success_coverage",
+   "source_instructions": [
+    "I-01"
+   ],
+   "motivating_property": "P1,P2",
+   "preconditions": {
+    "initial_locals": {
+     "R": "R0",
+     "S": "S0"
+    },
+    "channels": "empty"
+   },
+   "expected_transitions": [
+    {
+     "impl": "S",
+     "from": "S0",
+     "to": "S1",
+     "action": "!DATA"
+    },
+    {
+     "impl": "R",
+     "from": "R0",
+     "to": "R1",
+     "action": "?DATA"
+    },
+    {
+     "impl": "R",
+     "from": "R1",
+     "to": "R3",
+     "action": "close"
+    }
+   ],
+   "execution_status": "executed_against_implementation",
+   "traceability": {
+    "spec_sha256": "e8a0ba6db4f375f95ae69b9e56f536e62e5bc95a2430ae77e462576547b60089",
+    "certificate_claim": "profile ['implemented']: all selected properties"
+   },
+   "signature": "ea6929357d55",
+   "duplicate_of": null,
+   "external_result": {
+    "passed": true,
+    "implementation": "OS TCP stack via sockets (see environment)",
+    "notes": "2/2 repetitions reproduced the model sequence",
+    "reproduced_count": 2,
+    "repeats": 2,
+    "environment": {
+     "platform": "Windows-11-10.0.26200-SP0",
+     "python": "3.12.10",
+     "uname": "Windows_NT sid 10.0 26200 x86_64 MS/Windows",
+     "transport": "TCP over 127.0.0.1 loopback via the socket API",
+     "note": "single host, single kernel, observations are socket-API-level (not packet captures)"
+    },
+    "observations": [
+     {
+      "impl": "S",
+      "action": "!DATA",
+      "observed": "sent"
+     },
+     {
+      "impl": "R",
+      "action": "?DATA",
+      "observed": "pending"
+     },
+     {
+      "impl": "R",
+      "action": "close",
+      "observed": "closed"
+     }
+    ]
+   }
+  },
+  {
+   "id": "CT-005",
+   "setup": {
+    "implementation_under_test": "R",
+    "profile": [
+     "implemented"
+    ],
+    "profile_readings": {
+     "R::I-01": "implemented"
+    },
+    "model_version": "revised",
+    "reference_peer": "verified model of the other implementation(s)"
+   },
+   "steps": [
+    {
+     "impl": "S",
+     "tid": "s1",
+     "action": "!DATA"
+    },
+    {
+     "impl": "R",
+     "tid": "r1",
+     "action": "?DATA"
+    },
+    {
+     "impl": "R",
+     "tid": "r4",
+     "action": "close"
+    },
+    {
+     "impl": "R",
+     "tid": "r5",
+     "action": "!RST"
+    }
+   ],
+   "expected": {
+    "iut_inputs": [
+     "?DATA"
+    ],
+    "iut_outputs": [
+     "!RST"
+    ],
+    "final_locals": {
+     "R": "R4",
+     "S": "S1"
+    },
+    "channels_non_empty": true
+   },
+   "targets": "covers transition r5",
+   "assumptions": {
+    "channel_capacity": 2,
+    "communication": "asynchronous",
+    "channels": "FIFO",
+    "message_loss": false,
+    "defaulted": []
+   },
+   "certified": true,
+   "kind": "normal_success_coverage",
+   "source_instructions": [
+    "I-01"
+   ],
+   "motivating_property": "P1,P2",
+   "preconditions": {
+    "initial_locals": {
+     "R": "R0",
+     "S": "S0"
+    },
+    "channels": "empty"
+   },
+   "expected_transitions": [
+    {
+     "impl": "S",
+     "from": "S0",
+     "to": "S1",
+     "action": "!DATA"
+    },
+    {
+     "impl": "R",
+     "from": "R0",
+     "to": "R1",
+     "action": "?DATA"
+    },
+    {
+     "impl": "R",
+     "from": "R1",
+     "to": "R3",
+     "action": "close"
+    },
+    {
+     "impl": "R",
+     "from": "R3",
+     "to": "R4",
+     "action": "!RST"
+    }
+   ],
+   "execution_status": "executed_against_implementation",
+   "traceability": {
+    "spec_sha256": "e8a0ba6db4f375f95ae69b9e56f536e62e5bc95a2430ae77e462576547b60089",
+    "certificate_claim": "profile ['implemented']: all selected properties"
+   },
+   "signature": "7fa028e8c54f",
+   "duplicate_of": null,
+   "external_result": {
+    "passed": true,
+    "implementation": "OS TCP stack via sockets (see environment)",
+    "notes": "2/2 repetitions reproduced the model sequence",
+    "reproduced_count": 2,
+    "repeats": 2,
+    "environment": {
+     "platform": "Windows-11-10.0.26200-SP0",
+     "python": "3.12.10",
+     "uname": "Windows_NT sid 10.0 26200 x86_64 MS/Windows",
+     "transport": "TCP over 127.0.0.1 loopback via the socket API",
+     "note": "single host, single kernel, observations are socket-API-level (not packet captures)"
+    },
+    "observations": [
+     {
+      "impl": "S",
+      "action": "!DATA",
+      "observed": "sent"
+     },
+     {
+      "impl": "R",
+      "action": "?DATA",
+      "observed": "pending"
+     },
+     {
+      "impl": "R",
+      "action": "close",
+      "observed": "closed"
+     },
+     {
+      "impl": "R",
+      "action": "!RST",
+      "observed": "kernel event (observed via S)"
+     }
+    ]
+   }
+  },
+  {
+   "id": "CT-006",
+   "setup": {
+    "implementation_under_test": "R",
+    "profile": [
+     "omitted"
+    ],
+    "profile_readings": {
+     "R::I-01": "omitted"
+    },
+    "model_version": "revised",
+    "reference_peer": "verified model of the other implementation(s)"
+   },
+   "steps": [
+    {
+     "impl": "S",
+     "tid": "s1",
+     "action": "!DATA"
+    },
+    {
+     "impl": "R",
+     "tid": "r1",
+     "action": "?DATA"
+    }
+   ],
+   "expected": {
+    "iut_inputs": [
+     "?DATA"
+    ],
+    "iut_outputs": [],
+    "final_locals": {
+     "R": "R1",
+     "S": "S1"
+    },
+    "channels_non_empty": false
+   },
+   "targets": "covers transition r1",
+   "assumptions": {
+    "channel_capacity": 2,
+    "communication": "asynchronous",
+    "channels": "FIFO",
+    "message_loss": false,
+    "defaulted": []
+   },
+   "certified": true,
+   "kind": "normal_success_coverage",
+   "source_instructions": [
+    "I-01",
+    "I-02"
+   ],
+   "motivating_property": "P1,P2",
+   "preconditions": {
+    "initial_locals": {
+     "R": "R0",
+     "S": "S0"
+    },
+    "channels": "empty"
+   },
+   "expected_transitions": [
+    {
+     "impl": "S",
+     "from": "S0",
+     "to": "S1",
+     "action": "!DATA"
+    },
+    {
+     "impl": "R",
+     "from": "R0",
+     "to": "R1",
+     "action": "?DATA"
+    }
+   ],
+   "execution_status": "executed_against_implementation",
+   "traceability": {
+    "spec_sha256": "e8a0ba6db4f375f95ae69b9e56f536e62e5bc95a2430ae77e462576547b60089",
+    "certificate_claim": "profile ['omitted']: all selected properties"
+   },
+   "signature": "71db3ea6297c",
+   "duplicate_of": "CT-001",
+   "external_result": {
+    "passed": true,
+    "implementation": "OS TCP stack via sockets (see environment)",
+    "notes": "2/2 repetitions reproduced the model sequence",
+    "reproduced_count": 2,
+    "repeats": 2,
+    "environment": {
+     "platform": "Windows-11-10.0.26200-SP0",
+     "python": "3.12.10",
+     "uname": "Windows_NT sid 10.0 26200 x86_64 MS/Windows",
+     "transport": "TCP over 127.0.0.1 loopback via the socket API",
+     "note": "single host, single kernel, observations are socket-API-level (not packet captures)"
+    },
+    "observations": [
+     {
+      "impl": "S",
+      "action": "!DATA",
+      "observed": "sent"
+     },
+     {
+      "impl": "R",
+      "action": "?DATA",
+      "observed": "pending"
+     }
+    ]
+   }
+  },
+  {
+   "id": "CT-007",
+   "setup": {
+    "implementation_under_test": "R",
+    "profile": [
+     "omitted"
+    ],
+    "profile_readings": {
+     "R::I-01": "omitted"
+    },
+    "model_version": "revised",
+    "reference_peer": "verified model of the other implementation(s)"
+   },
+   "steps": [
+    {
+     "impl": "S",
+     "tid": "s1",
+     "action": "!DATA"
+    },
+    {
+     "impl": "R",
+     "tid": "r1",
+     "action": "?DATA"
+    },
+    {
+     "impl": "R",
+     "tid": "r2",
+     "action": "read"
+    }
+   ],
+   "expected": {
+    "iut_inputs": [
+     "?DATA"
+    ],
+    "iut_outputs": [],
+    "final_locals": {
+     "R": "R2",
+     "S": "S1"
+    },
+    "channels_non_empty": false
+   },
+   "targets": "covers transition r2",
+   "assumptions": {
+    "channel_capacity": 2,
+    "communication": "asynchronous",
+    "channels": "FIFO",
+    "message_loss": false,
+    "defaulted": []
+   },
+   "certified": true,
+   "kind": "normal_success_coverage",
+   "source_instructions": [
+    "I-01",
+    "I-02"
+   ],
+   "motivating_property": "P1,P2",
+   "preconditions": {
+    "initial_locals": {
+     "R": "R0",
+     "S": "S0"
+    },
+    "channels": "empty"
+   },
+   "expected_transitions": [
+    {
+     "impl": "S",
+     "from": "S0",
+     "to": "S1",
+     "action": "!DATA"
+    },
+    {
+     "impl": "R",
+     "from": "R0",
+     "to": "R1",
+     "action": "?DATA"
+    },
+    {
+     "impl": "R",
+     "from": "R1",
+     "to": "R2",
+     "action": "read"
+    }
+   ],
+   "execution_status": "executed_against_implementation",
+   "traceability": {
+    "spec_sha256": "e8a0ba6db4f375f95ae69b9e56f536e62e5bc95a2430ae77e462576547b60089",
+    "certificate_claim": "profile ['omitted']: all selected properties"
+   },
+   "signature": "3bd07107f610",
+   "duplicate_of": "CT-002",
+   "external_result": {
+    "passed": true,
+    "implementation": "OS TCP stack via sockets (see environment)",
+    "notes": "2/2 repetitions reproduced the model sequence",
+    "reproduced_count": 2,
+    "repeats": 2,
+    "environment": {
+     "platform": "Windows-11-10.0.26200-SP0",
+     "python": "3.12.10",
+     "uname": "Windows_NT sid 10.0 26200 x86_64 MS/Windows",
+     "transport": "TCP over 127.0.0.1 loopback via the socket API",
+     "note": "single host, single kernel, observations are socket-API-level (not packet captures)"
+    },
+    "observations": [
+     {
+      "impl": "S",
+      "action": "!DATA",
+      "observed": "sent"
+     },
+     {
+      "impl": "R",
+      "action": "?DATA",
+      "observed": "pending"
+     },
+     {
+      "impl": "R",
+      "action": "read",
+      "observed": "read:b'DATA'"
+     }
+    ]
+   }
+  },
+  {
+   "id": "CT-008",
+   "setup": {
+    "implementation_under_test": "R",
+    "profile": [
+     "omitted"
+    ],
+    "profile_readings": {
+     "R::I-01": "omitted"
+    },
+    "model_version": "revised",
+    "reference_peer": "verified model of the other implementation(s)"
+   },
+   "steps": [
+    {
+     "impl": "S",
+     "tid": "s1",
+     "action": "!DATA"
+    },
+    {
+     "impl": "R",
+     "tid": "r1",
+     "action": "?DATA"
+    },
+    {
+     "impl": "R",
+     "tid": "r2",
+     "action": "read"
+    },
+    {
+     "impl": "R",
+     "tid": "r3",
+     "action": "!FIN"
+    }
+   ],
+   "expected": {
+    "iut_inputs": [
+     "?DATA"
+    ],
+    "iut_outputs": [
+     "!FIN"
+    ],
+    "final_locals": {
+     "R": "R5",
+     "S": "S1"
+    },
+    "channels_non_empty": true
+   },
+   "targets": "covers transition r3",
+   "assumptions": {
+    "channel_capacity": 2,
+    "communication": "asynchronous",
+    "channels": "FIFO",
+    "message_loss": false,
+    "defaulted": []
+   },
+   "certified": true,
+   "kind": "normal_success_coverage",
+   "source_instructions": [
+    "I-01",
+    "I-02"
+   ],
+   "motivating_property": "P1,P2",
+   "preconditions": {
+    "initial_locals": {
+     "R": "R0",
+     "S": "S0"
+    },
+    "channels": "empty"
+   },
+   "expected_transitions": [
+    {
+     "impl": "S",
+     "from": "S0",
+     "to": "S1",
+     "action": "!DATA"
+    },
+    {
+     "impl": "R",
+     "from": "R0",
+     "to": "R1",
+     "action": "?DATA"
+    },
+    {
+     "impl": "R",
+     "from": "R1",
+     "to": "R2",
+     "action": "read"
+    },
+    {
+     "impl": "R",
+     "from": "R2",
+     "to": "R5",
+     "action": "!FIN"
+    }
+   ],
+   "execution_status": "executed_against_implementation",
+   "traceability": {
+    "spec_sha256": "e8a0ba6db4f375f95ae69b9e56f536e62e5bc95a2430ae77e462576547b60089",
+    "certificate_claim": "profile ['omitted']: all selected properties"
+   },
+   "signature": "e4edf1aace30",
+   "duplicate_of": "CT-003",
+   "external_result": {
+    "passed": true,
+    "implementation": "OS TCP stack via sockets (see environment)",
+    "notes": "2/2 repetitions reproduced the model sequence",
+    "reproduced_count": 2,
+    "repeats": 2,
+    "environment": {
+     "platform": "Windows-11-10.0.26200-SP0",
+     "python": "3.12.10",
+     "uname": "Windows_NT sid 10.0 26200 x86_64 MS/Windows",
+     "transport": "TCP over 127.0.0.1 loopback via the socket API",
+     "note": "single host, single kernel, observations are socket-API-level (not packet captures)"
+    },
+    "observations": [
+     {
+      "impl": "S",
+      "action": "!DATA",
+      "observed": "sent"
+     },
+     {
+      "impl": "R",
+      "action": "?DATA",
+      "observed": "pending"
+     },
+     {
+      "impl": "R",
+      "action": "read",
+      "observed": "read:b'DATA'"
+     },
+     {
+      "impl": "R",
+      "action": "!FIN",
+      "observed": "kernel event (observed via S)"
+     }
+    ]
+   }
+  },
+  {
+   "id": "CT-009",
+   "setup": {
+    "implementation_under_test": "R",
+    "profile": [
+     "implemented"
+    ],
+    "alternative_profile": [
+     "omitted"
+    ],
+    "model_version": "revised",
+    "instruction": "I-01",
+    "baseline_reading": "omitted",
+    "alternative_reading": "implemented",
+    "depth": 10
+   },
+   "steps": [
+    {
+     "impl": "S",
+     "tid": "s1",
+     "action": "!DATA"
+    },
+    {
+     "impl": "R",
+     "tid": "r1",
+     "action": "?DATA"
+    },
+    {
+     "impl": "R",
+     "tid": "r4",
+     "action": "close"
+    }
+   ],
+   "expected": {
+    "observable_only_under": "implemented"
+   },
+   "targets": "distinguishes reading omitted vs implemented of I-01 for R",
+   "assumptions": {
+    "depth": 10
+   },
+   "certified": true,
+   "kind": "distinguishing_safe_alternatives",
+   "source_instructions": [
+    "I-01"
+   ],
+   "motivating_property": null,
+   "preconditions": {},
+   "expected_transitions": [],
+   "execution_status": "replayed_in_model",
+   "traceability": {
+    "spec_sha256": "e8a0ba6db4f375f95ae69b9e56f536e62e5bc95a2430ae77e462576547b60089",
+    "certificate_claim": "remaining open reading"
+   },
+   "signature": "aeeb13aacd39",
+   "duplicate_of": null
+  },
+  {
+   "id": "CT-010",
+   "setup": {
+    "profile": [
+     "implemented",
+     "relaxed"
+    ],
+    "profile_readings": {
+     "R::I-01": "implemented",
+     "R::I-02": "relaxed"
+    },
+    "model_version": "original"
+   },
+   "steps": [
+    {
+     "impl": "S",
+     "tid": "s1",
+     "action": "!DATA"
+    },
+    {
+     "impl": "R",
+     "tid": "r1",
+     "action": "?DATA"
+    },
+    {
+     "impl": "R",
+     "tid": "r4",
+     "action": "close"
+    },
+    {
+     "impl": "R",
+     "tid": "r5",
+     "action": "!FIN"
+    },
+    {
+     "impl": "S",
+     "tid": "s3",
+     "action": "?FIN"
+    }
+   ],
+   "expected": {
+    "outcome": "property P1 violated by this sequence under the ORIGINAL reading profile",
+    "witness_kind": "forbidden state invariant violated"
+   },
+   "targets": "reproduces counterexample for P1",
+   "assumptions": {
+    "channel_capacity": 2,
+    "communication": "asynchronous",
+    "channels": "FIFO",
+    "message_loss": false,
+    "defaulted": []
+   },
+   "certified": true,
+   "kind": "counterexample",
+   "source_instructions": [
+    "I-01",
+    "I-02"
+   ],
+   "motivating_property": "P1",
+   "preconditions": {},
+   "expected_transitions": [],
+   "execution_status": "executed_against_implementation",
+   "traceability": {
+    "spec_sha256": "cfb46a000cdf54f032b41d8c06306db17f60758ec132406ca625c414c24cfebb",
+    "certificate_claim": "original: profile ['implemented', 'relaxed'] / P1"
+   },
+   "signature": "d96e6ff61ecd",
+   "duplicate_of": null,
+   "external_result": {
+    "passed": true,
+    "implementation": "OS TCP stack via sockets (see environment)",
+    "notes": "0/2 repetitions reproduced the model sequence",
+    "reproduced_count": 0,
+    "repeats": 2,
+    "environment": {
+     "platform": "Windows-11-10.0.26200-SP0",
+     "python": "3.12.10",
+     "uname": "Windows_NT sid 10.0 26200 x86_64 MS/Windows",
+     "transport": "TCP over 127.0.0.1 loopback via the socket API",
+     "note": "single host, single kernel, observations are socket-API-level (not packet captures)"
+    },
+    "observations": [
+     {
+      "impl": "S",
+      "action": "!DATA",
+      "observed": "sent"
+     },
+     {
+      "impl": "R",
+      "action": "?DATA",
+      "observed": "pending"
+     },
+     {
+      "impl": "R",
+      "action": "close",
+      "observed": "closed"
+     },
+     {
+      "impl": "R",
+      "action": "!FIN",
+      "observed": "kernel event (observed via S)"
+     },
+     {
+      "impl": "S",
+      "action": "?FIN",
+      "observed": "RST"
+     }
+    ]
+   }
+  }
+ ],
+ "coverage_note": "Status VERIFIED_SAFE_WITHIN_SCOPE is only as broad as 'coverage'; UNANALYSED instructions are listed per instruction."
+}

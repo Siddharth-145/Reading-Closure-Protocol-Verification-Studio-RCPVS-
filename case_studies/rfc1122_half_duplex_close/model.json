@@ -1,0 +1,185 @@
+{
+ "name": "RFC 1122 4.2.2.13 half-duplex close (author's abstraction)",
+ "default_properties": [
+  "P1",
+  "P2"
+ ],
+ "messages": [
+  "DATA",
+  "RST",
+  "FIN"
+ ],
+ "roles": {
+  "sender": {
+   "initial": "S0",
+   "states": {
+    "S0": {},
+    "S1": {},
+    "S2": {
+     "closed": true
+    },
+    "S3": {
+     "closed": true
+    }
+   },
+   "transitions": [
+    {
+     "id": "s1",
+     "src": "S0",
+     "dst": "S1",
+     "action": "!DATA"
+    },
+    {
+     "id": "s2",
+     "src": "S1",
+     "dst": "S2",
+     "action": "?RST"
+    },
+    {
+     "id": "s3",
+     "src": "S1",
+     "dst": "S3",
+     "action": "?FIN"
+    }
+   ]
+  },
+  "receiver": {
+   "initial": "R0",
+   "states": {
+    "R0": {},
+    "R1": {},
+    "R2": {},
+    "R3": {},
+    "R4": {
+     "closed": true
+    },
+    "R5": {
+     "closed": true
+    }
+   },
+   "transitions": [
+    {
+     "id": "r1",
+     "src": "R0",
+     "dst": "R1",
+     "action": "?DATA"
+    },
+    {
+     "id": "r2",
+     "src": "R1",
+     "dst": "R2",
+     "action": "read"
+    },
+    {
+     "id": "r3",
+     "src": "R2",
+     "dst": "R5",
+     "action": "!FIN"
+    },
+    {
+     "id": "r5",
+     "src": "R3",
+     "dst": "R4",
+     "action": "!RST"
+    }
+   ]
+  }
+ },
+ "system": {
+  "implementations": {
+   "S": {
+    "role": "sender",
+    "peer": "R"
+   },
+   "R": {
+    "role": "receiver",
+    "peer": "S"
+   }
+  },
+  "channel_capacity": 2,
+  "assumptions": {
+   "communication": "asynchronous",
+   "channels": "FIFO",
+   "message_loss": false
+  }
+ },
+ "definitions": {},
+ "errata": {},
+ "bindings": {
+  "I-01": {
+   "role": "receiver",
+   "MODALITY": {
+    "optional": {
+     "id": "r4",
+     "src": "R1",
+     "dst": "R3",
+     "action": "close"
+    },
+    "must_reading": "implemented",
+    "prohibit": {
+     "type": "forbidden_action",
+     "tid": "r4",
+     "reading": "omitted"
+    },
+    "omitted_text": "A host MUST NOT implement a half-duplex close.",
+    "implemented_text": "A host MUST implement a half-duplex close, after which the application cannot read further data."
+   }
+  },
+  "I-02": {
+   "role": "receiver",
+   "MODALITY": {
+    "relaxed_patch": [
+     {
+      "op": "rename_msg",
+      "tid": "r5",
+      "msg": "FIN"
+     }
+    ],
+    "relaxed_cue": "without sending a reset",
+    "relaxed_text": "If a host with half-duplex close closes the connection while received data is still pending, its TCP MUST close without sending a reset."
+   }
+  }
+ },
+ "properties": [
+  {
+   "id": "P1",
+   "kind": "safety",
+   "type": "state_invariant",
+   "description": "Silent data loss: the sender sees an orderly close (S3) although the receiver closed with unread data (R4).",
+   "scope": "bounded FIFO mailboxes, one scenario",
+   "assumptions": {},
+   "bounds": {},
+   "forbid": [
+    {
+     "locals": {
+      "S": [
+       "S3"
+      ],
+      "R": [
+       "R4"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "P2",
+   "kind": "functionality",
+   "type": "always_can_complete",
+   "description": "Both hosts can always finish.",
+   "scope": "bounded FIFO mailboxes, one scenario",
+   "assumptions": {},
+   "bounds": {},
+   "goal": {
+    "S": [
+     "S2",
+     "S3"
+    ],
+    "R": [
+     "R4",
+     "R5"
+    ]
+   }
+  }
+ ]
+}

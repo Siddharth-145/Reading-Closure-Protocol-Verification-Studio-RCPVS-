@@ -1,0 +1,18 @@
+{
+ "runs": [
+  {
+   "expect": {
+    "original_status": "VIOLATION_FOUND",
+    "profile_status": {
+     "ordered,relaxed,ordered,relaxed": "VIOLATION_FOUND",
+     "ordered,enforced,ordered,enforced": "VERIFIED_SAFE_WITHIN_SCOPE"
+    },
+    "profile_class": {
+     "ordered,relaxed,ordered,relaxed": "common-mode"
+    }
+   }
+  }
+ ],
+ "synthetic": true,
+ "note": "Synthetic engineered fixture; not real-world validation"
+}

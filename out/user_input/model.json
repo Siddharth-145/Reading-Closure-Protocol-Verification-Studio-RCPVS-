@@ -1,0 +1,26 @@
+<escape>{
+  "initial_state": "WAITING",
+  "states": [
+    "WAITING",
+    "RECEIVED",
+    "ACK_SENT",
+    "CLOSED"
+  ],
+  "transitions": [
+    {
+      "from": "WAITING",
+      "event": "message_received",
+      "to": "RECEIVED"
+    },
+    {
+      "from": "RECEIVED",
+      "event": "send_ack",
+      "to": "ACK_SENT"
+    },
+    {
+      "from": "ACK_SENT",
+      "event": "close",
+      "to": "CLOSED"
+    }
+  ]
+}</escape>

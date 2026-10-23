@@ -1,0 +1,1 @@
+[I-01] After receiving the data message, the participant sends an acknowledgement and closes the session.

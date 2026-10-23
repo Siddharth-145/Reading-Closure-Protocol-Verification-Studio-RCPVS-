@@ -1,0 +1,157 @@
+{
+ "name": "Three-party coordinator/participants (synthetic)",
+ "default_properties": [
+  "P1",
+  "P2"
+ ],
+ "messages": [
+  "DATA",
+  "ACK"
+ ],
+ "roles": {
+  "coordinator": {
+   "initial": "C0",
+   "states": {
+    "C0": {},
+    "C1": {},
+    "C2": {},
+    "C3": {},
+    "C4": {},
+    "C5": {
+     "closed": true
+    }
+   },
+   "transitions": [
+    {
+     "id": "c1",
+     "src": "C0",
+     "dst": "C1",
+     "action": "!DATA@P1"
+    },
+    {
+     "id": "c2",
+     "src": "C1",
+     "dst": "C2",
+     "action": "!DATA@P2"
+    },
+    {
+     "id": "c3",
+     "src": "C2",
+     "dst": "C3",
+     "action": "?ACK"
+    },
+    {
+     "id": "c4",
+     "src": "C3",
+     "dst": "C4",
+     "action": "?ACK"
+    },
+    {
+     "id": "c5",
+     "src": "C4",
+     "dst": "C5",
+     "action": "close"
+    }
+   ]
+  },
+  "participant": {
+   "initial": "Q0",
+   "states": {
+    "Q0": {},
+    "Q1": {},
+    "Q2": {},
+    "Q3": {
+     "closed": true
+    }
+   },
+   "transitions": [
+    {
+     "id": "q1",
+     "src": "Q0",
+     "dst": "Q1",
+     "action": "?DATA"
+    },
+    {
+     "id": "q2",
+     "src": "Q1",
+     "dst": "Q2",
+     "action": "!ACK@C"
+    },
+    {
+     "id": "q3",
+     "src": "Q2",
+     "dst": "Q3",
+     "action": "close"
+    }
+   ]
+  }
+ },
+ "system": {
+  "implementations": {
+   "C": {
+    "role": "coordinator"
+   },
+   "P1": {
+    "role": "participant"
+   },
+   "P2": {
+    "role": "participant"
+   }
+  },
+  "channel_capacity": 2,
+  "assumptions": {
+   "communication": "asynchronous",
+   "channels": "FIFO",
+   "message_loss": false
+  },
+  "mailbox": "one FIFO mailbox per implementation (sender identity not tracked); sends are addressed with !M@X"
+ },
+ "definitions": {},
+ "errata": {},
+ "bindings": {
+  "I-01": {
+   "role": "participant",
+   "ORDER": {
+    "first": "q2",
+    "second": "close",
+    "role": "participant",
+    "vars": {
+     "x": "the acknowledgement exchange",
+     "y_gerund": "closing the session",
+     "y_verb": "close the session"
+    }
+   }
+  }
+ },
+ "properties": [
+  {
+   "id": "P1",
+   "kind": "safety",
+   "type": "no_orphan_message",
+   "description": "No message is pending for a closed endpoint.",
+   "scope": "bounded FIFO channels",
+   "assumptions": {},
+   "bounds": {}
+  },
+  {
+   "id": "P2",
+   "kind": "functionality",
+   "type": "always_can_complete",
+   "description": "Coordinator and both participants can always finish.",
+   "scope": "bounded FIFO channels",
+   "assumptions": {},
+   "bounds": {},
+   "goal": {
+    "C": [
+     "C5"
+    ],
+    "P1": [
+     "Q3"
+    ],
+    "P2": [
+     "Q3"
+    ]
+   }
+  }
+ ]
+}

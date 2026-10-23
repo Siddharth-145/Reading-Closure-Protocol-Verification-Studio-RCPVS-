@@ -1,0 +1,4 @@
+[I-01] The endpoint MUST complete the acknowledgement exchange before closing the session.
+[I-02] The endpoint MUST retain the session until the peer's acknowledgement is received.
+[I-03] The endpoint SHOULD log events sensibly.
+[I-04] The endpoint waits approximately 5 seconds.

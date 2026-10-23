@@ -1,0 +1,132 @@
+{
+ "name": "TOL boundary (hypothetical)",
+ "default_properties": [
+  "P1",
+  "P2"
+ ],
+ "messages": [
+  "REQ",
+  "REPLY",
+  "REPLYLIMIT"
+ ],
+ "roles": {
+  "client": {
+   "initial": "C0",
+   "states": {
+    "C0": {},
+    "C1": {},
+    "C2": {
+     "closed": true
+    },
+    "C3": {
+     "closed": true
+    }
+   },
+   "transitions": [
+    {
+     "id": "c1",
+     "src": "C0",
+     "dst": "C1",
+     "action": "!REQ"
+    },
+    {
+     "id": "c2",
+     "src": "C1",
+     "dst": "C2",
+     "action": "?REPLY"
+    },
+    {
+     "id": "c3",
+     "src": "C1",
+     "dst": "C3",
+     "action": "?REPLYLIMIT"
+    }
+   ]
+  },
+  "server": {
+   "initial": "S0",
+   "states": {
+    "S0": {},
+    "S1": {},
+    "S2": {
+     "closed": true
+    }
+   },
+   "transitions": [
+    {
+     "id": "s1",
+     "src": "S0",
+     "dst": "S1",
+     "action": "?REQ"
+    },
+    {
+     "id": "s2",
+     "src": "S1",
+     "dst": "S2",
+     "action": "!REPLYLIMIT"
+    }
+   ]
+  }
+ },
+ "system": {
+  "implementations": {
+   "C": {
+    "role": "client",
+    "peer": "S"
+   },
+   "S": {
+    "role": "server",
+    "peer": "C"
+   }
+  },
+  "channel_capacity": 2,
+  "assumptions": {
+   "communication": "asynchronous",
+   "channels": "FIFO",
+   "message_loss": false
+  }
+ },
+ "definitions": {},
+ "errata": {},
+ "bindings": {
+  "I-01": {
+   "role": "client",
+   "TOL": {
+    "boundary_transition": "c3",
+    "inclusive_cue": "up to and including",
+    "exclusive_cue": "strictly less than",
+    "inclusive_text": "The client MUST accept a reply received up to and including 5 seconds after the request.",
+    "exclusive_text": "The client MUST accept a reply received strictly less than 5 seconds after the request."
+   }
+  }
+ },
+ "properties": [
+  {
+   "id": "P1",
+   "kind": "safety",
+   "type": "unspecified_reception",
+   "description": "A reply at the 5 s boundary must be consumable.",
+   "scope": "bounded FIFO channels",
+   "assumptions": {},
+   "bounds": {}
+  },
+  {
+   "id": "P2",
+   "kind": "functionality",
+   "type": "always_can_complete",
+   "description": "Client and server can always finish.",
+   "scope": "bounded FIFO channels",
+   "assumptions": {},
+   "bounds": {},
+   "goal": {
+    "C": [
+     "C2",
+     "C3"
+    ],
+    "S": [
+     "S2"
+    ]
+   }
+  }
+ ]
+}

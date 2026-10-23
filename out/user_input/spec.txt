@@ -1,0 +1,5 @@
+[I-01]
+The sender MUST receive an acknowledgement before closing the session.
+
+[I-02]
+The receiver MUST send an acknowledgement after receiving the message.

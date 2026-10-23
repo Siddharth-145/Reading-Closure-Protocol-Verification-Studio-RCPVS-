@@ -1,0 +1,2 @@
+[I-01] The client MAY retransmit the request.
+[I-02] The client MUST NOT close the session before the response is received.

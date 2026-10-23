@@ -1,0 +1,23 @@
+{
+ "runs": [
+  {
+   "expect": {
+    "original_status": "VIOLATION_FOUND",
+    "final_status": "VERIFIED_SAFE_WITHIN_SCOPE",
+    "edits": [
+     [
+      "I-01",
+      "broad"
+     ]
+    ],
+    "checker_accepted": true,
+    "profile_status": {
+     "narrow": "VIOLATION_FOUND",
+     "broad": "VERIFIED_SAFE_WITHIN_SCOPE"
+    }
+   }
+  }
+ ],
+ "synthetic": true,
+ "note": "Synthetic engineered fixture; not real-world validation"
+}
