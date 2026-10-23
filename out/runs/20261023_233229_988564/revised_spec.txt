@@ -1,0 +1,2 @@
+[I-01] The endpoint MUST complete the acknowledgement exchange before closing the session.
+[I-02] The endpoint MUST retain the session until the peer's acknowledgement is received.

@@ -1,0 +1,148 @@
+{
+ "name": "Receipt-Close demo (hypothetical)",
+ "default_properties": [
+  "P1",
+  "P3"
+ ],
+ "roles": {
+  "endpoint": {
+   "initial": "E0",
+   "states": {
+    "E0": {},
+    "E1": {},
+    "E2": {},
+    "E3": {},
+    "E4": {},
+    "E5": {
+     "closed": true
+    }
+   },
+   "transitions": [
+    {
+     "id": "t1",
+     "src": "E0",
+     "dst": "E1",
+     "action": "!FRAME"
+    },
+    {
+     "id": "t2",
+     "src": "E1",
+     "dst": "E2",
+     "action": "?FRAME"
+    },
+    {
+     "id": "t3",
+     "src": "E2",
+     "dst": "E3",
+     "action": "!RECEIPT"
+    },
+    {
+     "id": "t4",
+     "src": "E3",
+     "dst": "E4",
+     "action": "?RECEIPT"
+    },
+    {
+     "id": "t5",
+     "src": "E4",
+     "dst": "E5",
+     "action": "close"
+    }
+   ]
+  }
+ },
+ "system": {
+  "implementations": {
+   "A": {
+    "role": "endpoint",
+    "peer": "B"
+   },
+   "B": {
+    "role": "endpoint",
+    "peer": "A"
+   }
+  },
+  "channel_capacity": 2,
+  "delivery": "reliable FIFO per direction, asynchronous interleaving",
+  "assumptions": {
+   "communication": "asynchronous",
+   "channels": "FIFO",
+   "message_loss": false
+  }
+ },
+ "definitions": {},
+ "errata": {},
+ "bindings": {
+  "I-01": {
+   "role": "endpoint",
+   "ORDER": {
+    "first": "t3",
+    "second": "close",
+    "role": "endpoint",
+    "vars": {
+     "x": "the receipt exchange",
+     "y_gerund": "closing the session",
+     "y_verb": "close the session"
+    }
+   }
+  },
+  "I-02": {
+   "role": "endpoint",
+   "MODALITY": {
+    "hold": "t4",
+    "bypass_action": "close",
+    "relaxed_cue": "without waiting",
+    "relaxed_text": "The endpoint MUST close the session without waiting for the acknowledgement."
+   }
+  }
+ },
+ "properties": [
+  {
+   "id": "P1",
+   "kind": "safety",
+   "type": "no_orphan_message",
+   "description": "No message is pending for an endpoint that has closed.",
+   "scope": "bounded channels",
+   "assumptions": {},
+   "bounds": {}
+  },
+  {
+   "id": "P2",
+   "kind": "functionality",
+   "type": "always_can_complete",
+   "goal": {
+    "A": [
+     "@closed"
+    ],
+    "B": [
+     "@closed"
+    ]
+   },
+   "description": "From every reachable state both endpoints can reach closed with empty channels.",
+   "scope": "bounded channels",
+   "assumptions": {},
+   "bounds": {}
+  },
+  {
+   "id": "P3",
+   "kind": "functionality",
+   "type": "always_can_complete",
+   "goal": {
+    "A": [
+     "E5"
+    ],
+    "B": [
+     "E5"
+    ]
+   },
+   "description": "From every reachable state both endpoints can complete the receipt exchange and close normally (E5).",
+   "scope": "bounded channels",
+   "assumptions": {},
+   "bounds": {}
+  }
+ ],
+ "messages": [
+  "FRAME",
+  "RECEIPT"
+ ]
+}

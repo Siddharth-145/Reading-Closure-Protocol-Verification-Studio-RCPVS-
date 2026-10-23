@@ -1,0 +1,2 @@
+[I-01] After receiving the data message, the endpoint sends an acknowledgement and closes the session.
+[I-02] The endpoint SHOULD retain the session until the peer's acknowledgement is received.

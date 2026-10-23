@@ -1,0 +1,566 @@
+[
+ {
+  "id": "CT-001",
+  "setup": {
+   "implementation_under_test": "C",
+   "profile": [],
+   "profile_readings": {},
+   "model_version": "revised",
+   "reference_peer": "verified model of the other implementation(s)"
+  },
+  "steps": [
+   {
+    "impl": "C",
+    "tid": "c1",
+    "action": "!PING"
+   }
+  ],
+  "expected": {
+   "iut_inputs": [],
+   "iut_outputs": [
+    "!PING"
+   ],
+   "final_locals": {
+    "C": "C1",
+    "S": "S0"
+   },
+   "channels_non_empty": true
+  },
+  "targets": "covers transition c1",
+  "assumptions": {
+   "channel_capacity": 2,
+   "communication": "asynchronous",
+   "channels": "FIFO",
+   "message_loss": false,
+   "defaulted": []
+  },
+  "certified": true,
+  "kind": "normal_success_coverage",
+  "source_instructions": [
+   "I-01",
+   "I-02"
+  ],
+  "motivating_property": "P1,P2,PROH-I-01,PROH-I-02",
+  "preconditions": {
+   "initial_locals": {
+    "C": "C0",
+    "S": "S0"
+   },
+   "channels": "empty"
+  },
+  "expected_transitions": [
+   {
+    "impl": "C",
+    "from": "C0",
+    "to": "C1",
+    "action": "!PING"
+   }
+  ],
+  "execution_status": "replayed_in_model",
+  "traceability": {
+   "spec_sha256": "99642ffdb3640a3cdbe7a91782386e38eef6e2f0af2a5a92cb214f673c0d7cc8",
+   "certificate_claim": "profile []: all selected properties"
+  },
+  "signature": "af2f596fb2af",
+  "duplicate_of": null
+ },
+ {
+  "id": "CT-002",
+  "setup": {
+   "implementation_under_test": "C",
+   "profile": [],
+   "profile_readings": {},
+   "model_version": "revised",
+   "reference_peer": "verified model of the other implementation(s)"
+  },
+  "steps": [
+   {
+    "impl": "C",
+    "tid": "c1",
+    "action": "!PING"
+   },
+   {
+    "impl": "S",
+    "tid": "s1",
+    "action": "?PING"
+   },
+   {
+    "impl": "S",
+    "tid": "s2",
+    "action": "!PONG"
+   },
+   {
+    "impl": "C",
+    "tid": "c2",
+    "action": "?PONG"
+   }
+  ],
+  "expected": {
+   "iut_inputs": [
+    "?PONG"
+   ],
+   "iut_outputs": [
+    "!PING"
+   ],
+   "final_locals": {
+    "C": "C2",
+    "S": "S2"
+   },
+   "channels_non_empty": false
+  },
+  "targets": "covers transition c2",
+  "assumptions": {
+   "channel_capacity": 2,
+   "communication": "asynchronous",
+   "channels": "FIFO",
+   "message_loss": false,
+   "defaulted": []
+  },
+  "certified": true,
+  "kind": "normal_success_coverage",
+  "source_instructions": [
+   "I-01",
+   "I-02"
+  ],
+  "motivating_property": "P1,P2,PROH-I-01,PROH-I-02",
+  "preconditions": {
+   "initial_locals": {
+    "C": "C0",
+    "S": "S0"
+   },
+   "channels": "empty"
+  },
+  "expected_transitions": [
+   {
+    "impl": "C",
+    "from": "C0",
+    "to": "C1",
+    "action": "!PING"
+   },
+   {
+    "impl": "S",
+    "from": "S0",
+    "to": "S1",
+    "action": "?PING"
+   },
+   {
+    "impl": "S",
+    "from": "S1",
+    "to": "S2",
+    "action": "!PONG"
+   },
+   {
+    "impl": "C",
+    "from": "C1",
+    "to": "C2",
+    "action": "?PONG"
+   }
+  ],
+  "execution_status": "replayed_in_model",
+  "traceability": {
+   "spec_sha256": "99642ffdb3640a3cdbe7a91782386e38eef6e2f0af2a5a92cb214f673c0d7cc8",
+   "certificate_claim": "profile []: all selected properties"
+  },
+  "signature": "f520bb1f5bc1",
+  "duplicate_of": null
+ },
+ {
+  "id": "CT-003",
+  "setup": {
+   "implementation_under_test": "C",
+   "profile": [],
+   "profile_readings": {},
+   "model_version": "revised",
+   "reference_peer": "verified model of the other implementation(s)"
+  },
+  "steps": [
+   {
+    "impl": "C",
+    "tid": "c1",
+    "action": "!PING"
+   },
+   {
+    "impl": "S",
+    "tid": "s1",
+    "action": "?PING"
+   },
+   {
+    "impl": "S",
+    "tid": "s2",
+    "action": "!PONG"
+   },
+   {
+    "impl": "C",
+    "tid": "c2",
+    "action": "?PONG"
+   },
+   {
+    "impl": "C",
+    "tid": "c3",
+    "action": "close"
+   }
+  ],
+  "expected": {
+   "iut_inputs": [
+    "?PONG"
+   ],
+   "iut_outputs": [
+    "!PING"
+   ],
+   "final_locals": {
+    "C": "C3",
+    "S": "S2"
+   },
+   "channels_non_empty": false
+  },
+  "targets": "covers transition c3",
+  "assumptions": {
+   "channel_capacity": 2,
+   "communication": "asynchronous",
+   "channels": "FIFO",
+   "message_loss": false,
+   "defaulted": []
+  },
+  "certified": true,
+  "kind": "normal_success_coverage",
+  "source_instructions": [
+   "I-01",
+   "I-02"
+  ],
+  "motivating_property": "P1,P2,PROH-I-01,PROH-I-02",
+  "preconditions": {
+   "initial_locals": {
+    "C": "C0",
+    "S": "S0"
+   },
+   "channels": "empty"
+  },
+  "expected_transitions": [
+   {
+    "impl": "C",
+    "from": "C0",
+    "to": "C1",
+    "action": "!PING"
+   },
+   {
+    "impl": "S",
+    "from": "S0",
+    "to": "S1",
+    "action": "?PING"
+   },
+   {
+    "impl": "S",
+    "from": "S1",
+    "to": "S2",
+    "action": "!PONG"
+   },
+   {
+    "impl": "C",
+    "from": "C1",
+    "to": "C2",
+    "action": "?PONG"
+   },
+   {
+    "impl": "C",
+    "from": "C2",
+    "to": "C3",
+    "action": "close"
+   }
+  ],
+  "execution_status": "replayed_in_model",
+  "traceability": {
+   "spec_sha256": "99642ffdb3640a3cdbe7a91782386e38eef6e2f0af2a5a92cb214f673c0d7cc8",
+   "certificate_claim": "profile []: all selected properties"
+  },
+  "signature": "ed4290cc237c",
+  "duplicate_of": null
+ },
+ {
+  "id": "CT-004",
+  "setup": {
+   "profile": [
+    "implemented"
+   ],
+   "profile_readings": {
+    "C::I-01": "implemented"
+   },
+   "model_version": "original"
+  },
+  "steps": [
+   {
+    "impl": "C",
+    "tid": "c1",
+    "action": "!PING"
+   },
+   {
+    "impl": "C",
+    "tid": "c_retx",
+    "action": "!PING"
+   },
+   {
+    "impl": "S",
+    "tid": "s1",
+    "action": "?PING"
+   },
+   {
+    "impl": "S",
+    "tid": "s2",
+    "action": "!PONG"
+   },
+   {
+    "impl": "S",
+    "tid": "s3",
+    "action": "close"
+   }
+  ],
+  "expected": {
+   "outcome": "property P1 violated by this sequence under the ORIGINAL reading profile",
+   "witness_kind": "message pending for a closed endpoint"
+  },
+  "targets": "reproduces counterexample for P1",
+  "assumptions": {
+   "channel_capacity": 2,
+   "communication": "asynchronous",
+   "channels": "FIFO",
+   "message_loss": false,
+   "defaulted": []
+  },
+  "certified": true,
+  "kind": "counterexample",
+  "source_instructions": [
+   "I-01"
+  ],
+  "motivating_property": "P1",
+  "preconditions": {},
+  "expected_transitions": [],
+  "execution_status": "replayed_in_model",
+  "traceability": {
+   "spec_sha256": "c6abbf5af9f6613bb0d00a262268956bf68ecedaa6619febdfbe858f7a00bff6",
+   "certificate_claim": "original: profile ['implemented'] / P1"
+  },
+  "signature": "f5b2e23a2097",
+  "duplicate_of": null
+ },
+ {
+  "id": "CT-005",
+  "setup": {
+   "profile": [
+    "implemented"
+   ],
+   "model_version": "revised"
+  },
+  "steps": [
+   {
+    "impl": "C",
+    "tid": "c1",
+    "action": "!PING"
+   },
+   {
+    "impl": "C",
+    "tid": "c_retx",
+    "action": "!PING"
+   },
+   {
+    "impl": "S",
+    "tid": "s1",
+    "action": "?PING"
+   },
+   {
+    "impl": "S",
+    "tid": "s2",
+    "action": "!PONG"
+   },
+   {
+    "impl": "S",
+    "tid": "s3",
+    "action": "close"
+   }
+  ],
+  "expected": {
+   "outcome": "a conforming implementation of the REVISED specification must not be able to produce this sequence",
+   "model_check": "sequence not enabled in revised baseline model"
+  },
+  "targets": "clarification intended to remove the P1 violation",
+  "assumptions": {
+   "channel_capacity": 2,
+   "communication": "asynchronous",
+   "channels": "FIFO",
+   "message_loss": false,
+   "defaulted": []
+  },
+  "certified": false,
+  "kind": "clarification_regression",
+  "source_instructions": [
+   "I-01"
+  ],
+  "motivating_property": "P1",
+  "preconditions": {},
+  "expected_transitions": [],
+  "execution_status": "generated",
+  "traceability": {
+   "spec_sha256": "99642ffdb3640a3cdbe7a91782386e38eef6e2f0af2a5a92cb214f673c0d7cc8",
+   "certificate_claim": "revised: targeted profiles removed"
+  },
+  "signature": "8381a04c176a",
+  "duplicate_of": null
+ },
+ {
+  "id": "CT-006",
+  "setup": {
+   "profile": [
+    "implemented"
+   ],
+   "profile_readings": {
+    "C::I-01": "implemented"
+   },
+   "model_version": "original"
+  },
+  "steps": [
+   {
+    "impl": "C",
+    "tid": "c1",
+    "action": "!PING"
+   },
+   {
+    "impl": "C",
+    "tid": "c_retx",
+    "action": "!PING"
+   },
+   {
+    "impl": "S",
+    "tid": "s1",
+    "action": "?PING"
+   },
+   {
+    "impl": "C",
+    "tid": "c_retx",
+    "action": "!PING"
+   },
+   {
+    "impl": "S",
+    "tid": "s2",
+    "action": "!PONG"
+   },
+   {
+    "impl": "C",
+    "tid": "c2",
+    "action": "?PONG"
+   },
+   {
+    "impl": "C",
+    "tid": "c3",
+    "action": "close"
+   },
+   {
+    "impl": "S",
+    "tid": "s3",
+    "action": "close"
+   }
+  ],
+  "expected": {
+   "outcome": "property P2 violated by this sequence under the ORIGINAL reading profile",
+   "witness_kind": "state from which the completion goal is unreachable (deadlock/livelock/bad closure)"
+  },
+  "targets": "reproduces counterexample for P2",
+  "assumptions": {
+   "channel_capacity": 2,
+   "communication": "asynchronous",
+   "channels": "FIFO",
+   "message_loss": false,
+   "defaulted": []
+  },
+  "certified": true,
+  "kind": "counterexample",
+  "source_instructions": [
+   "I-01"
+  ],
+  "motivating_property": "P2",
+  "preconditions": {},
+  "expected_transitions": [],
+  "execution_status": "replayed_in_model",
+  "traceability": {
+   "spec_sha256": "c6abbf5af9f6613bb0d00a262268956bf68ecedaa6619febdfbe858f7a00bff6",
+   "certificate_claim": "original: profile ['implemented'] / P2"
+  },
+  "signature": "0de614a1422a",
+  "duplicate_of": null
+ },
+ {
+  "id": "CT-007",
+  "setup": {
+   "profile": [
+    "implemented"
+   ],
+   "model_version": "revised"
+  },
+  "steps": [
+   {
+    "impl": "C",
+    "tid": "c1",
+    "action": "!PING"
+   },
+   {
+    "impl": "C",
+    "tid": "c_retx",
+    "action": "!PING"
+   },
+   {
+    "impl": "S",
+    "tid": "s1",
+    "action": "?PING"
+   },
+   {
+    "impl": "C",
+    "tid": "c_retx",
+    "action": "!PING"
+   },
+   {
+    "impl": "S",
+    "tid": "s2",
+    "action": "!PONG"
+   },
+   {
+    "impl": "C",
+    "tid": "c2",
+    "action": "?PONG"
+   },
+   {
+    "impl": "C",
+    "tid": "c3",
+    "action": "close"
+   },
+   {
+    "impl": "S",
+    "tid": "s3",
+    "action": "close"
+   }
+  ],
+  "expected": {
+   "outcome": "a conforming implementation of the REVISED specification must not be able to produce this sequence",
+   "model_check": "sequence not enabled in revised baseline model"
+  },
+  "targets": "clarification intended to remove the P2 violation",
+  "assumptions": {
+   "channel_capacity": 2,
+   "communication": "asynchronous",
+   "channels": "FIFO",
+   "message_loss": false,
+   "defaulted": []
+  },
+  "certified": false,
+  "kind": "clarification_regression",
+  "source_instructions": [
+   "I-01"
+  ],
+  "motivating_property": "P2",
+  "preconditions": {},
+  "expected_transitions": [],
+  "execution_status": "generated",
+  "traceability": {
+   "spec_sha256": "99642ffdb3640a3cdbe7a91782386e38eef6e2f0af2a5a92cb214f673c0d7cc8",
+   "certificate_claim": "revised: targeted profiles removed"
+  },
+  "signature": "f996f2d721f1",
+  "duplicate_of": null
+ }
+]

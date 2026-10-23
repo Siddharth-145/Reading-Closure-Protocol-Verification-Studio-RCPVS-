@@ -1,0 +1,1440 @@
+{
+ "format": "RCPVS-certificate/2",
+ "rule_set_version": "2.0.0",
+ "model": {
+  "name": "Ping-Retry: MAY resend / MUST NOT close early (hypothetical)",
+  "default_properties": [
+   "P1",
+   "P2"
+  ],
+  "messages": [
+   "PING",
+   "PONG"
+  ],
+  "roles": {
+   "client": {
+    "initial": "C0",
+    "states": {
+     "C0": {},
+     "C1": {},
+     "C2": {},
+     "C3": {
+      "closed": true
+     }
+    },
+    "transitions": [
+     {
+      "id": "c1",
+      "src": "C0",
+      "dst": "C1",
+      "action": "!PING"
+     },
+     {
+      "id": "c2",
+      "src": "C1",
+      "dst": "C2",
+      "action": "?PONG"
+     },
+     {
+      "id": "c3",
+      "src": "C2",
+      "dst": "C3",
+      "action": "close"
+     }
+    ]
+   },
+   "server": {
+    "initial": "S0",
+    "states": {
+     "S0": {},
+     "S1": {},
+     "S2": {},
+     "S3": {
+      "closed": true
+     }
+    },
+    "transitions": [
+     {
+      "id": "s1",
+      "src": "S0",
+      "dst": "S1",
+      "action": "?PING"
+     },
+     {
+      "id": "s2",
+      "src": "S1",
+      "dst": "S2",
+      "action": "!PONG"
+     },
+     {
+      "id": "s3",
+      "src": "S2",
+      "dst": "S3",
+      "action": "close"
+     }
+    ]
+   }
+  },
+  "system": {
+   "implementations": {
+    "C": {
+     "role": "client",
+     "peer": "S"
+    },
+    "S": {
+     "role": "server",
+     "peer": "C"
+    }
+   },
+   "channel_capacity": 2,
+   "assumptions": {
+    "communication": "asynchronous",
+    "channels": "FIFO",
+    "message_loss": false,
+    "channel_capacity": 2,
+    "defaulted": []
+   }
+  },
+  "definitions": {},
+  "errata": {},
+  "bindings": {
+   "I-01": {
+    "role": "client",
+    "MODALITY": {
+     "optional": {
+      "id": "c_retx",
+      "src": "C1",
+      "dst": "C1",
+      "action": "!PING"
+     },
+     "must_reading": "implemented",
+     "prohibit": {
+      "type": "forbidden_action",
+      "tid": "c_retx",
+      "reading": "omitted"
+     },
+     "omitted_text": "The client MUST NOT retransmit the ping.",
+     "implemented_text": "The client MUST retransmit the ping."
+    }
+   },
+   "I-02": {
+    "role": "client",
+    "MODALITY": {
+     "prohibit": {
+      "type": "required_ordering",
+      "later": "close",
+      "earlier": "?PONG",
+      "impl": "C"
+     }
+    }
+   }
+  },
+  "properties": [
+   {
+    "id": "P1",
+    "kind": "safety",
+    "type": "no_orphan_message",
+    "description": "No message is pending for a closed endpoint.",
+    "scope": "bounded FIFO channels",
+    "assumptions": {},
+    "bounds": {}
+   },
+   {
+    "id": "P2",
+    "kind": "functionality",
+    "type": "always_can_complete",
+    "description": "Both sides can close.",
+    "scope": "bounded FIFO channels",
+    "assumptions": {},
+    "bounds": {},
+    "goal": {
+     "C": [
+      "C3"
+     ],
+     "S": [
+      "S3"
+     ]
+    }
+   }
+  ]
+ },
+ "model_sha256": "71fb5043ce92d8d7d26bf162e1e66d4b5b85d506819103383d965cdbe992af64",
+ "properties": [
+  {
+   "id": "P1",
+   "kind": "safety",
+   "type": "no_orphan_message",
+   "description": "No message is pending for a closed endpoint.",
+   "scope": "bounded FIFO channels",
+   "assumptions": {},
+   "bounds": {},
+   "provenance": {
+    "source": "model",
+    "spec_version": "original"
+   }
+  },
+  {
+   "id": "P2",
+   "kind": "functionality",
+   "type": "always_can_complete",
+   "description": "Both sides can close.",
+   "scope": "bounded FIFO channels",
+   "assumptions": {},
+   "bounds": {},
+   "goal": {
+    "C": [
+     "C3"
+    ],
+    "S": [
+     "S3"
+    ]
+   },
+   "provenance": {
+    "source": "model",
+    "spec_version": "original"
+   }
+  },
+  {
+   "type": "required_ordering",
+   "later": "close",
+   "earlier": "?PONG",
+   "impl": "C",
+   "id": "PROH-I-02",
+   "kind": "safety",
+   "description": "I-02: The client MUST NOT close the session before the response is received.",
+   "scope": "derived from MUST NOT",
+   "assumptions": {},
+   "bounds": {},
+   "instruction": "I-02",
+   "span": [
+    121,
+    191
+   ],
+   "modality": "MUST NOT",
+   "provenance": {
+    "source": "derived from MUST NOT in original specification",
+    "instruction": "I-02",
+    "span": [
+     121,
+     191
+    ],
+    "modality": "MUST NOT",
+    "spec_version": "original",
+    "assumptions": {
+     "communication": "asynchronous",
+     "channels": "FIFO",
+     "message_loss": false,
+     "channel_capacity": 2,
+     "defaulted": []
+    }
+   }
+  }
+ ],
+ "properties_sha256": "fedcb8ea26db87d52e618f6bf002d51b75e923db097f67d48e614fba71090c34",
+ "limits": {
+  "max_states": 100000,
+  "max_profiles": 5000,
+  "max_rounds": 3,
+  "behaviour_depth": 10,
+  "max_words": 20000,
+  "exhaustive_minimisation_max_literals": 12,
+  "max_combos": 200000,
+  "property_policy": "rederive",
+  "optimiser": "enumeration"
+ },
+ "model_assumptions": {
+  "communication": "asynchronous",
+  "channels": "FIFO",
+  "message_loss": false,
+  "channel_capacity": 2,
+  "defaulted": []
+ },
+ "spec": "# Hypothetical Ping-Retry protocol (illustrative, not a real standard)\n[I-01] The client MAY retransmit the ping.\n[I-02] The client MUST NOT close the session before the response is received.",
+ "spec_sha256": "c6abbf5af9f6613bb0d00a262268956bf68ecedaa6619febdfbe858f7a00bff6",
+ "revised_spec": "# Hypothetical Ping-Retry protocol (illustrative, not a real standard)\n[I-01] The client MUST NOT retransmit the ping.\n[I-02] The client MUST NOT close the session before the response is received.",
+ "revised_sha256": "99642ffdb3640a3cdbe7a91782386e38eef6e2f0af2a5a92cb214f673c0d7cc8",
+ "original": {
+  "slots": [
+   [
+    "C",
+    "I-01"
+   ]
+  ],
+  "domains": {
+   "C::I-01": [
+    "omitted",
+    "implemented"
+   ]
+  },
+  "results": [
+   {
+    "profile": [
+     "omitted"
+    ],
+    "property": "P1",
+    "status": "VERIFIED_SAFE_WITHIN_SCOPE",
+    "trace": null,
+    "states_explored": 9,
+    "complete": true,
+    "reason": null
+   },
+   {
+    "profile": [
+     "omitted"
+    ],
+    "property": "P2",
+    "status": "VERIFIED_SAFE_WITHIN_SCOPE",
+    "trace": null,
+    "states_explored": 9,
+    "complete": true,
+    "reason": null
+   },
+   {
+    "profile": [
+     "omitted"
+    ],
+    "property": "PROH-I-02",
+    "status": "VERIFIED_SAFE_WITHIN_SCOPE",
+    "trace": null,
+    "states_explored": 9,
+    "complete": true,
+    "reason": null
+   },
+   {
+    "profile": [
+     "implemented"
+    ],
+    "property": "P1",
+    "status": "VIOLATION_FOUND",
+    "trace": [
+     {
+      "step": 1,
+      "impl": "C",
+      "tid": "c1",
+      "action": "!PING",
+      "from": "C0",
+      "to": "C1",
+      "reading": "base",
+      "locals": {
+       "C": "C1",
+       "S": "S0"
+      },
+      "channels": {
+       "C": [],
+       "S": [
+        "PING"
+       ]
+      }
+     },
+     {
+      "step": 2,
+      "impl": "C",
+      "tid": "c_retx",
+      "action": "!PING",
+      "from": "C1",
+      "to": "C1",
+      "reading": "I-01:implemented",
+      "locals": {
+       "C": "C1",
+       "S": "S0"
+      },
+      "channels": {
+       "C": [],
+       "S": [
+        "PING",
+        "PING"
+       ]
+      }
+     },
+     {
+      "step": 3,
+      "impl": "S",
+      "tid": "s1",
+      "action": "?PING",
+      "from": "S0",
+      "to": "S1",
+      "reading": "base",
+      "locals": {
+       "C": "C1",
+       "S": "S1"
+      },
+      "channels": {
+       "C": [],
+       "S": [
+        "PING"
+       ]
+      }
+     },
+     {
+      "step": 4,
+      "impl": "S",
+      "tid": "s2",
+      "action": "!PONG",
+      "from": "S1",
+      "to": "S2",
+      "reading": "base",
+      "locals": {
+       "C": "C1",
+       "S": "S2"
+      },
+      "channels": {
+       "C": [
+        "PONG"
+       ],
+       "S": [
+        "PING"
+       ]
+      }
+     },
+     {
+      "step": 5,
+      "impl": "S",
+      "tid": "s3",
+      "action": "close",
+      "from": "S2",
+      "to": "S3",
+      "reading": "base",
+      "locals": {
+       "C": "C1",
+       "S": "S3"
+      },
+      "channels": {
+       "C": [
+        "PONG"
+       ],
+       "S": [
+        "PING"
+       ]
+      }
+     }
+    ],
+    "states_explored": 24,
+    "complete": true,
+    "reason": null
+   },
+   {
+    "profile": [
+     "implemented"
+    ],
+    "property": "P2",
+    "status": "VIOLATION_FOUND",
+    "trace": [
+     {
+      "step": 1,
+      "impl": "C",
+      "tid": "c1",
+      "action": "!PING",
+      "from": "C0",
+      "to": "C1",
+      "reading": "base",
+      "locals": {
+       "C": "C1",
+       "S": "S0"
+      },
+      "channels": {
+       "C": [],
+       "S": [
+        "PING"
+       ]
+      }
+     },
+     {
+      "step": 2,
+      "impl": "C",
+      "tid": "c_retx",
+      "action": "!PING",
+      "from": "C1",
+      "to": "C1",
+      "reading": "I-01:implemented",
+      "locals": {
+       "C": "C1",
+       "S": "S0"
+      },
+      "channels": {
+       "C": [],
+       "S": [
+        "PING",
+        "PING"
+       ]
+      }
+     },
+     {
+      "step": 3,
+      "impl": "S",
+      "tid": "s1",
+      "action": "?PING",
+      "from": "S0",
+      "to": "S1",
+      "reading": "base",
+      "locals": {
+       "C": "C1",
+       "S": "S1"
+      },
+      "channels": {
+       "C": [],
+       "S": [
+        "PING"
+       ]
+      }
+     },
+     {
+      "step": 4,
+      "impl": "C",
+      "tid": "c_retx",
+      "action": "!PING",
+      "from": "C1",
+      "to": "C1",
+      "reading": "I-01:implemented",
+      "locals": {
+       "C": "C1",
+       "S": "S1"
+      },
+      "channels": {
+       "C": [],
+       "S": [
+        "PING",
+        "PING"
+       ]
+      }
+     },
+     {
+      "step": 5,
+      "impl": "S",
+      "tid": "s2",
+      "action": "!PONG",
+      "from": "S1",
+      "to": "S2",
+      "reading": "base",
+      "locals": {
+       "C": "C1",
+       "S": "S2"
+      },
+      "channels": {
+       "C": [
+        "PONG"
+       ],
+       "S": [
+        "PING",
+        "PING"
+       ]
+      }
+     },
+     {
+      "step": 6,
+      "impl": "C",
+      "tid": "c2",
+      "action": "?PONG",
+      "from": "C1",
+      "to": "C2",
+      "reading": "base",
+      "locals": {
+       "C": "C2",
+       "S": "S2"
+      },
+      "channels": {
+       "C": [],
+       "S": [
+        "PING",
+        "PING"
+       ]
+      }
+     },
+     {
+      "step": 7,
+      "impl": "C",
+      "tid": "c3",
+      "action": "close",
+      "from": "C2",
+      "to": "C3",
+      "reading": "base",
+      "locals": {
+       "C": "C3",
+       "S": "S2"
+      },
+      "channels": {
+       "C": [],
+       "S": [
+        "PING",
+        "PING"
+       ]
+      }
+     },
+     {
+      "step": 8,
+      "impl": "S",
+      "tid": "s3",
+      "action": "close",
+      "from": "S2",
+      "to": "S3",
+      "reading": "base",
+      "locals": {
+       "C": "C3",
+       "S": "S3"
+      },
+      "channels": {
+       "C": [],
+       "S": [
+        "PING",
+        "PING"
+       ]
+      }
+     }
+    ],
+    "states_explored": 24,
+    "complete": true,
+    "reason": null
+   },
+   {
+    "profile": [
+     "implemented"
+    ],
+    "property": "PROH-I-02",
+    "status": "VERIFIED_SAFE_WITHIN_SCOPE",
+    "trace": null,
+    "states_explored": 24,
+    "complete": true,
+    "reason": null
+   }
+  ],
+  "coverage": {
+   "I-01": "ANALYSED",
+   "I-02": "ANALYSED_SINGLE"
+  },
+  "coverage_records": [
+   [
+    "I-01",
+    "ORDER-1",
+    "INAPPLICABLE"
+   ],
+   [
+    "I-01",
+    "MOD-1",
+    "ANALYSED"
+   ],
+   [
+    "I-01",
+    "REF-1",
+    "INAPPLICABLE"
+   ],
+   [
+    "I-01",
+    "DEF-1",
+    "INAPPLICABLE"
+   ],
+   [
+    "I-01",
+    "SCOPE-1",
+    "INAPPLICABLE"
+   ],
+   [
+    "I-01",
+    "TOL-1",
+    "INAPPLICABLE"
+   ],
+   [
+    "I-02",
+    "ORDER-1",
+    "INAPPLICABLE"
+   ],
+   [
+    "I-02",
+    "MOD-1",
+    "ANALYSED_SINGLE"
+   ],
+   [
+    "I-02",
+    "REF-1",
+    "INAPPLICABLE"
+   ],
+   [
+    "I-02",
+    "DEF-1",
+    "INAPPLICABLE"
+   ],
+   [
+    "I-02",
+    "SCOPE-1",
+    "INAPPLICABLE"
+   ],
+   [
+    "I-02",
+    "TOL-1",
+    "INAPPLICABLE"
+   ]
+  ],
+  "profiles_total": 2,
+  "profiles_checked": 2,
+  "instructions": [
+   {
+    "id": "I-01",
+    "line": 2,
+    "col": 8,
+    "start": 78,
+    "end": 113,
+    "text_sha256": "9e98c9174b583ec39253f1a95f28eb3b5ad17f55f4caa9f08afc4e4ad1f56bf0"
+   },
+   {
+    "id": "I-02",
+    "line": 3,
+    "col": 8,
+    "start": 121,
+    "end": 191,
+    "text_sha256": "3d68473f8fbd7578ea861990c01fbbb2fa2596119993fd01a34d90f4e5011fe4"
+   }
+  ],
+  "readings": [
+   {
+    "instruction_id": "I-01",
+    "reading_id": "omitted",
+    "rule_id": "MOD-1",
+    "rule_version": "2.0.0",
+    "span": [
+     78,
+     113
+    ],
+    "patch_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+   },
+   {
+    "instruction_id": "I-01",
+    "reading_id": "implemented",
+    "rule_id": "MOD-1",
+    "rule_version": "2.0.0",
+    "span": [
+     78,
+     113
+    ],
+    "patch_sha256": "e4d72a4ea6c7468f515f3568b14ed9e6c82fceaa522f99da6ec98a2fcad4bc5a"
+   },
+   {
+    "instruction_id": "I-02",
+    "reading_id": "prohibited",
+    "rule_id": "MOD-1",
+    "rule_version": "2.0.0",
+    "span": [
+     121,
+     191
+    ],
+    "patch_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+   }
+  ],
+  "claimed_status": "VIOLATION_FOUND"
+ },
+ "revised": {
+  "slots": [],
+  "domains": {},
+  "results": [
+   {
+    "profile": [],
+    "property": "P1",
+    "status": "VERIFIED_SAFE_WITHIN_SCOPE",
+    "trace": null,
+    "states_explored": 9,
+    "complete": true,
+    "reason": null
+   },
+   {
+    "profile": [],
+    "property": "P2",
+    "status": "VERIFIED_SAFE_WITHIN_SCOPE",
+    "trace": null,
+    "states_explored": 9,
+    "complete": true,
+    "reason": null
+   },
+   {
+    "profile": [],
+    "property": "PROH-I-02",
+    "status": "VERIFIED_SAFE_WITHIN_SCOPE",
+    "trace": null,
+    "states_explored": 9,
+    "complete": true,
+    "reason": null
+   },
+   {
+    "profile": [],
+    "property": "PROH-I-01",
+    "status": "VERIFIED_SAFE_WITHIN_SCOPE",
+    "trace": null,
+    "states_explored": 9,
+    "complete": true,
+    "reason": null
+   }
+  ],
+  "coverage": {
+   "I-01": "ANALYSED_SINGLE",
+   "I-02": "ANALYSED_SINGLE"
+  },
+  "coverage_records": [
+   [
+    "I-01",
+    "ORDER-1",
+    "INAPPLICABLE"
+   ],
+   [
+    "I-01",
+    "MOD-1",
+    "ANALYSED_SINGLE"
+   ],
+   [
+    "I-01",
+    "REF-1",
+    "INAPPLICABLE"
+   ],
+   [
+    "I-01",
+    "DEF-1",
+    "INAPPLICABLE"
+   ],
+   [
+    "I-01",
+    "SCOPE-1",
+    "INAPPLICABLE"
+   ],
+   [
+    "I-01",
+    "TOL-1",
+    "INAPPLICABLE"
+   ],
+   [
+    "I-02",
+    "ORDER-1",
+    "INAPPLICABLE"
+   ],
+   [
+    "I-02",
+    "MOD-1",
+    "ANALYSED_SINGLE"
+   ],
+   [
+    "I-02",
+    "REF-1",
+    "INAPPLICABLE"
+   ],
+   [
+    "I-02",
+    "DEF-1",
+    "INAPPLICABLE"
+   ],
+   [
+    "I-02",
+    "SCOPE-1",
+    "INAPPLICABLE"
+   ],
+   [
+    "I-02",
+    "TOL-1",
+    "INAPPLICABLE"
+   ]
+  ],
+  "profiles_total": 1,
+  "profiles_checked": 1,
+  "instructions": [
+   {
+    "id": "I-01",
+    "line": 2,
+    "col": 8,
+    "start": 78,
+    "end": 118,
+    "text_sha256": "54f67be6d1bffaffe617ecb2b611f147c7217c895e7b5e56a6bceca44fce418c"
+   },
+   {
+    "id": "I-02",
+    "line": 3,
+    "col": 8,
+    "start": 126,
+    "end": 196,
+    "text_sha256": "3d68473f8fbd7578ea861990c01fbbb2fa2596119993fd01a34d90f4e5011fe4"
+   }
+  ],
+  "readings": [
+   {
+    "instruction_id": "I-01",
+    "reading_id": "omitted",
+    "rule_id": "MOD-1",
+    "rule_version": "2.0.0",
+    "span": [
+     78,
+     118
+    ],
+    "patch_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+   },
+   {
+    "instruction_id": "I-02",
+    "reading_id": "prohibited",
+    "rule_id": "MOD-1",
+    "rule_version": "2.0.0",
+    "span": [
+     126,
+     196
+    ],
+    "patch_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+   }
+  ],
+  "claimed_status": "VERIFIED_SAFE_WITHIN_SCOPE"
+ },
+ "revised_properties": [
+  {
+   "id": "P1",
+   "kind": "safety",
+   "type": "no_orphan_message",
+   "description": "No message is pending for a closed endpoint.",
+   "scope": "bounded FIFO channels",
+   "assumptions": {},
+   "bounds": {},
+   "provenance": {
+    "source": "model",
+    "spec_version": "original"
+   }
+  },
+  {
+   "id": "P2",
+   "kind": "functionality",
+   "type": "always_can_complete",
+   "description": "Both sides can close.",
+   "scope": "bounded FIFO channels",
+   "assumptions": {},
+   "bounds": {},
+   "goal": {
+    "C": [
+     "C3"
+    ],
+    "S": [
+     "S3"
+    ]
+   },
+   "provenance": {
+    "source": "model",
+    "spec_version": "original"
+   }
+  },
+  {
+   "type": "required_ordering",
+   "later": "close",
+   "earlier": "?PONG",
+   "impl": "C",
+   "id": "PROH-I-02",
+   "kind": "safety",
+   "description": "I-02: The client MUST NOT close the session before the response is received.",
+   "scope": "derived from MUST NOT",
+   "assumptions": {},
+   "bounds": {},
+   "instruction": "I-02",
+   "span": [
+    121,
+    191
+   ],
+   "modality": "MUST NOT",
+   "provenance": {
+    "source": "derived from MUST NOT in original specification",
+    "instruction": "I-02",
+    "span": [
+     121,
+     191
+    ],
+    "modality": "MUST NOT",
+    "spec_version": "original",
+    "assumptions": {
+     "communication": "asynchronous",
+     "channels": "FIFO",
+     "message_loss": false,
+     "channel_capacity": 2,
+     "defaulted": []
+    }
+   }
+  },
+  {
+   "type": "forbidden_action",
+   "tid": "c_retx",
+   "reading": "omitted",
+   "id": "PROH-I-01",
+   "kind": "safety",
+   "description": "I-01: The client MUST NOT retransmit the ping.",
+   "scope": "derived from MUST NOT",
+   "assumptions": {},
+   "bounds": {},
+   "instruction": "I-01",
+   "span": [
+    78,
+    118
+   ],
+   "modality": "MUST NOT",
+   "provenance": {
+    "source": "derived from revised specification",
+    "instruction": "I-01",
+    "span": [
+     78,
+     118
+    ],
+    "modality": "MUST NOT",
+    "spec_version": "revised",
+    "revised_sha256": "99642ffdb3640a3cdbe7a91782386e38eef6e2f0af2a5a92cb214f673c0d7cc8"
+   }
+  }
+ ],
+ "revised_properties_sha256": "cd21798b7ce7d956c92fff5e0d54830eb2fff9bf4f463a9f02eeef05610f8c6c",
+ "property_comparison": {
+  "policy": "rederive",
+  "held_constant": [
+   "P1",
+   "P2",
+   "PROH-I-02"
+  ],
+  "added": [
+   "PROH-I-01"
+  ],
+  "changed": [],
+  "removed_in_revised_text": [],
+  "not_checked": []
+ },
+ "nogoods": [
+  {
+   "id": "NG-01",
+   "literals": [
+    [
+     "C",
+     "I-01",
+     "implemented"
+    ]
+   ]
+  }
+ ],
+ "selected_nogoods": [
+  "NG-01"
+ ],
+ "edits": [
+  {
+   "instruction_id": "I-01",
+   "new_text": "The client MUST NOT retransmit the ping.",
+   "keep_reading": "omitted"
+  }
+ ],
+ "removal_claim": {
+  "targeted_remaining": 0
+ },
+ "tests": [
+  {
+   "id": "CT-001",
+   "setup": {
+    "implementation_under_test": "C",
+    "profile": [],
+    "profile_readings": {},
+    "model_version": "revised",
+    "reference_peer": "verified model of the other implementation(s)"
+   },
+   "steps": [
+    {
+     "impl": "C",
+     "tid": "c1",
+     "action": "!PING"
+    }
+   ],
+   "expected": {
+    "iut_inputs": [],
+    "iut_outputs": [
+     "!PING"
+    ],
+    "final_locals": {
+     "C": "C1",
+     "S": "S0"
+    },
+    "channels_non_empty": true
+   },
+   "targets": "covers transition c1",
+   "assumptions": {
+    "channel_capacity": 2,
+    "communication": "asynchronous",
+    "channels": "FIFO",
+    "message_loss": false,
+    "defaulted": []
+   },
+   "certified": true,
+   "kind": "normal_success_coverage",
+   "source_instructions": [
+    "I-01",
+    "I-02"
+   ],
+   "motivating_property": "P1,P2,PROH-I-01,PROH-I-02",
+   "preconditions": {
+    "initial_locals": {
+     "C": "C0",
+     "S": "S0"
+    },
+    "channels": "empty"
+   },
+   "expected_transitions": [
+    {
+     "impl": "C",
+     "from": "C0",
+     "to": "C1",
+     "action": "!PING"
+    }
+   ],
+   "execution_status": "replayed_in_model",
+   "traceability": {
+    "spec_sha256": "99642ffdb3640a3cdbe7a91782386e38eef6e2f0af2a5a92cb214f673c0d7cc8",
+    "certificate_claim": "profile []: all selected properties"
+   },
+   "signature": "af2f596fb2af",
+   "duplicate_of": null
+  },
+  {
+   "id": "CT-002",
+   "setup": {
+    "implementation_under_test": "C",
+    "profile": [],
+    "profile_readings": {},
+    "model_version": "revised",
+    "reference_peer": "verified model of the other implementation(s)"
+   },
+   "steps": [
+    {
+     "impl": "C",
+     "tid": "c1",
+     "action": "!PING"
+    },
+    {
+     "impl": "S",
+     "tid": "s1",
+     "action": "?PING"
+    },
+    {
+     "impl": "S",
+     "tid": "s2",
+     "action": "!PONG"
+    },
+    {
+     "impl": "C",
+     "tid": "c2",
+     "action": "?PONG"
+    }
+   ],
+   "expected": {
+    "iut_inputs": [
+     "?PONG"
+    ],
+    "iut_outputs": [
+     "!PING"
+    ],
+    "final_locals": {
+     "C": "C2",
+     "S": "S2"
+    },
+    "channels_non_empty": false
+   },
+   "targets": "covers transition c2",
+   "assumptions": {
+    "channel_capacity": 2,
+    "communication": "asynchronous",
+    "channels": "FIFO",
+    "message_loss": false,
+    "defaulted": []
+   },
+   "certified": true,
+   "kind": "normal_success_coverage",
+   "source_instructions": [
+    "I-01",
+    "I-02"
+   ],
+   "motivating_property": "P1,P2,PROH-I-01,PROH-I-02",
+   "preconditions": {
+    "initial_locals": {
+     "C": "C0",
+     "S": "S0"
+    },
+    "channels": "empty"
+   },
+   "expected_transitions": [
+    {
+     "impl": "C",
+     "from": "C0",
+     "to": "C1",
+     "action": "!PING"
+    },
+    {
+     "impl": "S",
+     "from": "S0",
+     "to": "S1",
+     "action": "?PING"
+    },
+    {
+     "impl": "S",
+     "from": "S1",
+     "to": "S2",
+     "action": "!PONG"
+    },
+    {
+     "impl": "C",
+     "from": "C1",
+     "to": "C2",
+     "action": "?PONG"
+    }
+   ],
+   "execution_status": "replayed_in_model",
+   "traceability": {
+    "spec_sha256": "99642ffdb3640a3cdbe7a91782386e38eef6e2f0af2a5a92cb214f673c0d7cc8",
+    "certificate_claim": "profile []: all selected properties"
+   },
+   "signature": "f520bb1f5bc1",
+   "duplicate_of": null
+  },
+  {
+   "id": "CT-003",
+   "setup": {
+    "implementation_under_test": "C",
+    "profile": [],
+    "profile_readings": {},
+    "model_version": "revised",
+    "reference_peer": "verified model of the other implementation(s)"
+   },
+   "steps": [
+    {
+     "impl": "C",
+     "tid": "c1",
+     "action": "!PING"
+    },
+    {
+     "impl": "S",
+     "tid": "s1",
+     "action": "?PING"
+    },
+    {
+     "impl": "S",
+     "tid": "s2",
+     "action": "!PONG"
+    },
+    {
+     "impl": "C",
+     "tid": "c2",
+     "action": "?PONG"
+    },
+    {
+     "impl": "C",
+     "tid": "c3",
+     "action": "close"
+    }
+   ],
+   "expected": {
+    "iut_inputs": [
+     "?PONG"
+    ],
+    "iut_outputs": [
+     "!PING"
+    ],
+    "final_locals": {
+     "C": "C3",
+     "S": "S2"
+    },
+    "channels_non_empty": false
+   },
+   "targets": "covers transition c3",
+   "assumptions": {
+    "channel_capacity": 2,
+    "communication": "asynchronous",
+    "channels": "FIFO",
+    "message_loss": false,
+    "defaulted": []
+   },
+   "certified": true,
+   "kind": "normal_success_coverage",
+   "source_instructions": [
+    "I-01",
+    "I-02"
+   ],
+   "motivating_property": "P1,P2,PROH-I-01,PROH-I-02",
+   "preconditions": {
+    "initial_locals": {
+     "C": "C0",
+     "S": "S0"
+    },
+    "channels": "empty"
+   },
+   "expected_transitions": [
+    {
+     "impl": "C",
+     "from": "C0",
+     "to": "C1",
+     "action": "!PING"
+    },
+    {
+     "impl": "S",
+     "from": "S0",
+     "to": "S1",
+     "action": "?PING"
+    },
+    {
+     "impl": "S",
+     "from": "S1",
+     "to": "S2",
+     "action": "!PONG"
+    },
+    {
+     "impl": "C",
+     "from": "C1",
+     "to": "C2",
+     "action": "?PONG"
+    },
+    {
+     "impl": "C",
+     "from": "C2",
+     "to": "C3",
+     "action": "close"
+    }
+   ],
+   "execution_status": "replayed_in_model",
+   "traceability": {
+    "spec_sha256": "99642ffdb3640a3cdbe7a91782386e38eef6e2f0af2a5a92cb214f673c0d7cc8",
+    "certificate_claim": "profile []: all selected properties"
+   },
+   "signature": "ed4290cc237c",
+   "duplicate_of": null
+  },
+  {
+   "id": "CT-004",
+   "setup": {
+    "profile": [
+     "implemented"
+    ],
+    "profile_readings": {
+     "C::I-01": "implemented"
+    },
+    "model_version": "original"
+   },
+   "steps": [
+    {
+     "impl": "C",
+     "tid": "c1",
+     "action": "!PING"
+    },
+    {
+     "impl": "C",
+     "tid": "c_retx",
+     "action": "!PING"
+    },
+    {
+     "impl": "S",
+     "tid": "s1",
+     "action": "?PING"
+    },
+    {
+     "impl": "S",
+     "tid": "s2",
+     "action": "!PONG"
+    },
+    {
+     "impl": "S",
+     "tid": "s3",
+     "action": "close"
+    }
+   ],
+   "expected": {
+    "outcome": "property P1 violated by this sequence under the ORIGINAL reading profile",
+    "witness_kind": "message pending for a closed endpoint"
+   },
+   "targets": "reproduces counterexample for P1",
+   "assumptions": {
+    "channel_capacity": 2,
+    "communication": "asynchronous",
+    "channels": "FIFO",
+    "message_loss": false,
+    "defaulted": []
+   },
+   "certified": true,
+   "kind": "counterexample",
+   "source_instructions": [
+    "I-01"
+   ],
+   "motivating_property": "P1",
+   "preconditions": {},
+   "expected_transitions": [],
+   "execution_status": "replayed_in_model",
+   "traceability": {
+    "spec_sha256": "c6abbf5af9f6613bb0d00a262268956bf68ecedaa6619febdfbe858f7a00bff6",
+    "certificate_claim": "original: profile ['implemented'] / P1"
+   },
+   "signature": "f5b2e23a2097",
+   "duplicate_of": null
+  },
+  {
+   "id": "CT-006",
+   "setup": {
+    "profile": [
+     "implemented"
+    ],
+    "profile_readings": {
+     "C::I-01": "implemented"
+    },
+    "model_version": "original"
+   },
+   "steps": [
+    {
+     "impl": "C",
+     "tid": "c1",
+     "action": "!PING"
+    },
+    {
+     "impl": "C",
+     "tid": "c_retx",
+     "action": "!PING"
+    },
+    {
+     "impl": "S",
+     "tid": "s1",
+     "action": "?PING"
+    },
+    {
+     "impl": "C",
+     "tid": "c_retx",
+     "action": "!PING"
+    },
+    {
+     "impl": "S",
+     "tid": "s2",
+     "action": "!PONG"
+    },
+    {
+     "impl": "C",
+     "tid": "c2",
+     "action": "?PONG"
+    },
+    {
+     "impl": "C",
+     "tid": "c3",
+     "action": "close"
+    },
+    {
+     "impl": "S",
+     "tid": "s3",
+     "action": "close"
+    }
+   ],
+   "expected": {
+    "outcome": "property P2 violated by this sequence under the ORIGINAL reading profile",
+    "witness_kind": "state from which the completion goal is unreachable (deadlock/livelock/bad closure)"
+   },
+   "targets": "reproduces counterexample for P2",
+   "assumptions": {
+    "channel_capacity": 2,
+    "communication": "asynchronous",
+    "channels": "FIFO",
+    "message_loss": false,
+    "defaulted": []
+   },
+   "certified": true,
+   "kind": "counterexample",
+   "source_instructions": [
+    "I-01"
+   ],
+   "motivating_property": "P2",
+   "preconditions": {},
+   "expected_transitions": [],
+   "execution_status": "replayed_in_model",
+   "traceability": {
+    "spec_sha256": "c6abbf5af9f6613bb0d00a262268956bf68ecedaa6619febdfbe858f7a00bff6",
+    "certificate_claim": "original: profile ['implemented'] / P2"
+   },
+   "signature": "0de614a1422a",
+   "duplicate_of": null
+  }
+ ],
+ "coverage_note": "Status VERIFIED_SAFE_WITHIN_SCOPE is only as broad as 'coverage'; UNANALYSED instructions are listed per instruction."
+}

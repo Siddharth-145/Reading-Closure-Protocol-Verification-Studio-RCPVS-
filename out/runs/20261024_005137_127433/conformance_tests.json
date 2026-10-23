@@ -1,0 +1,4544 @@
+[
+ {
+  "id": "CT-001",
+  "setup": {
+   "implementation_under_test": "A",
+   "profile": [],
+   "profile_readings": {},
+   "model_version": "revised",
+   "reference_peer": "verified model of the other implementation(s)"
+  },
+  "steps": [
+   {
+    "impl": "A",
+    "tid": "t1",
+    "action": "!FRAME"
+   }
+  ],
+  "expected": {
+   "iut_inputs": [],
+   "iut_outputs": [
+    "!FRAME"
+   ],
+   "final_locals": {
+    "A": "E1",
+    "B": "E0"
+   },
+   "channels_non_empty": true
+  },
+  "targets": "covers transition t1",
+  "assumptions": {
+   "channel_capacity": 2,
+   "communication": "asynchronous",
+   "channels": "FIFO",
+   "message_loss": false,
+   "defaulted": []
+  },
+  "certified": true,
+  "kind": "normal_success_coverage",
+  "source_instructions": [
+   "I-01",
+   "I-02"
+  ],
+  "motivating_property": "P1,P3",
+  "preconditions": {
+   "initial_locals": {
+    "A": "E0",
+    "B": "E0"
+   },
+   "channels": "empty"
+  },
+  "expected_transitions": [
+   {
+    "impl": "A",
+    "from": "E0",
+    "to": "E1",
+    "action": "!FRAME"
+   }
+  ],
+  "execution_status": "replayed_in_model",
+  "traceability": {
+   "spec_sha256": "de800b585ab252aa99e1bbd617025a3c8e93fc4accd8fc653e38971b420cc29c",
+   "certificate_claim": "profile []: all selected properties"
+  },
+  "signature": "9657a4efd691",
+  "duplicate_of": null
+ },
+ {
+  "id": "CT-002",
+  "setup": {
+   "implementation_under_test": "A",
+   "profile": [],
+   "profile_readings": {},
+   "model_version": "revised",
+   "reference_peer": "verified model of the other implementation(s)"
+  },
+  "steps": [
+   {
+    "impl": "A",
+    "tid": "t1",
+    "action": "!FRAME"
+   },
+   {
+    "impl": "B",
+    "tid": "t1",
+    "action": "!FRAME"
+   },
+   {
+    "impl": "A",
+    "tid": "t2",
+    "action": "?FRAME"
+   }
+  ],
+  "expected": {
+   "iut_inputs": [
+    "?FRAME"
+   ],
+   "iut_outputs": [
+    "!FRAME"
+   ],
+   "final_locals": {
+    "A": "E2",
+    "B": "E1"
+   },
+   "channels_non_empty": true
+  },
+  "targets": "covers transition t2",
+  "assumptions": {
+   "channel_capacity": 2,
+   "communication": "asynchronous",
+   "channels": "FIFO",
+   "message_loss": false,
+   "defaulted": []
+  },
+  "certified": true,
+  "kind": "normal_success_coverage",
+  "source_instructions": [
+   "I-01",
+   "I-02"
+  ],
+  "motivating_property": "P1,P3",
+  "preconditions": {
+   "initial_locals": {
+    "A": "E0",
+    "B": "E0"
+   },
+   "channels": "empty"
+  },
+  "expected_transitions": [
+   {
+    "impl": "A",
+    "from": "E0",
+    "to": "E1",
+    "action": "!FRAME"
+   },
+   {
+    "impl": "B",
+    "from": "E0",
+    "to": "E1",
+    "action": "!FRAME"
+   },
+   {
+    "impl": "A",
+    "from": "E1",
+    "to": "E2",
+    "action": "?FRAME"
+   }
+  ],
+  "execution_status": "replayed_in_model",
+  "traceability": {
+   "spec_sha256": "de800b585ab252aa99e1bbd617025a3c8e93fc4accd8fc653e38971b420cc29c",
+   "certificate_claim": "profile []: all selected properties"
+  },
+  "signature": "c13e2ff79581",
+  "duplicate_of": null
+ },
+ {
+  "id": "CT-003",
+  "setup": {
+   "implementation_under_test": "A",
+   "profile": [],
+   "profile_readings": {},
+   "model_version": "revised",
+   "reference_peer": "verified model of the other implementation(s)"
+  },
+  "steps": [
+   {
+    "impl": "A",
+    "tid": "t1",
+    "action": "!FRAME"
+   },
+   {
+    "impl": "B",
+    "tid": "t1",
+    "action": "!FRAME"
+   },
+   {
+    "impl": "A",
+    "tid": "t2",
+    "action": "?FRAME"
+   },
+   {
+    "impl": "A",
+    "tid": "t3",
+    "action": "!RECEIPT"
+   }
+  ],
+  "expected": {
+   "iut_inputs": [
+    "?FRAME"
+   ],
+   "iut_outputs": [
+    "!FRAME",
+    "!RECEIPT"
+   ],
+   "final_locals": {
+    "A": "E3",
+    "B": "E1"
+   },
+   "channels_non_empty": true
+  },
+  "targets": "covers transition t3",
+  "assumptions": {
+   "channel_capacity": 2,
+   "communication": "asynchronous",
+   "channels": "FIFO",
+   "message_loss": false,
+   "defaulted": []
+  },
+  "certified": true,
+  "kind": "normal_success_coverage",
+  "source_instructions": [
+   "I-01",
+   "I-02"
+  ],
+  "motivating_property": "P1,P3",
+  "preconditions": {
+   "initial_locals": {
+    "A": "E0",
+    "B": "E0"
+   },
+   "channels": "empty"
+  },
+  "expected_transitions": [
+   {
+    "impl": "A",
+    "from": "E0",
+    "to": "E1",
+    "action": "!FRAME"
+   },
+   {
+    "impl": "B",
+    "from": "E0",
+    "to": "E1",
+    "action": "!FRAME"
+   },
+   {
+    "impl": "A",
+    "from": "E1",
+    "to": "E2",
+    "action": "?FRAME"
+   },
+   {
+    "impl": "A",
+    "from": "E2",
+    "to": "E3",
+    "action": "!RECEIPT"
+   }
+  ],
+  "execution_status": "replayed_in_model",
+  "traceability": {
+   "spec_sha256": "de800b585ab252aa99e1bbd617025a3c8e93fc4accd8fc653e38971b420cc29c",
+   "certificate_claim": "profile []: all selected properties"
+  },
+  "signature": "2ef23eaee06a",
+  "duplicate_of": null
+ },
+ {
+  "id": "CT-004",
+  "setup": {
+   "implementation_under_test": "A",
+   "profile": [],
+   "profile_readings": {},
+   "model_version": "revised",
+   "reference_peer": "verified model of the other implementation(s)"
+  },
+  "steps": [
+   {
+    "impl": "A",
+    "tid": "t1",
+    "action": "!FRAME"
+   },
+   {
+    "impl": "B",
+    "tid": "t1",
+    "action": "!FRAME"
+   },
+   {
+    "impl": "A",
+    "tid": "t2",
+    "action": "?FRAME"
+   },
+   {
+    "impl": "A",
+    "tid": "t3",
+    "action": "!RECEIPT"
+   },
+   {
+    "impl": "B",
+    "tid": "t2",
+    "action": "?FRAME"
+   },
+   {
+    "impl": "B",
+    "tid": "t3",
+    "action": "!RECEIPT"
+   },
+   {
+    "impl": "A",
+    "tid": "t4",
+    "action": "?RECEIPT"
+   }
+  ],
+  "expected": {
+   "iut_inputs": [
+    "?FRAME",
+    "?RECEIPT"
+   ],
+   "iut_outputs": [
+    "!FRAME",
+    "!RECEIPT"
+   ],
+   "final_locals": {
+    "A": "E4",
+    "B": "E3"
+   },
+   "channels_non_empty": true
+  },
+  "targets": "covers transition t4",
+  "assumptions": {
+   "channel_capacity": 2,
+   "communication": "asynchronous",
+   "channels": "FIFO",
+   "message_loss": false,
+   "defaulted": []
+  },
+  "certified": true,
+  "kind": "normal_success_coverage",
+  "source_instructions": [
+   "I-01",
+   "I-02"
+  ],
+  "motivating_property": "P1,P3",
+  "preconditions": {
+   "initial_locals": {
+    "A": "E0",
+    "B": "E0"
+   },
+   "channels": "empty"
+  },
+  "expected_transitions": [
+   {
+    "impl": "A",
+    "from": "E0",
+    "to": "E1",
+    "action": "!FRAME"
+   },
+   {
+    "impl": "B",
+    "from": "E0",
+    "to": "E1",
+    "action": "!FRAME"
+   },
+   {
+    "impl": "A",
+    "from": "E1",
+    "to": "E2",
+    "action": "?FRAME"
+   },
+   {
+    "impl": "A",
+    "from": "E2",
+    "to": "E3",
+    "action": "!RECEIPT"
+   },
+   {
+    "impl": "B",
+    "from": "E1",
+    "to": "E2",
+    "action": "?FRAME"
+   },
+   {
+    "impl": "B",
+    "from": "E2",
+    "to": "E3",
+    "action": "!RECEIPT"
+   },
+   {
+    "impl": "A",
+    "from": "E3",
+    "to": "E4",
+    "action": "?RECEIPT"
+   }
+  ],
+  "execution_status": "replayed_in_model",
+  "traceability": {
+   "spec_sha256": "de800b585ab252aa99e1bbd617025a3c8e93fc4accd8fc653e38971b420cc29c",
+   "certificate_claim": "profile []: all selected properties"
+  },
+  "signature": "128ee60618de",
+  "duplicate_of": null
+ },
+ {
+  "id": "CT-005",
+  "setup": {
+   "implementation_under_test": "A",
+   "profile": [],
+   "profile_readings": {},
+   "model_version": "revised",
+   "reference_peer": "verified model of the other implementation(s)"
+  },
+  "steps": [
+   {
+    "impl": "A",
+    "tid": "t1",
+    "action": "!FRAME"
+   },
+   {
+    "impl": "B",
+    "tid": "t1",
+    "action": "!FRAME"
+   },
+   {
+    "impl": "A",
+    "tid": "t2",
+    "action": "?FRAME"
+   },
+   {
+    "impl": "A",
+    "tid": "t3",
+    "action": "!RECEIPT"
+   },
+   {
+    "impl": "B",
+    "tid": "t2",
+    "action": "?FRAME"
+   },
+   {
+    "impl": "B",
+    "tid": "t3",
+    "action": "!RECEIPT"
+   },
+   {
+    "impl": "A",
+    "tid": "t4",
+    "action": "?RECEIPT"
+   },
+   {
+    "impl": "A",
+    "tid": "t5",
+    "action": "close"
+   }
+  ],
+  "expected": {
+   "iut_inputs": [
+    "?FRAME",
+    "?RECEIPT"
+   ],
+   "iut_outputs": [
+    "!FRAME",
+    "!RECEIPT"
+   ],
+   "final_locals": {
+    "A": "E5",
+    "B": "E3"
+   },
+   "channels_non_empty": true
+  },
+  "targets": "covers transition t5",
+  "assumptions": {
+   "channel_capacity": 2,
+   "communication": "asynchronous",
+   "channels": "FIFO",
+   "message_loss": false,
+   "defaulted": []
+  },
+  "certified": true,
+  "kind": "normal_success_coverage",
+  "source_instructions": [
+   "I-01",
+   "I-02"
+  ],
+  "motivating_property": "P1,P3",
+  "preconditions": {
+   "initial_locals": {
+    "A": "E0",
+    "B": "E0"
+   },
+   "channels": "empty"
+  },
+  "expected_transitions": [
+   {
+    "impl": "A",
+    "from": "E0",
+    "to": "E1",
+    "action": "!FRAME"
+   },
+   {
+    "impl": "B",
+    "from": "E0",
+    "to": "E1",
+    "action": "!FRAME"
+   },
+   {
+    "impl": "A",
+    "from": "E1",
+    "to": "E2",
+    "action": "?FRAME"
+   },
+   {
+    "impl": "A",
+    "from": "E2",
+    "to": "E3",
+    "action": "!RECEIPT"
+   },
+   {
+    "impl": "B",
+    "from": "E1",
+    "to": "E2",
+    "action": "?FRAME"
+   },
+   {
+    "impl": "B",
+    "from": "E2",
+    "to": "E3",
+    "action": "!RECEIPT"
+   },
+   {
+    "impl": "A",
+    "from": "E3",
+    "to": "E4",
+    "action": "?RECEIPT"
+   },
+   {
+    "impl": "A",
+    "from": "E4",
+    "to": "E5",
+    "action": "close"
+   }
+  ],
+  "execution_status": "replayed_in_model",
+  "traceability": {
+   "spec_sha256": "de800b585ab252aa99e1bbd617025a3c8e93fc4accd8fc653e38971b420cc29c",
+   "certificate_claim": "profile []: all selected properties"
+  },
+  "signature": "b42ca3e1fd78",
+  "duplicate_of": null
+ },
+ {
+  "id": "CT-006",
+  "setup": {
+   "profile": [
+    "ordered",
+    "enforced",
+    "ordered",
+    "relaxed"
+   ],
+   "profile_readings": {
+    "A::I-01": "ordered",
+    "A::I-02": "enforced",
+    "B::I-01": "ordered",
+    "B::I-02": "relaxed"
+   },
+   "model_version": "original"
+  },
+  "steps": [
+   {
+    "impl": "A",
+    "tid": "t1",
+    "action": "!FRAME"
+   },
+   {
+    "impl": "B",
+    "tid": "t1",
+    "action": "!FRAME"
+   },
+   {
+    "impl": "A",
+    "tid": "t2",
+    "action": "?FRAME"
+   },
+   {
+    "impl": "A",
+    "tid": "t3",
+    "action": "!RECEIPT"
+   },
+   {
+    "impl": "B",
+    "tid": "t2",
+    "action": "?FRAME"
+   },
+   {
+    "impl": "B",
+    "tid": "t3",
+    "action": "!RECEIPT"
+   },
+   {
+    "impl": "B",
+    "tid": "t4'~I-02:relaxed",
+    "action": "close"
+   }
+  ],
+  "expected": {
+   "outcome": "property P1 violated by this sequence under the ORIGINAL reading profile",
+   "witness_kind": "message pending for a closed endpoint"
+  },
+  "targets": "reproduces counterexample for P1",
+  "assumptions": {
+   "channel_capacity": 2,
+   "communication": "asynchronous",
+   "channels": "FIFO",
+   "message_loss": false,
+   "defaulted": []
+  },
+  "certified": true,
+  "kind": "counterexample",
+  "source_instructions": [
+   "I-02"
+  ],
+  "motivating_property": "P1",
+  "preconditions": {},
+  "expected_transitions": [],
+  "execution_status": "replayed_in_model",
+  "traceability": {
+   "spec_sha256": "0ed5fb811aca8263bf6fdb91ed58b2baaa5f1e1ddc8a5ceba814f4ad11db531a",
+   "certificate_claim": "original: profile ['ordered', 'enforced', 'ordered', 'relaxed'] / P1"
+  },
+  "signature": "62f799d7d975",
+  "duplicate_of": null
+ },
+ {
+  "id": "CT-007",
+  "setup": {
+   "profile": [
+    "ordered",
+    "enforced",
+    "ordered",
+    "relaxed"
+   ],
+   "model_version": "revised"
+  },
+  "steps": [
+   {
+    "impl": "A",
+    "tid": "t1",
+    "action": "!FRAME"
+   },
+   {
+    "impl": "B",
+    "tid": "t1",
+    "action": "!FRAME"
+   },
+   {
+    "impl": "A",
+    "tid": "t2",
+    "action": "?FRAME"
+   },
+   {
+    "impl": "A",
+    "tid": "t3",
+    "action": "!RECEIPT"
+   },
+   {
+    "impl": "B",
+    "tid": "t2",
+    "action": "?FRAME"
+   },
+   {
+    "impl": "B",
+    "tid": "t3",
+    "action": "!RECEIPT"
+   },
+   {
+    "impl": "B",
+    "tid": "t4'~I-02:relaxed",
+    "action": "close"
+   }
+  ],
+  "expected": {
+   "outcome": "a conforming implementation of the REVISED specification must not be able to produce this sequence",
+   "model_check": "sequence not enabled in revised baseline model"
+  },
+  "targets": "clarification intended to remove the P1 violation",
+  "assumptions": {
+   "channel_capacity": 2,
+   "communication": "asynchronous",
+   "channels": "FIFO",
+   "message_loss": false,
+   "defaulted": []
+  },
+  "certified": false,
+  "kind": "clarification_regression",
+  "source_instructions": [
+   "I-02"
+  ],
+  "motivating_property": "P1",
+  "preconditions": {},
+  "expected_transitions": [],
+  "execution_status": "generated",
+  "traceability": {
+   "spec_sha256": "de800b585ab252aa99e1bbd617025a3c8e93fc4accd8fc653e38971b420cc29c",
+   "certificate_claim": "revised: targeted profiles removed"
+  },
+  "signature": "ed3962c80878",
+  "duplicate_of": null
+ },
+ {
+  "id": "CT-008",
+  "setup": {
+   "profile": [
+    "ordered",
+    "enforced",
+    "ordered",
+    "relaxed"
+   ],
+   "profile_readings": {
+    "A::I-01": "ordered",
+    "A::I-02": "enforced",
+    "B::I-01": "ordered",
+    "B::I-02": "relaxed"
+   },
+   "model_version": "original"
+  },
+  "steps": [
+   {
+    "impl": "A",
+    "tid": "t1",
+    "action": "!FRAME"
+   },
+   {
+    "impl": "B",
+    "tid": "t1",
+    "action": "!FRAME"
+   },
+   {
+    "impl": "A",
+    "tid": "t2",
+    "action": "?FRAME"
+   },
+   {
+    "impl": "A",
+    "tid": "t3",
+    "action": "!RECEIPT"
+   },
+   {
+    "impl": "B",
+    "tid": "t2",
+    "action": "?FRAME"
+   },
+   {
+    "impl": "B",
+    "tid": "t3",
+    "action": "!RECEIPT"
+   },
+   {
+    "impl": "A",
+    "tid": "t4",
+    "action": "?RECEIPT"
+   },
+   {
+    "impl": "A",
+    "tid": "t5",
+    "action": "close"
+   },
+   {
+    "impl": "B",
+    "tid": "t4'~I-02:relaxed",
+    "action": "close"
+   }
+  ],
+  "expected": {
+   "outcome": "property P3 violated by this sequence under the ORIGINAL reading profile",
+   "witness_kind": "state from which the completion goal is unreachable (deadlock/livelock/bad closure)"
+  },
+  "targets": "reproduces counterexample for P3",
+  "assumptions": {
+   "channel_capacity": 2,
+   "communication": "asynchronous",
+   "channels": "FIFO",
+   "message_loss": false,
+   "defaulted": []
+  },
+  "certified": true,
+  "kind": "counterexample",
+  "source_instructions": [
+   "I-02"
+  ],
+  "motivating_property": "P3",
+  "preconditions": {},
+  "expected_transitions": [],
+  "execution_status": "replayed_in_model",
+  "traceability": {
+   "spec_sha256": "0ed5fb811aca8263bf6fdb91ed58b2baaa5f1e1ddc8a5ceba814f4ad11db531a",
+   "certificate_claim": "original: profile ['ordered', 'enforced', 'ordered', 'relaxed'] / P3"
+  },
+  "signature": "9c3d6a0e7b55",
+  "duplicate_of": null
+ },
+ {
+  "id": "CT-009",
+  "setup": {
+   "profile": [
+    "ordered",
+    "enforced",
+    "ordered",
+    "relaxed"
+   ],
+   "model_version": "revised"
+  },
+  "steps": [
+   {
+    "impl": "A",
+    "tid": "t1",
+    "action": "!FRAME"
+   },
+   {
+    "impl": "B",
+    "tid": "t1",
+    "action": "!FRAME"
+   },
+   {
+    "impl": "A",
+    "tid": "t2",
+    "action": "?FRAME"
+   },
+   {
+    "impl": "A",
+    "tid": "t3",
+    "action": "!RECEIPT"
+   },
+   {
+    "impl": "B",
+    "tid": "t2",
+    "action": "?FRAME"
+   },
+   {
+    "impl": "B",
+    "tid": "t3",
+    "action": "!RECEIPT"
+   },
+   {
+    "impl": "A",
+    "tid": "t4",
+    "action": "?RECEIPT"
+   },
+   {
+    "impl": "A",
+    "tid": "t5",
+    "action": "close"
+   },
+   {
+    "impl": "B",
+    "tid": "t4'~I-02:relaxed",
+    "action": "close"
+   }
+  ],
+  "expected": {
+   "outcome": "a conforming implementation of the REVISED specification must not be able to produce this sequence",
+   "model_check": "sequence not enabled in revised baseline model"
+  },
+  "targets": "clarification intended to remove the P3 violation",
+  "assumptions": {
+   "channel_capacity": 2,
+   "communication": "asynchronous",
+   "channels": "FIFO",
+   "message_loss": false,
+   "defaulted": []
+  },
+  "certified": false,
+  "kind": "clarification_regression",
+  "source_instructions": [
+   "I-02"
+  ],
+  "motivating_property": "P3",
+  "preconditions": {},
+  "expected_transitions": [],
+  "execution_status": "generated",
+  "traceability": {
+   "spec_sha256": "de800b585ab252aa99e1bbd617025a3c8e93fc4accd8fc653e38971b420cc29c",
+   "certificate_claim": "revised: targeted profiles removed"
+  },
+  "signature": "7a2f04215121",
+  "duplicate_of": null
+ },
+ {
+  "id": "CT-010",
+  "setup": {
+   "profile": [
+    "ordered",
+    "enforced",
+    "unordered",
+    "enforced"
+   ],
+   "profile_readings": {
+    "A::I-01": "ordered",
+    "A::I-02": "enforced",
+    "B::I-01": "unordered",
+    "B::I-02": "enforced"
+   },
+   "model_version": "original"
+  },
+  "steps": [
+   {
+    "impl": "A",
+    "tid": "t1",
+    "action": "!FRAME"
+   },
+   {
+    "impl": "B",
+    "tid": "t1",
+    "action": "!FRAME"
+   },
+   {
+    "impl": "A",
+    "tid": "t2",
+    "action": "?FRAME"
+   },
+   {
+    "impl": "A",
+    "tid": "t3",
+    "action": "!RECEIPT"
+   },
+   {
+    "impl": "B",
+    "tid": "t2",
+    "action": "?FRAME"
+   },
+   {
+    "impl": "B",
+    "tid": "t3'~I-01:unordered",
+    "action": "close"
+   }
+  ],
+  "expected": {
+   "outcome": "property P1 violated by this sequence under the ORIGINAL reading profile",
+   "witness_kind": "message pending for a closed endpoint"
+  },
+  "targets": "reproduces counterexample for P1",
+  "assumptions": {
+   "channel_capacity": 2,
+   "communication": "asynchronous",
+   "channels": "FIFO",
+   "message_loss": false,
+   "defaulted": []
+  },
+  "certified": true,
+  "kind": "counterexample",
+  "source_instructions": [
+   "I-01"
+  ],
+  "motivating_property": "P1",
+  "preconditions": {},
+  "expected_transitions": [],
+  "execution_status": "replayed_in_model",
+  "traceability": {
+   "spec_sha256": "0ed5fb811aca8263bf6fdb91ed58b2baaa5f1e1ddc8a5ceba814f4ad11db531a",
+   "certificate_claim": "original: profile ['ordered', 'enforced', 'unordered', 'enforced'] / P1"
+  },
+  "signature": "07037d85ad57",
+  "duplicate_of": null
+ },
+ {
+  "id": "CT-011",
+  "setup": {
+   "profile": [
+    "ordered",
+    "enforced",
+    "unordered",
+    "enforced"
+   ],
+   "model_version": "revised"
+  },
+  "steps": [
+   {
+    "impl": "A",
+    "tid": "t1",
+    "action": "!FRAME"
+   },
+   {
+    "impl": "B",
+    "tid": "t1",
+    "action": "!FRAME"
+   },
+   {
+    "impl": "A",
+    "tid": "t2",
+    "action": "?FRAME"
+   },
+   {
+    "impl": "A",
+    "tid": "t3",
+    "action": "!RECEIPT"
+   },
+   {
+    "impl": "B",
+    "tid": "t2",
+    "action": "?FRAME"
+   },
+   {
+    "impl": "B",
+    "tid": "t3'~I-01:unordered",
+    "action": "close"
+   }
+  ],
+  "expected": {
+   "outcome": "a conforming implementation of the REVISED specification must not be able to produce this sequence",
+   "model_check": "sequence not enabled in revised baseline model"
+  },
+  "targets": "clarification intended to remove the P1 violation",
+  "assumptions": {
+   "channel_capacity": 2,
+   "communication": "asynchronous",
+   "channels": "FIFO",
+   "message_loss": false,
+   "defaulted": []
+  },
+  "certified": false,
+  "kind": "clarification_regression",
+  "source_instructions": [
+   "I-01"
+  ],
+  "motivating_property": "P1",
+  "preconditions": {},
+  "expected_transitions": [],
+  "execution_status": "generated",
+  "traceability": {
+   "spec_sha256": "de800b585ab252aa99e1bbd617025a3c8e93fc4accd8fc653e38971b420cc29c",
+   "certificate_claim": "revised: targeted profiles removed"
+  },
+  "signature": "e1f8495b0182",
+  "duplicate_of": null
+ },
+ {
+  "id": "CT-012",
+  "setup": {
+   "profile": [
+    "ordered",
+    "enforced",
+    "unordered",
+    "enforced"
+   ],
+   "profile_readings": {
+    "A::I-01": "ordered",
+    "A::I-02": "enforced",
+    "B::I-01": "unordered",
+    "B::I-02": "enforced"
+   },
+   "model_version": "original"
+  },
+  "steps": [
+   {
+    "impl": "A",
+    "tid": "t1",
+    "action": "!FRAME"
+   },
+   {
+    "impl": "B",
+    "tid": "t1",
+    "action": "!FRAME"
+   },
+   {
+    "impl": "A",
+    "tid": "t2",
+    "action": "?FRAME"
+   },
+   {
+    "impl": "A",
+    "tid": "t3",
+    "action": "!RECEIPT"
+   },
+   {
+    "impl": "B",
+    "tid": "t2",
+    "action": "?FRAME"
+   },
+   {
+    "impl": "B",
+    "tid": "t3'~I-01:unordered",
+    "action": "close"
+   }
+  ],
+  "expected": {
+   "outcome": "property P3 violated by this sequence under the ORIGINAL reading profile",
+   "witness_kind": "state from which the completion goal is unreachable (deadlock/livelock/bad closure)"
+  },
+  "targets": "reproduces counterexample for P3",
+  "assumptions": {
+   "channel_capacity": 2,
+   "communication": "asynchronous",
+   "channels": "FIFO",
+   "message_loss": false,
+   "defaulted": []
+  },
+  "certified": true,
+  "kind": "counterexample",
+  "source_instructions": [
+   "I-01"
+  ],
+  "motivating_property": "P3",
+  "preconditions": {},
+  "expected_transitions": [],
+  "execution_status": "replayed_in_model",
+  "traceability": {
+   "spec_sha256": "0ed5fb811aca8263bf6fdb91ed58b2baaa5f1e1ddc8a5ceba814f4ad11db531a",
+   "certificate_claim": "original: profile ['ordered', 'enforced', 'unordered', 'enforced'] / P3"
+  },
+  "signature": "07037d85ad57",
+  "duplicate_of": "CT-010"
+ },
+ {
+  "id": "CT-013",
+  "setup": {
+   "profile": [
+    "ordered",
+    "enforced",
+    "unordered",
+    "enforced"
+   ],
+   "model_version": "revised"
+  },
+  "steps": [
+   {
+    "impl": "A",
+    "tid": "t1",
+    "action": "!FRAME"
+   },
+   {
+    "impl": "B",
+    "tid": "t1",
+    "action": "!FRAME"
+   },
+   {
+    "impl": "A",
+    "tid": "t2",
+    "action": "?FRAME"
+   },
+   {
+    "impl": "A",
+    "tid": "t3",
+    "action": "!RECEIPT"
+   },
+   {
+    "impl": "B",
+    "tid": "t2",
+    "action": "?FRAME"
+   },
+   {
+    "impl": "B",
+    "tid": "t3'~I-01:unordered",
+    "action": "close"
+   }
+  ],
+  "expected": {
+   "outcome": "a conforming implementation of the REVISED specification must not be able to produce this sequence",
+   "model_check": "sequence not enabled in revised baseline model"
+  },
+  "targets": "clarification intended to remove the P3 violation",
+  "assumptions": {
+   "channel_capacity": 2,
+   "communication": "asynchronous",
+   "channels": "FIFO",
+   "message_loss": false,
+   "defaulted": []
+  },
+  "certified": false,
+  "kind": "clarification_regression",
+  "source_instructions": [
+   "I-01"
+  ],
+  "motivating_property": "P3",
+  "preconditions": {},
+  "expected_transitions": [],
+  "execution_status": "generated",
+  "traceability": {
+   "spec_sha256": "de800b585ab252aa99e1bbd617025a3c8e93fc4accd8fc653e38971b420cc29c",
+   "certificate_claim": "revised: targeted profiles removed"
+  },
+  "signature": "e1f8495b0182",
+  "duplicate_of": "CT-011"
+ },
+ {
+  "id": "CT-014",
+  "setup": {
+   "profile": [
+    "ordered",
+    "enforced",
+    "unordered",
+    "relaxed"
+   ],
+   "profile_readings": {
+    "A::I-01": "ordered",
+    "A::I-02": "enforced",
+    "B::I-01": "unordered",
+    "B::I-02": "relaxed"
+   },
+   "model_version": "original"
+  },
+  "steps": [
+   {
+    "impl": "A",
+    "tid": "t1",
+    "action": "!FRAME"
+   },
+   {
+    "impl": "B",
+    "tid": "t1",
+    "action": "!FRAME"
+   },
+   {
+    "impl": "A",
+    "tid": "t2",
+    "action": "?FRAME"
+   },
+   {
+    "impl": "A",
+    "tid": "t3",
+    "action": "!RECEIPT"
+   },
+   {
+    "impl": "B",
+    "tid": "t2",
+    "action": "?FRAME"
+   },
+   {
+    "impl": "B",
+    "tid": "t3'~I-01:unordered",
+    "action": "close"
+   }
+  ],
+  "expected": {
+   "outcome": "property P1 violated by this sequence under the ORIGINAL reading profile",
+   "witness_kind": "message pending for a closed endpoint"
+  },
+  "targets": "reproduces counterexample for P1",
+  "assumptions": {
+   "channel_capacity": 2,
+   "communication": "asynchronous",
+   "channels": "FIFO",
+   "message_loss": false,
+   "defaulted": []
+  },
+  "certified": true,
+  "kind": "counterexample",
+  "source_instructions": [
+   "I-01"
+  ],
+  "motivating_property": "P1",
+  "preconditions": {},
+  "expected_transitions": [],
+  "execution_status": "replayed_in_model",
+  "traceability": {
+   "spec_sha256": "0ed5fb811aca8263bf6fdb91ed58b2baaa5f1e1ddc8a5ceba814f4ad11db531a",
+   "certificate_claim": "original: profile ['ordered', 'enforced', 'unordered', 'relaxed'] / P1"
+  },
+  "signature": "07037d85ad57",
+  "duplicate_of": "CT-010"
+ },
+ {
+  "id": "CT-015",
+  "setup": {
+   "profile": [
+    "ordered",
+    "enforced",
+    "unordered",
+    "relaxed"
+   ],
+   "model_version": "revised"
+  },
+  "steps": [
+   {
+    "impl": "A",
+    "tid": "t1",
+    "action": "!FRAME"
+   },
+   {
+    "impl": "B",
+    "tid": "t1",
+    "action": "!FRAME"
+   },
+   {
+    "impl": "A",
+    "tid": "t2",
+    "action": "?FRAME"
+   },
+   {
+    "impl": "A",
+    "tid": "t3",
+    "action": "!RECEIPT"
+   },
+   {
+    "impl": "B",
+    "tid": "t2",
+    "action": "?FRAME"
+   },
+   {
+    "impl": "B",
+    "tid": "t3'~I-01:unordered",
+    "action": "close"
+   }
+  ],
+  "expected": {
+   "outcome": "a conforming implementation of the REVISED specification must not be able to produce this sequence",
+   "model_check": "sequence not enabled in revised baseline model"
+  },
+  "targets": "clarification intended to remove the P1 violation",
+  "assumptions": {
+   "channel_capacity": 2,
+   "communication": "asynchronous",
+   "channels": "FIFO",
+   "message_loss": false,
+   "defaulted": []
+  },
+  "certified": false,
+  "kind": "clarification_regression",
+  "source_instructions": [
+   "I-01"
+  ],
+  "motivating_property": "P1",
+  "preconditions": {},
+  "expected_transitions": [],
+  "execution_status": "generated",
+  "traceability": {
+   "spec_sha256": "de800b585ab252aa99e1bbd617025a3c8e93fc4accd8fc653e38971b420cc29c",
+   "certificate_claim": "revised: targeted profiles removed"
+  },
+  "signature": "e1f8495b0182",
+  "duplicate_of": "CT-011"
+ },
+ {
+  "id": "CT-016",
+  "setup": {
+   "profile": [
+    "ordered",
+    "enforced",
+    "unordered",
+    "relaxed"
+   ],
+   "profile_readings": {
+    "A::I-01": "ordered",
+    "A::I-02": "enforced",
+    "B::I-01": "unordered",
+    "B::I-02": "relaxed"
+   },
+   "model_version": "original"
+  },
+  "steps": [
+   {
+    "impl": "A",
+    "tid": "t1",
+    "action": "!FRAME"
+   },
+   {
+    "impl": "B",
+    "tid": "t1",
+    "action": "!FRAME"
+   },
+   {
+    "impl": "A",
+    "tid": "t2",
+    "action": "?FRAME"
+   },
+   {
+    "impl": "A",
+    "tid": "t3",
+    "action": "!RECEIPT"
+   },
+   {
+    "impl": "B",
+    "tid": "t2",
+    "action": "?FRAME"
+   },
+   {
+    "impl": "B",
+    "tid": "t3'~I-01:unordered",
+    "action": "close"
+   }
+  ],
+  "expected": {
+   "outcome": "property P3 violated by this sequence under the ORIGINAL reading profile",
+   "witness_kind": "state from which the completion goal is unreachable (deadlock/livelock/bad closure)"
+  },
+  "targets": "reproduces counterexample for P3",
+  "assumptions": {
+   "channel_capacity": 2,
+   "communication": "asynchronous",
+   "channels": "FIFO",
+   "message_loss": false,
+   "defaulted": []
+  },
+  "certified": true,
+  "kind": "counterexample",
+  "source_instructions": [
+   "I-01"
+  ],
+  "motivating_property": "P3",
+  "preconditions": {},
+  "expected_transitions": [],
+  "execution_status": "replayed_in_model",
+  "traceability": {
+   "spec_sha256": "0ed5fb811aca8263bf6fdb91ed58b2baaa5f1e1ddc8a5ceba814f4ad11db531a",
+   "certificate_claim": "original: profile ['ordered', 'enforced', 'unordered', 'relaxed'] / P3"
+  },
+  "signature": "07037d85ad57",
+  "duplicate_of": "CT-010"
+ },
+ {
+  "id": "CT-017",
+  "setup": {
+   "profile": [
+    "ordered",
+    "enforced",
+    "unordered",
+    "relaxed"
+   ],
+   "model_version": "revised"
+  },
+  "steps": [
+   {
+    "impl": "A",
+    "tid": "t1",
+    "action": "!FRAME"
+   },
+   {
+    "impl": "B",
+    "tid": "t1",
+    "action": "!FRAME"
+   },
+   {
+    "impl": "A",
+    "tid": "t2",
+    "action": "?FRAME"
+   },
+   {
+    "impl": "A",
+    "tid": "t3",
+    "action": "!RECEIPT"
+   },
+   {
+    "impl": "B",
+    "tid": "t2",
+    "action": "?FRAME"
+   },
+   {
+    "impl": "B",
+    "tid": "t3'~I-01:unordered",
+    "action": "close"
+   }
+  ],
+  "expected": {
+   "outcome": "a conforming implementation of the REVISED specification must not be able to produce this sequence",
+   "model_check": "sequence not enabled in revised baseline model"
+  },
+  "targets": "clarification intended to remove the P3 violation",
+  "assumptions": {
+   "channel_capacity": 2,
+   "communication": "asynchronous",
+   "channels": "FIFO",
+   "message_loss": false,
+   "defaulted": []
+  },
+  "certified": false,
+  "kind": "clarification_regression",
+  "source_instructions": [
+   "I-01"
+  ],
+  "motivating_property": "P3",
+  "preconditions": {},
+  "expected_transitions": [],
+  "execution_status": "generated",
+  "traceability": {
+   "spec_sha256": "de800b585ab252aa99e1bbd617025a3c8e93fc4accd8fc653e38971b420cc29c",
+   "certificate_claim": "revised: targeted profiles removed"
+  },
+  "signature": "e1f8495b0182",
+  "duplicate_of": "CT-011"
+ },
+ {
+  "id": "CT-018",
+  "setup": {
+   "profile": [
+    "ordered",
+    "relaxed",
+    "ordered",
+    "enforced"
+   ],
+   "profile_readings": {
+    "A::I-01": "ordered",
+    "A::I-02": "relaxed",
+    "B::I-01": "ordered",
+    "B::I-02": "enforced"
+   },
+   "model_version": "original"
+  },
+  "steps": [
+   {
+    "impl": "A",
+    "tid": "t1",
+    "action": "!FRAME"
+   },
+   {
+    "impl": "B",
+    "tid": "t1",
+    "action": "!FRAME"
+   },
+   {
+    "impl": "A",
+    "tid": "t2",
+    "action": "?FRAME"
+   },
+   {
+    "impl": "A",
+    "tid": "t3",
+    "action": "!RECEIPT"
+   },
+   {
+    "impl": "A",
+    "tid": "t4'~I-02:relaxed",
+    "action": "close"
+   },
+   {
+    "impl": "B",
+    "tid": "t2",
+    "action": "?FRAME"
+   },
+   {
+    "impl": "B",
+    "tid": "t3",
+    "action": "!RECEIPT"
+   }
+  ],
+  "expected": {
+   "outcome": "property P1 violated by this sequence under the ORIGINAL reading profile",
+   "witness_kind": "message pending for a closed endpoint"
+  },
+  "targets": "reproduces counterexample for P1",
+  "assumptions": {
+   "channel_capacity": 2,
+   "communication": "asynchronous",
+   "channels": "FIFO",
+   "message_loss": false,
+   "defaulted": []
+  },
+  "certified": true,
+  "kind": "counterexample",
+  "source_instructions": [
+   "I-02"
+  ],
+  "motivating_property": "P1",
+  "preconditions": {},
+  "expected_transitions": [],
+  "execution_status": "replayed_in_model",
+  "traceability": {
+   "spec_sha256": "0ed5fb811aca8263bf6fdb91ed58b2baaa5f1e1ddc8a5ceba814f4ad11db531a",
+   "certificate_claim": "original: profile ['ordered', 'relaxed', 'ordered', 'enforced'] / P1"
+  },
+  "signature": "9e198d6e9ee7",
+  "duplicate_of": null
+ },
+ {
+  "id": "CT-019",
+  "setup": {
+   "profile": [
+    "ordered",
+    "relaxed",
+    "ordered",
+    "enforced"
+   ],
+   "model_version": "revised"
+  },
+  "steps": [
+   {
+    "impl": "A",
+    "tid": "t1",
+    "action": "!FRAME"
+   },
+   {
+    "impl": "B",
+    "tid": "t1",
+    "action": "!FRAME"
+   },
+   {
+    "impl": "A",
+    "tid": "t2",
+    "action": "?FRAME"
+   },
+   {
+    "impl": "A",
+    "tid": "t3",
+    "action": "!RECEIPT"
+   },
+   {
+    "impl": "A",
+    "tid": "t4'~I-02:relaxed",
+    "action": "close"
+   },
+   {
+    "impl": "B",
+    "tid": "t2",
+    "action": "?FRAME"
+   },
+   {
+    "impl": "B",
+    "tid": "t3",
+    "action": "!RECEIPT"
+   }
+  ],
+  "expected": {
+   "outcome": "a conforming implementation of the REVISED specification must not be able to produce this sequence",
+   "model_check": "sequence not enabled in revised baseline model"
+  },
+  "targets": "clarification intended to remove the P1 violation",
+  "assumptions": {
+   "channel_capacity": 2,
+   "communication": "asynchronous",
+   "channels": "FIFO",
+   "message_loss": false,
+   "defaulted": []
+  },
+  "certified": false,
+  "kind": "clarification_regression",
+  "source_instructions": [
+   "I-02"
+  ],
+  "motivating_property": "P1",
+  "preconditions": {},
+  "expected_transitions": [],
+  "execution_status": "generated",
+  "traceability": {
+   "spec_sha256": "de800b585ab252aa99e1bbd617025a3c8e93fc4accd8fc653e38971b420cc29c",
+   "certificate_claim": "revised: targeted profiles removed"
+  },
+  "signature": "b7d27825e1d2",
+  "duplicate_of": null
+ },
+ {
+  "id": "CT-020",
+  "setup": {
+   "profile": [
+    "ordered",
+    "relaxed",
+    "ordered",
+    "enforced"
+   ],
+   "profile_readings": {
+    "A::I-01": "ordered",
+    "A::I-02": "relaxed",
+    "B::I-01": "ordered",
+    "B::I-02": "enforced"
+   },
+   "model_version": "original"
+  },
+  "steps": [
+   {
+    "impl": "A",
+    "tid": "t1",
+    "action": "!FRAME"
+   },
+   {
+    "impl": "B",
+    "tid": "t1",
+    "action": "!FRAME"
+   },
+   {
+    "impl": "A",
+    "tid": "t2",
+    "action": "?FRAME"
+   },
+   {
+    "impl": "A",
+    "tid": "t3",
+    "action": "!RECEIPT"
+   },
+   {
+    "impl": "A",
+    "tid": "t4'~I-02:relaxed",
+    "action": "close"
+   },
+   {
+    "impl": "B",
+    "tid": "t2",
+    "action": "?FRAME"
+   },
+   {
+    "impl": "B",
+    "tid": "t3",
+    "action": "!RECEIPT"
+   },
+   {
+    "impl": "B",
+    "tid": "t4",
+    "action": "?RECEIPT"
+   },
+   {
+    "impl": "B",
+    "tid": "t5",
+    "action": "close"
+   }
+  ],
+  "expected": {
+   "outcome": "property P3 violated by this sequence under the ORIGINAL reading profile",
+   "witness_kind": "state from which the completion goal is unreachable (deadlock/livelock/bad closure)"
+  },
+  "targets": "reproduces counterexample for P3",
+  "assumptions": {
+   "channel_capacity": 2,
+   "communication": "asynchronous",
+   "channels": "FIFO",
+   "message_loss": false,
+   "defaulted": []
+  },
+  "certified": true,
+  "kind": "counterexample",
+  "source_instructions": [
+   "I-02"
+  ],
+  "motivating_property": "P3",
+  "preconditions": {},
+  "expected_transitions": [],
+  "execution_status": "replayed_in_model",
+  "traceability": {
+   "spec_sha256": "0ed5fb811aca8263bf6fdb91ed58b2baaa5f1e1ddc8a5ceba814f4ad11db531a",
+   "certificate_claim": "original: profile ['ordered', 'relaxed', 'ordered', 'enforced'] / P3"
+  },
+  "signature": "35f0e3f596e9",
+  "duplicate_of": null
+ },
+ {
+  "id": "CT-021",
+  "setup": {
+   "profile": [
+    "ordered",
+    "relaxed",
+    "ordered",
+    "enforced"
+   ],
+   "model_version": "revised"
+  },
+  "steps": [
+   {
+    "impl": "A",
+    "tid": "t1",
+    "action": "!FRAME"
+   },
+   {
+    "impl": "B",
+    "tid": "t1",
+    "action": "!FRAME"
+   },
+   {
+    "impl": "A",
+    "tid": "t2",
+    "action": "?FRAME"
+   },
+   {
+    "impl": "A",
+    "tid": "t3",
+    "action": "!RECEIPT"
+   },
+   {
+    "impl": "A",
+    "tid": "t4'~I-02:relaxed",
+    "action": "close"
+   },
+   {
+    "impl": "B",
+    "tid": "t2",
+    "action": "?FRAME"
+   },
+   {
+    "impl": "B",
+    "tid": "t3",
+    "action": "!RECEIPT"
+   },
+   {
+    "impl": "B",
+    "tid": "t4",
+    "action": "?RECEIPT"
+   },
+   {
+    "impl": "B",
+    "tid": "t5",
+    "action": "close"
+   }
+  ],
+  "expected": {
+   "outcome": "a conforming implementation of the REVISED specification must not be able to produce this sequence",
+   "model_check": "sequence not enabled in revised baseline model"
+  },
+  "targets": "clarification intended to remove the P3 violation",
+  "assumptions": {
+   "channel_capacity": 2,
+   "communication": "asynchronous",
+   "channels": "FIFO",
+   "message_loss": false,
+   "defaulted": []
+  },
+  "certified": false,
+  "kind": "clarification_regression",
+  "source_instructions": [
+   "I-02"
+  ],
+  "motivating_property": "P3",
+  "preconditions": {},
+  "expected_transitions": [],
+  "execution_status": "generated",
+  "traceability": {
+   "spec_sha256": "de800b585ab252aa99e1bbd617025a3c8e93fc4accd8fc653e38971b420cc29c",
+   "certificate_claim": "revised: targeted profiles removed"
+  },
+  "signature": "7dfdfc6cbc0a",
+  "duplicate_of": null
+ },
+ {
+  "id": "CT-022",
+  "setup": {
+   "profile": [
+    "ordered",
+    "relaxed",
+    "ordered",
+    "relaxed"
+   ],
+   "profile_readings": {
+    "A::I-01": "ordered",
+    "A::I-02": "relaxed",
+    "B::I-01": "ordered",
+    "B::I-02": "relaxed"
+   },
+   "model_version": "original"
+  },
+  "steps": [
+   {
+    "impl": "A",
+    "tid": "t1",
+    "action": "!FRAME"
+   },
+   {
+    "impl": "B",
+    "tid": "t1",
+    "action": "!FRAME"
+   },
+   {
+    "impl": "A",
+    "tid": "t2",
+    "action": "?FRAME"
+   },
+   {
+    "impl": "A",
+    "tid": "t3",
+    "action": "!RECEIPT"
+   },
+   {
+    "impl": "A",
+    "tid": "t4'~I-02:relaxed",
+    "action": "close"
+   },
+   {
+    "impl": "B",
+    "tid": "t2",
+    "action": "?FRAME"
+   },
+   {
+    "impl": "B",
+    "tid": "t3",
+    "action": "!RECEIPT"
+   }
+  ],
+  "expected": {
+   "outcome": "property P1 violated by this sequence under the ORIGINAL reading profile",
+   "witness_kind": "message pending for a closed endpoint"
+  },
+  "targets": "reproduces counterexample for P1",
+  "assumptions": {
+   "channel_capacity": 2,
+   "communication": "asynchronous",
+   "channels": "FIFO",
+   "message_loss": false,
+   "defaulted": []
+  },
+  "certified": true,
+  "kind": "counterexample",
+  "source_instructions": [
+   "I-02"
+  ],
+  "motivating_property": "P1",
+  "preconditions": {},
+  "expected_transitions": [],
+  "execution_status": "replayed_in_model",
+  "traceability": {
+   "spec_sha256": "0ed5fb811aca8263bf6fdb91ed58b2baaa5f1e1ddc8a5ceba814f4ad11db531a",
+   "certificate_claim": "original: profile ['ordered', 'relaxed', 'ordered', 'relaxed'] / P1"
+  },
+  "signature": "9e198d6e9ee7",
+  "duplicate_of": "CT-018"
+ },
+ {
+  "id": "CT-023",
+  "setup": {
+   "profile": [
+    "ordered",
+    "relaxed",
+    "ordered",
+    "relaxed"
+   ],
+   "model_version": "revised"
+  },
+  "steps": [
+   {
+    "impl": "A",
+    "tid": "t1",
+    "action": "!FRAME"
+   },
+   {
+    "impl": "B",
+    "tid": "t1",
+    "action": "!FRAME"
+   },
+   {
+    "impl": "A",
+    "tid": "t2",
+    "action": "?FRAME"
+   },
+   {
+    "impl": "A",
+    "tid": "t3",
+    "action": "!RECEIPT"
+   },
+   {
+    "impl": "A",
+    "tid": "t4'~I-02:relaxed",
+    "action": "close"
+   },
+   {
+    "impl": "B",
+    "tid": "t2",
+    "action": "?FRAME"
+   },
+   {
+    "impl": "B",
+    "tid": "t3",
+    "action": "!RECEIPT"
+   }
+  ],
+  "expected": {
+   "outcome": "a conforming implementation of the REVISED specification must not be able to produce this sequence",
+   "model_check": "sequence not enabled in revised baseline model"
+  },
+  "targets": "clarification intended to remove the P1 violation",
+  "assumptions": {
+   "channel_capacity": 2,
+   "communication": "asynchronous",
+   "channels": "FIFO",
+   "message_loss": false,
+   "defaulted": []
+  },
+  "certified": false,
+  "kind": "clarification_regression",
+  "source_instructions": [
+   "I-02"
+  ],
+  "motivating_property": "P1",
+  "preconditions": {},
+  "expected_transitions": [],
+  "execution_status": "generated",
+  "traceability": {
+   "spec_sha256": "de800b585ab252aa99e1bbd617025a3c8e93fc4accd8fc653e38971b420cc29c",
+   "certificate_claim": "revised: targeted profiles removed"
+  },
+  "signature": "b7d27825e1d2",
+  "duplicate_of": "CT-019"
+ },
+ {
+  "id": "CT-024",
+  "setup": {
+   "profile": [
+    "ordered",
+    "relaxed",
+    "ordered",
+    "relaxed"
+   ],
+   "profile_readings": {
+    "A::I-01": "ordered",
+    "A::I-02": "relaxed",
+    "B::I-01": "ordered",
+    "B::I-02": "relaxed"
+   },
+   "model_version": "original"
+  },
+  "steps": [
+   {
+    "impl": "A",
+    "tid": "t1",
+    "action": "!FRAME"
+   },
+   {
+    "impl": "B",
+    "tid": "t1",
+    "action": "!FRAME"
+   },
+   {
+    "impl": "A",
+    "tid": "t2",
+    "action": "?FRAME"
+   },
+   {
+    "impl": "A",
+    "tid": "t3",
+    "action": "!RECEIPT"
+   },
+   {
+    "impl": "A",
+    "tid": "t4'~I-02:relaxed",
+    "action": "close"
+   },
+   {
+    "impl": "B",
+    "tid": "t2",
+    "action": "?FRAME"
+   },
+   {
+    "impl": "B",
+    "tid": "t3",
+    "action": "!RECEIPT"
+   },
+   {
+    "impl": "B",
+    "tid": "t4'~I-02:relaxed",
+    "action": "close"
+   }
+  ],
+  "expected": {
+   "outcome": "property P3 violated by this sequence under the ORIGINAL reading profile",
+   "witness_kind": "state from which the completion goal is unreachable (deadlock/livelock/bad closure)"
+  },
+  "targets": "reproduces counterexample for P3",
+  "assumptions": {
+   "channel_capacity": 2,
+   "communication": "asynchronous",
+   "channels": "FIFO",
+   "message_loss": false,
+   "defaulted": []
+  },
+  "certified": true,
+  "kind": "counterexample",
+  "source_instructions": [
+   "I-02"
+  ],
+  "motivating_property": "P3",
+  "preconditions": {},
+  "expected_transitions": [],
+  "execution_status": "replayed_in_model",
+  "traceability": {
+   "spec_sha256": "0ed5fb811aca8263bf6fdb91ed58b2baaa5f1e1ddc8a5ceba814f4ad11db531a",
+   "certificate_claim": "original: profile ['ordered', 'relaxed', 'ordered', 'relaxed'] / P3"
+  },
+  "signature": "ea4bcc8078e0",
+  "duplicate_of": null
+ },
+ {
+  "id": "CT-025",
+  "setup": {
+   "profile": [
+    "ordered",
+    "relaxed",
+    "ordered",
+    "relaxed"
+   ],
+   "model_version": "revised"
+  },
+  "steps": [
+   {
+    "impl": "A",
+    "tid": "t1",
+    "action": "!FRAME"
+   },
+   {
+    "impl": "B",
+    "tid": "t1",
+    "action": "!FRAME"
+   },
+   {
+    "impl": "A",
+    "tid": "t2",
+    "action": "?FRAME"
+   },
+   {
+    "impl": "A",
+    "tid": "t3",
+    "action": "!RECEIPT"
+   },
+   {
+    "impl": "A",
+    "tid": "t4'~I-02:relaxed",
+    "action": "close"
+   },
+   {
+    "impl": "B",
+    "tid": "t2",
+    "action": "?FRAME"
+   },
+   {
+    "impl": "B",
+    "tid": "t3",
+    "action": "!RECEIPT"
+   },
+   {
+    "impl": "B",
+    "tid": "t4'~I-02:relaxed",
+    "action": "close"
+   }
+  ],
+  "expected": {
+   "outcome": "a conforming implementation of the REVISED specification must not be able to produce this sequence",
+   "model_check": "sequence not enabled in revised baseline model"
+  },
+  "targets": "clarification intended to remove the P3 violation",
+  "assumptions": {
+   "channel_capacity": 2,
+   "communication": "asynchronous",
+   "channels": "FIFO",
+   "message_loss": false,
+   "defaulted": []
+  },
+  "certified": false,
+  "kind": "clarification_regression",
+  "source_instructions": [
+   "I-02"
+  ],
+  "motivating_property": "P3",
+  "preconditions": {},
+  "expected_transitions": [],
+  "execution_status": "generated",
+  "traceability": {
+   "spec_sha256": "de800b585ab252aa99e1bbd617025a3c8e93fc4accd8fc653e38971b420cc29c",
+   "certificate_claim": "revised: targeted profiles removed"
+  },
+  "signature": "1b3ff0abcf0b",
+  "duplicate_of": null
+ },
+ {
+  "id": "CT-026",
+  "setup": {
+   "profile": [
+    "ordered",
+    "relaxed",
+    "unordered",
+    "enforced"
+   ],
+   "profile_readings": {
+    "A::I-01": "ordered",
+    "A::I-02": "relaxed",
+    "B::I-01": "unordered",
+    "B::I-02": "enforced"
+   },
+   "model_version": "original"
+  },
+  "steps": [
+   {
+    "impl": "A",
+    "tid": "t1",
+    "action": "!FRAME"
+   },
+   {
+    "impl": "B",
+    "tid": "t1",
+    "action": "!FRAME"
+   },
+   {
+    "impl": "A",
+    "tid": "t2",
+    "action": "?FRAME"
+   },
+   {
+    "impl": "A",
+    "tid": "t3",
+    "action": "!RECEIPT"
+   },
+   {
+    "impl": "B",
+    "tid": "t2",
+    "action": "?FRAME"
+   },
+   {
+    "impl": "B",
+    "tid": "t3'~I-01:unordered",
+    "action": "close"
+   }
+  ],
+  "expected": {
+   "outcome": "property P1 violated by this sequence under the ORIGINAL reading profile",
+   "witness_kind": "message pending for a closed endpoint"
+  },
+  "targets": "reproduces counterexample for P1",
+  "assumptions": {
+   "channel_capacity": 2,
+   "communication": "asynchronous",
+   "channels": "FIFO",
+   "message_loss": false,
+   "defaulted": []
+  },
+  "certified": true,
+  "kind": "counterexample",
+  "source_instructions": [
+   "I-01"
+  ],
+  "motivating_property": "P1",
+  "preconditions": {},
+  "expected_transitions": [],
+  "execution_status": "replayed_in_model",
+  "traceability": {
+   "spec_sha256": "0ed5fb811aca8263bf6fdb91ed58b2baaa5f1e1ddc8a5ceba814f4ad11db531a",
+   "certificate_claim": "original: profile ['ordered', 'relaxed', 'unordered', 'enforced'] / P1"
+  },
+  "signature": "07037d85ad57",
+  "duplicate_of": "CT-010"
+ },
+ {
+  "id": "CT-027",
+  "setup": {
+   "profile": [
+    "ordered",
+    "relaxed",
+    "unordered",
+    "enforced"
+   ],
+   "model_version": "revised"
+  },
+  "steps": [
+   {
+    "impl": "A",
+    "tid": "t1",
+    "action": "!FRAME"
+   },
+   {
+    "impl": "B",
+    "tid": "t1",
+    "action": "!FRAME"
+   },
+   {
+    "impl": "A",
+    "tid": "t2",
+    "action": "?FRAME"
+   },
+   {
+    "impl": "A",
+    "tid": "t3",
+    "action": "!RECEIPT"
+   },
+   {
+    "impl": "B",
+    "tid": "t2",
+    "action": "?FRAME"
+   },
+   {
+    "impl": "B",
+    "tid": "t3'~I-01:unordered",
+    "action": "close"
+   }
+  ],
+  "expected": {
+   "outcome": "a conforming implementation of the REVISED specification must not be able to produce this sequence",
+   "model_check": "sequence not enabled in revised baseline model"
+  },
+  "targets": "clarification intended to remove the P1 violation",
+  "assumptions": {
+   "channel_capacity": 2,
+   "communication": "asynchronous",
+   "channels": "FIFO",
+   "message_loss": false,
+   "defaulted": []
+  },
+  "certified": false,
+  "kind": "clarification_regression",
+  "source_instructions": [
+   "I-01"
+  ],
+  "motivating_property": "P1",
+  "preconditions": {},
+  "expected_transitions": [],
+  "execution_status": "generated",
+  "traceability": {
+   "spec_sha256": "de800b585ab252aa99e1bbd617025a3c8e93fc4accd8fc653e38971b420cc29c",
+   "certificate_claim": "revised: targeted profiles removed"
+  },
+  "signature": "e1f8495b0182",
+  "duplicate_of": "CT-011"
+ },
+ {
+  "id": "CT-028",
+  "setup": {
+   "profile": [
+    "ordered",
+    "relaxed",
+    "unordered",
+    "enforced"
+   ],
+   "profile_readings": {
+    "A::I-01": "ordered",
+    "A::I-02": "relaxed",
+    "B::I-01": "unordered",
+    "B::I-02": "enforced"
+   },
+   "model_version": "original"
+  },
+  "steps": [
+   {
+    "impl": "A",
+    "tid": "t1",
+    "action": "!FRAME"
+   },
+   {
+    "impl": "B",
+    "tid": "t1",
+    "action": "!FRAME"
+   },
+   {
+    "impl": "A",
+    "tid": "t2",
+    "action": "?FRAME"
+   },
+   {
+    "impl": "A",
+    "tid": "t3",
+    "action": "!RECEIPT"
+   },
+   {
+    "impl": "A",
+    "tid": "t4'~I-02:relaxed",
+    "action": "close"
+   },
+   {
+    "impl": "B",
+    "tid": "t2",
+    "action": "?FRAME"
+   },
+   {
+    "impl": "B",
+    "tid": "t3'~I-01:unordered",
+    "action": "close"
+   }
+  ],
+  "expected": {
+   "outcome": "property P3 violated by this sequence under the ORIGINAL reading profile",
+   "witness_kind": "state from which the completion goal is unreachable (deadlock/livelock/bad closure)"
+  },
+  "targets": "reproduces counterexample for P3",
+  "assumptions": {
+   "channel_capacity": 2,
+   "communication": "asynchronous",
+   "channels": "FIFO",
+   "message_loss": false,
+   "defaulted": []
+  },
+  "certified": true,
+  "kind": "counterexample",
+  "source_instructions": [
+   "I-01",
+   "I-02"
+  ],
+  "motivating_property": "P3",
+  "preconditions": {},
+  "expected_transitions": [],
+  "execution_status": "replayed_in_model",
+  "traceability": {
+   "spec_sha256": "0ed5fb811aca8263bf6fdb91ed58b2baaa5f1e1ddc8a5ceba814f4ad11db531a",
+   "certificate_claim": "original: profile ['ordered', 'relaxed', 'unordered', 'enforced'] / P3"
+  },
+  "signature": "d1a96cc974fb",
+  "duplicate_of": null
+ },
+ {
+  "id": "CT-029",
+  "setup": {
+   "profile": [
+    "ordered",
+    "relaxed",
+    "unordered",
+    "enforced"
+   ],
+   "model_version": "revised"
+  },
+  "steps": [
+   {
+    "impl": "A",
+    "tid": "t1",
+    "action": "!FRAME"
+   },
+   {
+    "impl": "B",
+    "tid": "t1",
+    "action": "!FRAME"
+   },
+   {
+    "impl": "A",
+    "tid": "t2",
+    "action": "?FRAME"
+   },
+   {
+    "impl": "A",
+    "tid": "t3",
+    "action": "!RECEIPT"
+   },
+   {
+    "impl": "A",
+    "tid": "t4'~I-02:relaxed",
+    "action": "close"
+   },
+   {
+    "impl": "B",
+    "tid": "t2",
+    "action": "?FRAME"
+   },
+   {
+    "impl": "B",
+    "tid": "t3'~I-01:unordered",
+    "action": "close"
+   }
+  ],
+  "expected": {
+   "outcome": "a conforming implementation of the REVISED specification must not be able to produce this sequence",
+   "model_check": "sequence not enabled in revised baseline model"
+  },
+  "targets": "clarification intended to remove the P3 violation",
+  "assumptions": {
+   "channel_capacity": 2,
+   "communication": "asynchronous",
+   "channels": "FIFO",
+   "message_loss": false,
+   "defaulted": []
+  },
+  "certified": false,
+  "kind": "clarification_regression",
+  "source_instructions": [
+   "I-01",
+   "I-02"
+  ],
+  "motivating_property": "P3",
+  "preconditions": {},
+  "expected_transitions": [],
+  "execution_status": "generated",
+  "traceability": {
+   "spec_sha256": "de800b585ab252aa99e1bbd617025a3c8e93fc4accd8fc653e38971b420cc29c",
+   "certificate_claim": "revised: targeted profiles removed"
+  },
+  "signature": "6eaea140441f",
+  "duplicate_of": null
+ },
+ {
+  "id": "CT-030",
+  "setup": {
+   "profile": [
+    "ordered",
+    "relaxed",
+    "unordered",
+    "relaxed"
+   ],
+   "profile_readings": {
+    "A::I-01": "ordered",
+    "A::I-02": "relaxed",
+    "B::I-01": "unordered",
+    "B::I-02": "relaxed"
+   },
+   "model_version": "original"
+  },
+  "steps": [
+   {
+    "impl": "A",
+    "tid": "t1",
+    "action": "!FRAME"
+   },
+   {
+    "impl": "B",
+    "tid": "t1",
+    "action": "!FRAME"
+   },
+   {
+    "impl": "A",
+    "tid": "t2",
+    "action": "?FRAME"
+   },
+   {
+    "impl": "A",
+    "tid": "t3",
+    "action": "!RECEIPT"
+   },
+   {
+    "impl": "B",
+    "tid": "t2",
+    "action": "?FRAME"
+   },
+   {
+    "impl": "B",
+    "tid": "t3'~I-01:unordered",
+    "action": "close"
+   }
+  ],
+  "expected": {
+   "outcome": "property P1 violated by this sequence under the ORIGINAL reading profile",
+   "witness_kind": "message pending for a closed endpoint"
+  },
+  "targets": "reproduces counterexample for P1",
+  "assumptions": {
+   "channel_capacity": 2,
+   "communication": "asynchronous",
+   "channels": "FIFO",
+   "message_loss": false,
+   "defaulted": []
+  },
+  "certified": true,
+  "kind": "counterexample",
+  "source_instructions": [
+   "I-01"
+  ],
+  "motivating_property": "P1",
+  "preconditions": {},
+  "expected_transitions": [],
+  "execution_status": "replayed_in_model",
+  "traceability": {
+   "spec_sha256": "0ed5fb811aca8263bf6fdb91ed58b2baaa5f1e1ddc8a5ceba814f4ad11db531a",
+   "certificate_claim": "original: profile ['ordered', 'relaxed', 'unordered', 'relaxed'] / P1"
+  },
+  "signature": "07037d85ad57",
+  "duplicate_of": "CT-010"
+ },
+ {
+  "id": "CT-031",
+  "setup": {
+   "profile": [
+    "ordered",
+    "relaxed",
+    "unordered",
+    "relaxed"
+   ],
+   "model_version": "revised"
+  },
+  "steps": [
+   {
+    "impl": "A",
+    "tid": "t1",
+    "action": "!FRAME"
+   },
+   {
+    "impl": "B",
+    "tid": "t1",
+    "action": "!FRAME"
+   },
+   {
+    "impl": "A",
+    "tid": "t2",
+    "action": "?FRAME"
+   },
+   {
+    "impl": "A",
+    "tid": "t3",
+    "action": "!RECEIPT"
+   },
+   {
+    "impl": "B",
+    "tid": "t2",
+    "action": "?FRAME"
+   },
+   {
+    "impl": "B",
+    "tid": "t3'~I-01:unordered",
+    "action": "close"
+   }
+  ],
+  "expected": {
+   "outcome": "a conforming implementation of the REVISED specification must not be able to produce this sequence",
+   "model_check": "sequence not enabled in revised baseline model"
+  },
+  "targets": "clarification intended to remove the P1 violation",
+  "assumptions": {
+   "channel_capacity": 2,
+   "communication": "asynchronous",
+   "channels": "FIFO",
+   "message_loss": false,
+   "defaulted": []
+  },
+  "certified": false,
+  "kind": "clarification_regression",
+  "source_instructions": [
+   "I-01"
+  ],
+  "motivating_property": "P1",
+  "preconditions": {},
+  "expected_transitions": [],
+  "execution_status": "generated",
+  "traceability": {
+   "spec_sha256": "de800b585ab252aa99e1bbd617025a3c8e93fc4accd8fc653e38971b420cc29c",
+   "certificate_claim": "revised: targeted profiles removed"
+  },
+  "signature": "e1f8495b0182",
+  "duplicate_of": "CT-011"
+ },
+ {
+  "id": "CT-032",
+  "setup": {
+   "profile": [
+    "ordered",
+    "relaxed",
+    "unordered",
+    "relaxed"
+   ],
+   "profile_readings": {
+    "A::I-01": "ordered",
+    "A::I-02": "relaxed",
+    "B::I-01": "unordered",
+    "B::I-02": "relaxed"
+   },
+   "model_version": "original"
+  },
+  "steps": [
+   {
+    "impl": "A",
+    "tid": "t1",
+    "action": "!FRAME"
+   },
+   {
+    "impl": "B",
+    "tid": "t1",
+    "action": "!FRAME"
+   },
+   {
+    "impl": "A",
+    "tid": "t2",
+    "action": "?FRAME"
+   },
+   {
+    "impl": "A",
+    "tid": "t3",
+    "action": "!RECEIPT"
+   },
+   {
+    "impl": "A",
+    "tid": "t4'~I-02:relaxed",
+    "action": "close"
+   },
+   {
+    "impl": "B",
+    "tid": "t2",
+    "action": "?FRAME"
+   },
+   {
+    "impl": "B",
+    "tid": "t3'~I-01:unordered",
+    "action": "close"
+   }
+  ],
+  "expected": {
+   "outcome": "property P3 violated by this sequence under the ORIGINAL reading profile",
+   "witness_kind": "state from which the completion goal is unreachable (deadlock/livelock/bad closure)"
+  },
+  "targets": "reproduces counterexample for P3",
+  "assumptions": {
+   "channel_capacity": 2,
+   "communication": "asynchronous",
+   "channels": "FIFO",
+   "message_loss": false,
+   "defaulted": []
+  },
+  "certified": true,
+  "kind": "counterexample",
+  "source_instructions": [
+   "I-01",
+   "I-02"
+  ],
+  "motivating_property": "P3",
+  "preconditions": {},
+  "expected_transitions": [],
+  "execution_status": "replayed_in_model",
+  "traceability": {
+   "spec_sha256": "0ed5fb811aca8263bf6fdb91ed58b2baaa5f1e1ddc8a5ceba814f4ad11db531a",
+   "certificate_claim": "original: profile ['ordered', 'relaxed', 'unordered', 'relaxed'] / P3"
+  },
+  "signature": "d1a96cc974fb",
+  "duplicate_of": "CT-028"
+ },
+ {
+  "id": "CT-033",
+  "setup": {
+   "profile": [
+    "ordered",
+    "relaxed",
+    "unordered",
+    "relaxed"
+   ],
+   "model_version": "revised"
+  },
+  "steps": [
+   {
+    "impl": "A",
+    "tid": "t1",
+    "action": "!FRAME"
+   },
+   {
+    "impl": "B",
+    "tid": "t1",
+    "action": "!FRAME"
+   },
+   {
+    "impl": "A",
+    "tid": "t2",
+    "action": "?FRAME"
+   },
+   {
+    "impl": "A",
+    "tid": "t3",
+    "action": "!RECEIPT"
+   },
+   {
+    "impl": "A",
+    "tid": "t4'~I-02:relaxed",
+    "action": "close"
+   },
+   {
+    "impl": "B",
+    "tid": "t2",
+    "action": "?FRAME"
+   },
+   {
+    "impl": "B",
+    "tid": "t3'~I-01:unordered",
+    "action": "close"
+   }
+  ],
+  "expected": {
+   "outcome": "a conforming implementation of the REVISED specification must not be able to produce this sequence",
+   "model_check": "sequence not enabled in revised baseline model"
+  },
+  "targets": "clarification intended to remove the P3 violation",
+  "assumptions": {
+   "channel_capacity": 2,
+   "communication": "asynchronous",
+   "channels": "FIFO",
+   "message_loss": false,
+   "defaulted": []
+  },
+  "certified": false,
+  "kind": "clarification_regression",
+  "source_instructions": [
+   "I-01",
+   "I-02"
+  ],
+  "motivating_property": "P3",
+  "preconditions": {},
+  "expected_transitions": [],
+  "execution_status": "generated",
+  "traceability": {
+   "spec_sha256": "de800b585ab252aa99e1bbd617025a3c8e93fc4accd8fc653e38971b420cc29c",
+   "certificate_claim": "revised: targeted profiles removed"
+  },
+  "signature": "6eaea140441f",
+  "duplicate_of": "CT-029"
+ },
+ {
+  "id": "CT-034",
+  "setup": {
+   "profile": [
+    "unordered",
+    "enforced",
+    "ordered",
+    "enforced"
+   ],
+   "profile_readings": {
+    "A::I-01": "unordered",
+    "A::I-02": "enforced",
+    "B::I-01": "ordered",
+    "B::I-02": "enforced"
+   },
+   "model_version": "original"
+  },
+  "steps": [
+   {
+    "impl": "A",
+    "tid": "t1",
+    "action": "!FRAME"
+   },
+   {
+    "impl": "B",
+    "tid": "t1",
+    "action": "!FRAME"
+   },
+   {
+    "impl": "A",
+    "tid": "t2",
+    "action": "?FRAME"
+   },
+   {
+    "impl": "A",
+    "tid": "t3'~I-01:unordered",
+    "action": "close"
+   },
+   {
+    "impl": "B",
+    "tid": "t2",
+    "action": "?FRAME"
+   },
+   {
+    "impl": "B",
+    "tid": "t3",
+    "action": "!RECEIPT"
+   }
+  ],
+  "expected": {
+   "outcome": "property P1 violated by this sequence under the ORIGINAL reading profile",
+   "witness_kind": "message pending for a closed endpoint"
+  },
+  "targets": "reproduces counterexample for P1",
+  "assumptions": {
+   "channel_capacity": 2,
+   "communication": "asynchronous",
+   "channels": "FIFO",
+   "message_loss": false,
+   "defaulted": []
+  },
+  "certified": true,
+  "kind": "counterexample",
+  "source_instructions": [
+   "I-01"
+  ],
+  "motivating_property": "P1",
+  "preconditions": {},
+  "expected_transitions": [],
+  "execution_status": "replayed_in_model",
+  "traceability": {
+   "spec_sha256": "0ed5fb811aca8263bf6fdb91ed58b2baaa5f1e1ddc8a5ceba814f4ad11db531a",
+   "certificate_claim": "original: profile ['unordered', 'enforced', 'ordered', 'enforced'] / P1"
+  },
+  "signature": "96aad73afbac",
+  "duplicate_of": null
+ },
+ {
+  "id": "CT-035",
+  "setup": {
+   "profile": [
+    "unordered",
+    "enforced",
+    "ordered",
+    "enforced"
+   ],
+   "model_version": "revised"
+  },
+  "steps": [
+   {
+    "impl": "A",
+    "tid": "t1",
+    "action": "!FRAME"
+   },
+   {
+    "impl": "B",
+    "tid": "t1",
+    "action": "!FRAME"
+   },
+   {
+    "impl": "A",
+    "tid": "t2",
+    "action": "?FRAME"
+   },
+   {
+    "impl": "A",
+    "tid": "t3'~I-01:unordered",
+    "action": "close"
+   },
+   {
+    "impl": "B",
+    "tid": "t2",
+    "action": "?FRAME"
+   },
+   {
+    "impl": "B",
+    "tid": "t3",
+    "action": "!RECEIPT"
+   }
+  ],
+  "expected": {
+   "outcome": "a conforming implementation of the REVISED specification must not be able to produce this sequence",
+   "model_check": "sequence not enabled in revised baseline model"
+  },
+  "targets": "clarification intended to remove the P1 violation",
+  "assumptions": {
+   "channel_capacity": 2,
+   "communication": "asynchronous",
+   "channels": "FIFO",
+   "message_loss": false,
+   "defaulted": []
+  },
+  "certified": false,
+  "kind": "clarification_regression",
+  "source_instructions": [
+   "I-01"
+  ],
+  "motivating_property": "P1",
+  "preconditions": {},
+  "expected_transitions": [],
+  "execution_status": "generated",
+  "traceability": {
+   "spec_sha256": "de800b585ab252aa99e1bbd617025a3c8e93fc4accd8fc653e38971b420cc29c",
+   "certificate_claim": "revised: targeted profiles removed"
+  },
+  "signature": "5aa0c6b6e86f",
+  "duplicate_of": null
+ },
+ {
+  "id": "CT-036",
+  "setup": {
+   "profile": [
+    "unordered",
+    "enforced",
+    "ordered",
+    "enforced"
+   ],
+   "profile_readings": {
+    "A::I-01": "unordered",
+    "A::I-02": "enforced",
+    "B::I-01": "ordered",
+    "B::I-02": "enforced"
+   },
+   "model_version": "original"
+  },
+  "steps": [
+   {
+    "impl": "A",
+    "tid": "t1",
+    "action": "!FRAME"
+   },
+   {
+    "impl": "B",
+    "tid": "t1",
+    "action": "!FRAME"
+   },
+   {
+    "impl": "A",
+    "tid": "t2",
+    "action": "?FRAME"
+   },
+   {
+    "impl": "A",
+    "tid": "t3'~I-01:unordered",
+    "action": "close"
+   },
+   {
+    "impl": "B",
+    "tid": "t2",
+    "action": "?FRAME"
+   },
+   {
+    "impl": "B",
+    "tid": "t3",
+    "action": "!RECEIPT"
+   }
+  ],
+  "expected": {
+   "outcome": "property P3 violated by this sequence under the ORIGINAL reading profile",
+   "witness_kind": "state from which the completion goal is unreachable (deadlock/livelock/bad closure)"
+  },
+  "targets": "reproduces counterexample for P3",
+  "assumptions": {
+   "channel_capacity": 2,
+   "communication": "asynchronous",
+   "channels": "FIFO",
+   "message_loss": false,
+   "defaulted": []
+  },
+  "certified": true,
+  "kind": "counterexample",
+  "source_instructions": [
+   "I-01"
+  ],
+  "motivating_property": "P3",
+  "preconditions": {},
+  "expected_transitions": [],
+  "execution_status": "replayed_in_model",
+  "traceability": {
+   "spec_sha256": "0ed5fb811aca8263bf6fdb91ed58b2baaa5f1e1ddc8a5ceba814f4ad11db531a",
+   "certificate_claim": "original: profile ['unordered', 'enforced', 'ordered', 'enforced'] / P3"
+  },
+  "signature": "96aad73afbac",
+  "duplicate_of": "CT-034"
+ },
+ {
+  "id": "CT-037",
+  "setup": {
+   "profile": [
+    "unordered",
+    "enforced",
+    "ordered",
+    "enforced"
+   ],
+   "model_version": "revised"
+  },
+  "steps": [
+   {
+    "impl": "A",
+    "tid": "t1",
+    "action": "!FRAME"
+   },
+   {
+    "impl": "B",
+    "tid": "t1",
+    "action": "!FRAME"
+   },
+   {
+    "impl": "A",
+    "tid": "t2",
+    "action": "?FRAME"
+   },
+   {
+    "impl": "A",
+    "tid": "t3'~I-01:unordered",
+    "action": "close"
+   },
+   {
+    "impl": "B",
+    "tid": "t2",
+    "action": "?FRAME"
+   },
+   {
+    "impl": "B",
+    "tid": "t3",
+    "action": "!RECEIPT"
+   }
+  ],
+  "expected": {
+   "outcome": "a conforming implementation of the REVISED specification must not be able to produce this sequence",
+   "model_check": "sequence not enabled in revised baseline model"
+  },
+  "targets": "clarification intended to remove the P3 violation",
+  "assumptions": {
+   "channel_capacity": 2,
+   "communication": "asynchronous",
+   "channels": "FIFO",
+   "message_loss": false,
+   "defaulted": []
+  },
+  "certified": false,
+  "kind": "clarification_regression",
+  "source_instructions": [
+   "I-01"
+  ],
+  "motivating_property": "P3",
+  "preconditions": {},
+  "expected_transitions": [],
+  "execution_status": "generated",
+  "traceability": {
+   "spec_sha256": "de800b585ab252aa99e1bbd617025a3c8e93fc4accd8fc653e38971b420cc29c",
+   "certificate_claim": "revised: targeted profiles removed"
+  },
+  "signature": "5aa0c6b6e86f",
+  "duplicate_of": "CT-035"
+ },
+ {
+  "id": "CT-038",
+  "setup": {
+   "profile": [
+    "unordered",
+    "enforced",
+    "ordered",
+    "relaxed"
+   ],
+   "profile_readings": {
+    "A::I-01": "unordered",
+    "A::I-02": "enforced",
+    "B::I-01": "ordered",
+    "B::I-02": "relaxed"
+   },
+   "model_version": "original"
+  },
+  "steps": [
+   {
+    "impl": "A",
+    "tid": "t1",
+    "action": "!FRAME"
+   },
+   {
+    "impl": "B",
+    "tid": "t1",
+    "action": "!FRAME"
+   },
+   {
+    "impl": "A",
+    "tid": "t2",
+    "action": "?FRAME"
+   },
+   {
+    "impl": "A",
+    "tid": "t3'~I-01:unordered",
+    "action": "close"
+   },
+   {
+    "impl": "B",
+    "tid": "t2",
+    "action": "?FRAME"
+   },
+   {
+    "impl": "B",
+    "tid": "t3",
+    "action": "!RECEIPT"
+   }
+  ],
+  "expected": {
+   "outcome": "property P1 violated by this sequence under the ORIGINAL reading profile",
+   "witness_kind": "message pending for a closed endpoint"
+  },
+  "targets": "reproduces counterexample for P1",
+  "assumptions": {
+   "channel_capacity": 2,
+   "communication": "asynchronous",
+   "channels": "FIFO",
+   "message_loss": false,
+   "defaulted": []
+  },
+  "certified": true,
+  "kind": "counterexample",
+  "source_instructions": [
+   "I-01"
+  ],
+  "motivating_property": "P1",
+  "preconditions": {},
+  "expected_transitions": [],
+  "execution_status": "replayed_in_model",
+  "traceability": {
+   "spec_sha256": "0ed5fb811aca8263bf6fdb91ed58b2baaa5f1e1ddc8a5ceba814f4ad11db531a",
+   "certificate_claim": "original: profile ['unordered', 'enforced', 'ordered', 'relaxed'] / P1"
+  },
+  "signature": "96aad73afbac",
+  "duplicate_of": "CT-034"
+ },
+ {
+  "id": "CT-039",
+  "setup": {
+   "profile": [
+    "unordered",
+    "enforced",
+    "ordered",
+    "relaxed"
+   ],
+   "model_version": "revised"
+  },
+  "steps": [
+   {
+    "impl": "A",
+    "tid": "t1",
+    "action": "!FRAME"
+   },
+   {
+    "impl": "B",
+    "tid": "t1",
+    "action": "!FRAME"
+   },
+   {
+    "impl": "A",
+    "tid": "t2",
+    "action": "?FRAME"
+   },
+   {
+    "impl": "A",
+    "tid": "t3'~I-01:unordered",
+    "action": "close"
+   },
+   {
+    "impl": "B",
+    "tid": "t2",
+    "action": "?FRAME"
+   },
+   {
+    "impl": "B",
+    "tid": "t3",
+    "action": "!RECEIPT"
+   }
+  ],
+  "expected": {
+   "outcome": "a conforming implementation of the REVISED specification must not be able to produce this sequence",
+   "model_check": "sequence not enabled in revised baseline model"
+  },
+  "targets": "clarification intended to remove the P1 violation",
+  "assumptions": {
+   "channel_capacity": 2,
+   "communication": "asynchronous",
+   "channels": "FIFO",
+   "message_loss": false,
+   "defaulted": []
+  },
+  "certified": false,
+  "kind": "clarification_regression",
+  "source_instructions": [
+   "I-01"
+  ],
+  "motivating_property": "P1",
+  "preconditions": {},
+  "expected_transitions": [],
+  "execution_status": "generated",
+  "traceability": {
+   "spec_sha256": "de800b585ab252aa99e1bbd617025a3c8e93fc4accd8fc653e38971b420cc29c",
+   "certificate_claim": "revised: targeted profiles removed"
+  },
+  "signature": "5aa0c6b6e86f",
+  "duplicate_of": "CT-035"
+ },
+ {
+  "id": "CT-040",
+  "setup": {
+   "profile": [
+    "unordered",
+    "enforced",
+    "ordered",
+    "relaxed"
+   ],
+   "profile_readings": {
+    "A::I-01": "unordered",
+    "A::I-02": "enforced",
+    "B::I-01": "ordered",
+    "B::I-02": "relaxed"
+   },
+   "model_version": "original"
+  },
+  "steps": [
+   {
+    "impl": "A",
+    "tid": "t1",
+    "action": "!FRAME"
+   },
+   {
+    "impl": "B",
+    "tid": "t1",
+    "action": "!FRAME"
+   },
+   {
+    "impl": "A",
+    "tid": "t2",
+    "action": "?FRAME"
+   },
+   {
+    "impl": "A",
+    "tid": "t3'~I-01:unordered",
+    "action": "close"
+   },
+   {
+    "impl": "B",
+    "tid": "t2",
+    "action": "?FRAME"
+   },
+   {
+    "impl": "B",
+    "tid": "t3",
+    "action": "!RECEIPT"
+   },
+   {
+    "impl": "B",
+    "tid": "t4'~I-02:relaxed",
+    "action": "close"
+   }
+  ],
+  "expected": {
+   "outcome": "property P3 violated by this sequence under the ORIGINAL reading profile",
+   "witness_kind": "state from which the completion goal is unreachable (deadlock/livelock/bad closure)"
+  },
+  "targets": "reproduces counterexample for P3",
+  "assumptions": {
+   "channel_capacity": 2,
+   "communication": "asynchronous",
+   "channels": "FIFO",
+   "message_loss": false,
+   "defaulted": []
+  },
+  "certified": true,
+  "kind": "counterexample",
+  "source_instructions": [
+   "I-01",
+   "I-02"
+  ],
+  "motivating_property": "P3",
+  "preconditions": {},
+  "expected_transitions": [],
+  "execution_status": "replayed_in_model",
+  "traceability": {
+   "spec_sha256": "0ed5fb811aca8263bf6fdb91ed58b2baaa5f1e1ddc8a5ceba814f4ad11db531a",
+   "certificate_claim": "original: profile ['unordered', 'enforced', 'ordered', 'relaxed'] / P3"
+  },
+  "signature": "252fa03fec5e",
+  "duplicate_of": null
+ },
+ {
+  "id": "CT-041",
+  "setup": {
+   "profile": [
+    "unordered",
+    "enforced",
+    "ordered",
+    "relaxed"
+   ],
+   "model_version": "revised"
+  },
+  "steps": [
+   {
+    "impl": "A",
+    "tid": "t1",
+    "action": "!FRAME"
+   },
+   {
+    "impl": "B",
+    "tid": "t1",
+    "action": "!FRAME"
+   },
+   {
+    "impl": "A",
+    "tid": "t2",
+    "action": "?FRAME"
+   },
+   {
+    "impl": "A",
+    "tid": "t3'~I-01:unordered",
+    "action": "close"
+   },
+   {
+    "impl": "B",
+    "tid": "t2",
+    "action": "?FRAME"
+   },
+   {
+    "impl": "B",
+    "tid": "t3",
+    "action": "!RECEIPT"
+   },
+   {
+    "impl": "B",
+    "tid": "t4'~I-02:relaxed",
+    "action": "close"
+   }
+  ],
+  "expected": {
+   "outcome": "a conforming implementation of the REVISED specification must not be able to produce this sequence",
+   "model_check": "sequence not enabled in revised baseline model"
+  },
+  "targets": "clarification intended to remove the P3 violation",
+  "assumptions": {
+   "channel_capacity": 2,
+   "communication": "asynchronous",
+   "channels": "FIFO",
+   "message_loss": false,
+   "defaulted": []
+  },
+  "certified": false,
+  "kind": "clarification_regression",
+  "source_instructions": [
+   "I-01",
+   "I-02"
+  ],
+  "motivating_property": "P3",
+  "preconditions": {},
+  "expected_transitions": [],
+  "execution_status": "generated",
+  "traceability": {
+   "spec_sha256": "de800b585ab252aa99e1bbd617025a3c8e93fc4accd8fc653e38971b420cc29c",
+   "certificate_claim": "revised: targeted profiles removed"
+  },
+  "signature": "5a4a5ad8c9bd",
+  "duplicate_of": null
+ },
+ {
+  "id": "CT-042",
+  "setup": {
+   "profile": [
+    "unordered",
+    "enforced",
+    "unordered",
+    "enforced"
+   ],
+   "profile_readings": {
+    "A::I-01": "unordered",
+    "A::I-02": "enforced",
+    "B::I-01": "unordered",
+    "B::I-02": "enforced"
+   },
+   "model_version": "original"
+  },
+  "steps": [
+   {
+    "impl": "A",
+    "tid": "t1",
+    "action": "!FRAME"
+   },
+   {
+    "impl": "B",
+    "tid": "t1",
+    "action": "!FRAME"
+   },
+   {
+    "impl": "A",
+    "tid": "t2",
+    "action": "?FRAME"
+   },
+   {
+    "impl": "A",
+    "tid": "t3'~I-01:unordered",
+    "action": "close"
+   },
+   {
+    "impl": "B",
+    "tid": "t2",
+    "action": "?FRAME"
+   },
+   {
+    "impl": "B",
+    "tid": "t3'~I-01:unordered",
+    "action": "close"
+   }
+  ],
+  "expected": {
+   "outcome": "property P3 violated by this sequence under the ORIGINAL reading profile",
+   "witness_kind": "state from which the completion goal is unreachable (deadlock/livelock/bad closure)"
+  },
+  "targets": "reproduces counterexample for P3",
+  "assumptions": {
+   "channel_capacity": 2,
+   "communication": "asynchronous",
+   "channels": "FIFO",
+   "message_loss": false,
+   "defaulted": []
+  },
+  "certified": true,
+  "kind": "counterexample",
+  "source_instructions": [
+   "I-01"
+  ],
+  "motivating_property": "P3",
+  "preconditions": {},
+  "expected_transitions": [],
+  "execution_status": "replayed_in_model",
+  "traceability": {
+   "spec_sha256": "0ed5fb811aca8263bf6fdb91ed58b2baaa5f1e1ddc8a5ceba814f4ad11db531a",
+   "certificate_claim": "original: profile ['unordered', 'enforced', 'unordered', 'enforced'] / P3"
+  },
+  "signature": "16fe9b7fa1c2",
+  "duplicate_of": null
+ },
+ {
+  "id": "CT-043",
+  "setup": {
+   "profile": [
+    "unordered",
+    "enforced",
+    "unordered",
+    "enforced"
+   ],
+   "model_version": "revised"
+  },
+  "steps": [
+   {
+    "impl": "A",
+    "tid": "t1",
+    "action": "!FRAME"
+   },
+   {
+    "impl": "B",
+    "tid": "t1",
+    "action": "!FRAME"
+   },
+   {
+    "impl": "A",
+    "tid": "t2",
+    "action": "?FRAME"
+   },
+   {
+    "impl": "A",
+    "tid": "t3'~I-01:unordered",
+    "action": "close"
+   },
+   {
+    "impl": "B",
+    "tid": "t2",
+    "action": "?FRAME"
+   },
+   {
+    "impl": "B",
+    "tid": "t3'~I-01:unordered",
+    "action": "close"
+   }
+  ],
+  "expected": {
+   "outcome": "a conforming implementation of the REVISED specification must not be able to produce this sequence",
+   "model_check": "sequence not enabled in revised baseline model"
+  },
+  "targets": "clarification intended to remove the P3 violation",
+  "assumptions": {
+   "channel_capacity": 2,
+   "communication": "asynchronous",
+   "channels": "FIFO",
+   "message_loss": false,
+   "defaulted": []
+  },
+  "certified": false,
+  "kind": "clarification_regression",
+  "source_instructions": [
+   "I-01"
+  ],
+  "motivating_property": "P3",
+  "preconditions": {},
+  "expected_transitions": [],
+  "execution_status": "generated",
+  "traceability": {
+   "spec_sha256": "de800b585ab252aa99e1bbd617025a3c8e93fc4accd8fc653e38971b420cc29c",
+   "certificate_claim": "revised: targeted profiles removed"
+  },
+  "signature": "9b5ba51ad13a",
+  "duplicate_of": null
+ },
+ {
+  "id": "CT-044",
+  "setup": {
+   "profile": [
+    "unordered",
+    "enforced",
+    "unordered",
+    "relaxed"
+   ],
+   "profile_readings": {
+    "A::I-01": "unordered",
+    "A::I-02": "enforced",
+    "B::I-01": "unordered",
+    "B::I-02": "relaxed"
+   },
+   "model_version": "original"
+  },
+  "steps": [
+   {
+    "impl": "A",
+    "tid": "t1",
+    "action": "!FRAME"
+   },
+   {
+    "impl": "B",
+    "tid": "t1",
+    "action": "!FRAME"
+   },
+   {
+    "impl": "A",
+    "tid": "t2",
+    "action": "?FRAME"
+   },
+   {
+    "impl": "A",
+    "tid": "t3'~I-01:unordered",
+    "action": "close"
+   },
+   {
+    "impl": "B",
+    "tid": "t2",
+    "action": "?FRAME"
+   },
+   {
+    "impl": "B",
+    "tid": "t3'~I-01:unordered",
+    "action": "close"
+   }
+  ],
+  "expected": {
+   "outcome": "property P3 violated by this sequence under the ORIGINAL reading profile",
+   "witness_kind": "state from which the completion goal is unreachable (deadlock/livelock/bad closure)"
+  },
+  "targets": "reproduces counterexample for P3",
+  "assumptions": {
+   "channel_capacity": 2,
+   "communication": "asynchronous",
+   "channels": "FIFO",
+   "message_loss": false,
+   "defaulted": []
+  },
+  "certified": true,
+  "kind": "counterexample",
+  "source_instructions": [
+   "I-01"
+  ],
+  "motivating_property": "P3",
+  "preconditions": {},
+  "expected_transitions": [],
+  "execution_status": "replayed_in_model",
+  "traceability": {
+   "spec_sha256": "0ed5fb811aca8263bf6fdb91ed58b2baaa5f1e1ddc8a5ceba814f4ad11db531a",
+   "certificate_claim": "original: profile ['unordered', 'enforced', 'unordered', 'relaxed'] / P3"
+  },
+  "signature": "16fe9b7fa1c2",
+  "duplicate_of": "CT-042"
+ },
+ {
+  "id": "CT-045",
+  "setup": {
+   "profile": [
+    "unordered",
+    "enforced",
+    "unordered",
+    "relaxed"
+   ],
+   "model_version": "revised"
+  },
+  "steps": [
+   {
+    "impl": "A",
+    "tid": "t1",
+    "action": "!FRAME"
+   },
+   {
+    "impl": "B",
+    "tid": "t1",
+    "action": "!FRAME"
+   },
+   {
+    "impl": "A",
+    "tid": "t2",
+    "action": "?FRAME"
+   },
+   {
+    "impl": "A",
+    "tid": "t3'~I-01:unordered",
+    "action": "close"
+   },
+   {
+    "impl": "B",
+    "tid": "t2",
+    "action": "?FRAME"
+   },
+   {
+    "impl": "B",
+    "tid": "t3'~I-01:unordered",
+    "action": "close"
+   }
+  ],
+  "expected": {
+   "outcome": "a conforming implementation of the REVISED specification must not be able to produce this sequence",
+   "model_check": "sequence not enabled in revised baseline model"
+  },
+  "targets": "clarification intended to remove the P3 violation",
+  "assumptions": {
+   "channel_capacity": 2,
+   "communication": "asynchronous",
+   "channels": "FIFO",
+   "message_loss": false,
+   "defaulted": []
+  },
+  "certified": false,
+  "kind": "clarification_regression",
+  "source_instructions": [
+   "I-01"
+  ],
+  "motivating_property": "P3",
+  "preconditions": {},
+  "expected_transitions": [],
+  "execution_status": "generated",
+  "traceability": {
+   "spec_sha256": "de800b585ab252aa99e1bbd617025a3c8e93fc4accd8fc653e38971b420cc29c",
+   "certificate_claim": "revised: targeted profiles removed"
+  },
+  "signature": "9b5ba51ad13a",
+  "duplicate_of": "CT-043"
+ },
+ {
+  "id": "CT-046",
+  "setup": {
+   "profile": [
+    "unordered",
+    "relaxed",
+    "ordered",
+    "enforced"
+   ],
+   "profile_readings": {
+    "A::I-01": "unordered",
+    "A::I-02": "relaxed",
+    "B::I-01": "ordered",
+    "B::I-02": "enforced"
+   },
+   "model_version": "original"
+  },
+  "steps": [
+   {
+    "impl": "A",
+    "tid": "t1",
+    "action": "!FRAME"
+   },
+   {
+    "impl": "B",
+    "tid": "t1",
+    "action": "!FRAME"
+   },
+   {
+    "impl": "A",
+    "tid": "t2",
+    "action": "?FRAME"
+   },
+   {
+    "impl": "A",
+    "tid": "t3'~I-01:unordered",
+    "action": "close"
+   },
+   {
+    "impl": "B",
+    "tid": "t2",
+    "action": "?FRAME"
+   },
+   {
+    "impl": "B",
+    "tid": "t3",
+    "action": "!RECEIPT"
+   }
+  ],
+  "expected": {
+   "outcome": "property P1 violated by this sequence under the ORIGINAL reading profile",
+   "witness_kind": "message pending for a closed endpoint"
+  },
+  "targets": "reproduces counterexample for P1",
+  "assumptions": {
+   "channel_capacity": 2,
+   "communication": "asynchronous",
+   "channels": "FIFO",
+   "message_loss": false,
+   "defaulted": []
+  },
+  "certified": true,
+  "kind": "counterexample",
+  "source_instructions": [
+   "I-01"
+  ],
+  "motivating_property": "P1",
+  "preconditions": {},
+  "expected_transitions": [],
+  "execution_status": "replayed_in_model",
+  "traceability": {
+   "spec_sha256": "0ed5fb811aca8263bf6fdb91ed58b2baaa5f1e1ddc8a5ceba814f4ad11db531a",
+   "certificate_claim": "original: profile ['unordered', 'relaxed', 'ordered', 'enforced'] / P1"
+  },
+  "signature": "96aad73afbac",
+  "duplicate_of": "CT-034"
+ },
+ {
+  "id": "CT-047",
+  "setup": {
+   "profile": [
+    "unordered",
+    "relaxed",
+    "ordered",
+    "enforced"
+   ],
+   "model_version": "revised"
+  },
+  "steps": [
+   {
+    "impl": "A",
+    "tid": "t1",
+    "action": "!FRAME"
+   },
+   {
+    "impl": "B",
+    "tid": "t1",
+    "action": "!FRAME"
+   },
+   {
+    "impl": "A",
+    "tid": "t2",
+    "action": "?FRAME"
+   },
+   {
+    "impl": "A",
+    "tid": "t3'~I-01:unordered",
+    "action": "close"
+   },
+   {
+    "impl": "B",
+    "tid": "t2",
+    "action": "?FRAME"
+   },
+   {
+    "impl": "B",
+    "tid": "t3",
+    "action": "!RECEIPT"
+   }
+  ],
+  "expected": {
+   "outcome": "a conforming implementation of the REVISED specification must not be able to produce this sequence",
+   "model_check": "sequence not enabled in revised baseline model"
+  },
+  "targets": "clarification intended to remove the P1 violation",
+  "assumptions": {
+   "channel_capacity": 2,
+   "communication": "asynchronous",
+   "channels": "FIFO",
+   "message_loss": false,
+   "defaulted": []
+  },
+  "certified": false,
+  "kind": "clarification_regression",
+  "source_instructions": [
+   "I-01"
+  ],
+  "motivating_property": "P1",
+  "preconditions": {},
+  "expected_transitions": [],
+  "execution_status": "generated",
+  "traceability": {
+   "spec_sha256": "de800b585ab252aa99e1bbd617025a3c8e93fc4accd8fc653e38971b420cc29c",
+   "certificate_claim": "revised: targeted profiles removed"
+  },
+  "signature": "5aa0c6b6e86f",
+  "duplicate_of": "CT-035"
+ },
+ {
+  "id": "CT-048",
+  "setup": {
+   "profile": [
+    "unordered",
+    "relaxed",
+    "ordered",
+    "enforced"
+   ],
+   "profile_readings": {
+    "A::I-01": "unordered",
+    "A::I-02": "relaxed",
+    "B::I-01": "ordered",
+    "B::I-02": "enforced"
+   },
+   "model_version": "original"
+  },
+  "steps": [
+   {
+    "impl": "A",
+    "tid": "t1",
+    "action": "!FRAME"
+   },
+   {
+    "impl": "B",
+    "tid": "t1",
+    "action": "!FRAME"
+   },
+   {
+    "impl": "A",
+    "tid": "t2",
+    "action": "?FRAME"
+   },
+   {
+    "impl": "A",
+    "tid": "t3'~I-01:unordered",
+    "action": "close"
+   },
+   {
+    "impl": "B",
+    "tid": "t2",
+    "action": "?FRAME"
+   },
+   {
+    "impl": "B",
+    "tid": "t3",
+    "action": "!RECEIPT"
+   }
+  ],
+  "expected": {
+   "outcome": "property P3 violated by this sequence under the ORIGINAL reading profile",
+   "witness_kind": "state from which the completion goal is unreachable (deadlock/livelock/bad closure)"
+  },
+  "targets": "reproduces counterexample for P3",
+  "assumptions": {
+   "channel_capacity": 2,
+   "communication": "asynchronous",
+   "channels": "FIFO",
+   "message_loss": false,
+   "defaulted": []
+  },
+  "certified": true,
+  "kind": "counterexample",
+  "source_instructions": [
+   "I-01"
+  ],
+  "motivating_property": "P3",
+  "preconditions": {},
+  "expected_transitions": [],
+  "execution_status": "replayed_in_model",
+  "traceability": {
+   "spec_sha256": "0ed5fb811aca8263bf6fdb91ed58b2baaa5f1e1ddc8a5ceba814f4ad11db531a",
+   "certificate_claim": "original: profile ['unordered', 'relaxed', 'ordered', 'enforced'] / P3"
+  },
+  "signature": "96aad73afbac",
+  "duplicate_of": "CT-034"
+ },
+ {
+  "id": "CT-049",
+  "setup": {
+   "profile": [
+    "unordered",
+    "relaxed",
+    "ordered",
+    "enforced"
+   ],
+   "model_version": "revised"
+  },
+  "steps": [
+   {
+    "impl": "A",
+    "tid": "t1",
+    "action": "!FRAME"
+   },
+   {
+    "impl": "B",
+    "tid": "t1",
+    "action": "!FRAME"
+   },
+   {
+    "impl": "A",
+    "tid": "t2",
+    "action": "?FRAME"
+   },
+   {
+    "impl": "A",
+    "tid": "t3'~I-01:unordered",
+    "action": "close"
+   },
+   {
+    "impl": "B",
+    "tid": "t2",
+    "action": "?FRAME"
+   },
+   {
+    "impl": "B",
+    "tid": "t3",
+    "action": "!RECEIPT"
+   }
+  ],
+  "expected": {
+   "outcome": "a conforming implementation of the REVISED specification must not be able to produce this sequence",
+   "model_check": "sequence not enabled in revised baseline model"
+  },
+  "targets": "clarification intended to remove the P3 violation",
+  "assumptions": {
+   "channel_capacity": 2,
+   "communication": "asynchronous",
+   "channels": "FIFO",
+   "message_loss": false,
+   "defaulted": []
+  },
+  "certified": false,
+  "kind": "clarification_regression",
+  "source_instructions": [
+   "I-01"
+  ],
+  "motivating_property": "P3",
+  "preconditions": {},
+  "expected_transitions": [],
+  "execution_status": "generated",
+  "traceability": {
+   "spec_sha256": "de800b585ab252aa99e1bbd617025a3c8e93fc4accd8fc653e38971b420cc29c",
+   "certificate_claim": "revised: targeted profiles removed"
+  },
+  "signature": "5aa0c6b6e86f",
+  "duplicate_of": "CT-035"
+ },
+ {
+  "id": "CT-050",
+  "setup": {
+   "profile": [
+    "unordered",
+    "relaxed",
+    "ordered",
+    "relaxed"
+   ],
+   "profile_readings": {
+    "A::I-01": "unordered",
+    "A::I-02": "relaxed",
+    "B::I-01": "ordered",
+    "B::I-02": "relaxed"
+   },
+   "model_version": "original"
+  },
+  "steps": [
+   {
+    "impl": "A",
+    "tid": "t1",
+    "action": "!FRAME"
+   },
+   {
+    "impl": "B",
+    "tid": "t1",
+    "action": "!FRAME"
+   },
+   {
+    "impl": "A",
+    "tid": "t2",
+    "action": "?FRAME"
+   },
+   {
+    "impl": "A",
+    "tid": "t3'~I-01:unordered",
+    "action": "close"
+   },
+   {
+    "impl": "B",
+    "tid": "t2",
+    "action": "?FRAME"
+   },
+   {
+    "impl": "B",
+    "tid": "t3",
+    "action": "!RECEIPT"
+   }
+  ],
+  "expected": {
+   "outcome": "property P1 violated by this sequence under the ORIGINAL reading profile",
+   "witness_kind": "message pending for a closed endpoint"
+  },
+  "targets": "reproduces counterexample for P1",
+  "assumptions": {
+   "channel_capacity": 2,
+   "communication": "asynchronous",
+   "channels": "FIFO",
+   "message_loss": false,
+   "defaulted": []
+  },
+  "certified": true,
+  "kind": "counterexample",
+  "source_instructions": [
+   "I-01"
+  ],
+  "motivating_property": "P1",
+  "preconditions": {},
+  "expected_transitions": [],
+  "execution_status": "replayed_in_model",
+  "traceability": {
+   "spec_sha256": "0ed5fb811aca8263bf6fdb91ed58b2baaa5f1e1ddc8a5ceba814f4ad11db531a",
+   "certificate_claim": "original: profile ['unordered', 'relaxed', 'ordered', 'relaxed'] / P1"
+  },
+  "signature": "96aad73afbac",
+  "duplicate_of": "CT-034"
+ },
+ {
+  "id": "CT-051",
+  "setup": {
+   "profile": [
+    "unordered",
+    "relaxed",
+    "ordered",
+    "relaxed"
+   ],
+   "model_version": "revised"
+  },
+  "steps": [
+   {
+    "impl": "A",
+    "tid": "t1",
+    "action": "!FRAME"
+   },
+   {
+    "impl": "B",
+    "tid": "t1",
+    "action": "!FRAME"
+   },
+   {
+    "impl": "A",
+    "tid": "t2",
+    "action": "?FRAME"
+   },
+   {
+    "impl": "A",
+    "tid": "t3'~I-01:unordered",
+    "action": "close"
+   },
+   {
+    "impl": "B",
+    "tid": "t2",
+    "action": "?FRAME"
+   },
+   {
+    "impl": "B",
+    "tid": "t3",
+    "action": "!RECEIPT"
+   }
+  ],
+  "expected": {
+   "outcome": "a conforming implementation of the REVISED specification must not be able to produce this sequence",
+   "model_check": "sequence not enabled in revised baseline model"
+  },
+  "targets": "clarification intended to remove the P1 violation",
+  "assumptions": {
+   "channel_capacity": 2,
+   "communication": "asynchronous",
+   "channels": "FIFO",
+   "message_loss": false,
+   "defaulted": []
+  },
+  "certified": false,
+  "kind": "clarification_regression",
+  "source_instructions": [
+   "I-01"
+  ],
+  "motivating_property": "P1",
+  "preconditions": {},
+  "expected_transitions": [],
+  "execution_status": "generated",
+  "traceability": {
+   "spec_sha256": "de800b585ab252aa99e1bbd617025a3c8e93fc4accd8fc653e38971b420cc29c",
+   "certificate_claim": "revised: targeted profiles removed"
+  },
+  "signature": "5aa0c6b6e86f",
+  "duplicate_of": "CT-035"
+ },
+ {
+  "id": "CT-052",
+  "setup": {
+   "profile": [
+    "unordered",
+    "relaxed",
+    "ordered",
+    "relaxed"
+   ],
+   "profile_readings": {
+    "A::I-01": "unordered",
+    "A::I-02": "relaxed",
+    "B::I-01": "ordered",
+    "B::I-02": "relaxed"
+   },
+   "model_version": "original"
+  },
+  "steps": [
+   {
+    "impl": "A",
+    "tid": "t1",
+    "action": "!FRAME"
+   },
+   {
+    "impl": "B",
+    "tid": "t1",
+    "action": "!FRAME"
+   },
+   {
+    "impl": "A",
+    "tid": "t2",
+    "action": "?FRAME"
+   },
+   {
+    "impl": "A",
+    "tid": "t3'~I-01:unordered",
+    "action": "close"
+   },
+   {
+    "impl": "B",
+    "tid": "t2",
+    "action": "?FRAME"
+   },
+   {
+    "impl": "B",
+    "tid": "t3",
+    "action": "!RECEIPT"
+   },
+   {
+    "impl": "B",
+    "tid": "t4'~I-02:relaxed",
+    "action": "close"
+   }
+  ],
+  "expected": {
+   "outcome": "property P3 violated by this sequence under the ORIGINAL reading profile",
+   "witness_kind": "state from which the completion goal is unreachable (deadlock/livelock/bad closure)"
+  },
+  "targets": "reproduces counterexample for P3",
+  "assumptions": {
+   "channel_capacity": 2,
+   "communication": "asynchronous",
+   "channels": "FIFO",
+   "message_loss": false,
+   "defaulted": []
+  },
+  "certified": true,
+  "kind": "counterexample",
+  "source_instructions": [
+   "I-01",
+   "I-02"
+  ],
+  "motivating_property": "P3",
+  "preconditions": {},
+  "expected_transitions": [],
+  "execution_status": "replayed_in_model",
+  "traceability": {
+   "spec_sha256": "0ed5fb811aca8263bf6fdb91ed58b2baaa5f1e1ddc8a5ceba814f4ad11db531a",
+   "certificate_claim": "original: profile ['unordered', 'relaxed', 'ordered', 'relaxed'] / P3"
+  },
+  "signature": "252fa03fec5e",
+  "duplicate_of": "CT-040"
+ },
+ {
+  "id": "CT-053",
+  "setup": {
+   "profile": [
+    "unordered",
+    "relaxed",
+    "ordered",
+    "relaxed"
+   ],
+   "model_version": "revised"
+  },
+  "steps": [
+   {
+    "impl": "A",
+    "tid": "t1",
+    "action": "!FRAME"
+   },
+   {
+    "impl": "B",
+    "tid": "t1",
+    "action": "!FRAME"
+   },
+   {
+    "impl": "A",
+    "tid": "t2",
+    "action": "?FRAME"
+   },
+   {
+    "impl": "A",
+    "tid": "t3'~I-01:unordered",
+    "action": "close"
+   },
+   {
+    "impl": "B",
+    "tid": "t2",
+    "action": "?FRAME"
+   },
+   {
+    "impl": "B",
+    "tid": "t3",
+    "action": "!RECEIPT"
+   },
+   {
+    "impl": "B",
+    "tid": "t4'~I-02:relaxed",
+    "action": "close"
+   }
+  ],
+  "expected": {
+   "outcome": "a conforming implementation of the REVISED specification must not be able to produce this sequence",
+   "model_check": "sequence not enabled in revised baseline model"
+  },
+  "targets": "clarification intended to remove the P3 violation",
+  "assumptions": {
+   "channel_capacity": 2,
+   "communication": "asynchronous",
+   "channels": "FIFO",
+   "message_loss": false,
+   "defaulted": []
+  },
+  "certified": false,
+  "kind": "clarification_regression",
+  "source_instructions": [
+   "I-01",
+   "I-02"
+  ],
+  "motivating_property": "P3",
+  "preconditions": {},
+  "expected_transitions": [],
+  "execution_status": "generated",
+  "traceability": {
+   "spec_sha256": "de800b585ab252aa99e1bbd617025a3c8e93fc4accd8fc653e38971b420cc29c",
+   "certificate_claim": "revised: targeted profiles removed"
+  },
+  "signature": "5a4a5ad8c9bd",
+  "duplicate_of": "CT-041"
+ },
+ {
+  "id": "CT-054",
+  "setup": {
+   "profile": [
+    "unordered",
+    "relaxed",
+    "unordered",
+    "enforced"
+   ],
+   "profile_readings": {
+    "A::I-01": "unordered",
+    "A::I-02": "relaxed",
+    "B::I-01": "unordered",
+    "B::I-02": "enforced"
+   },
+   "model_version": "original"
+  },
+  "steps": [
+   {
+    "impl": "A",
+    "tid": "t1",
+    "action": "!FRAME"
+   },
+   {
+    "impl": "B",
+    "tid": "t1",
+    "action": "!FRAME"
+   },
+   {
+    "impl": "A",
+    "tid": "t2",
+    "action": "?FRAME"
+   },
+   {
+    "impl": "A",
+    "tid": "t3'~I-01:unordered",
+    "action": "close"
+   },
+   {
+    "impl": "B",
+    "tid": "t2",
+    "action": "?FRAME"
+   },
+   {
+    "impl": "B",
+    "tid": "t3'~I-01:unordered",
+    "action": "close"
+   }
+  ],
+  "expected": {
+   "outcome": "property P3 violated by this sequence under the ORIGINAL reading profile",
+   "witness_kind": "state from which the completion goal is unreachable (deadlock/livelock/bad closure)"
+  },
+  "targets": "reproduces counterexample for P3",
+  "assumptions": {
+   "channel_capacity": 2,
+   "communication": "asynchronous",
+   "channels": "FIFO",
+   "message_loss": false,
+   "defaulted": []
+  },
+  "certified": true,
+  "kind": "counterexample",
+  "source_instructions": [
+   "I-01"
+  ],
+  "motivating_property": "P3",
+  "preconditions": {},
+  "expected_transitions": [],
+  "execution_status": "replayed_in_model",
+  "traceability": {
+   "spec_sha256": "0ed5fb811aca8263bf6fdb91ed58b2baaa5f1e1ddc8a5ceba814f4ad11db531a",
+   "certificate_claim": "original: profile ['unordered', 'relaxed', 'unordered', 'enforced'] / P3"
+  },
+  "signature": "16fe9b7fa1c2",
+  "duplicate_of": "CT-042"
+ },
+ {
+  "id": "CT-055",
+  "setup": {
+   "profile": [
+    "unordered",
+    "relaxed",
+    "unordered",
+    "enforced"
+   ],
+   "model_version": "revised"
+  },
+  "steps": [
+   {
+    "impl": "A",
+    "tid": "t1",
+    "action": "!FRAME"
+   },
+   {
+    "impl": "B",
+    "tid": "t1",
+    "action": "!FRAME"
+   },
+   {
+    "impl": "A",
+    "tid": "t2",
+    "action": "?FRAME"
+   },
+   {
+    "impl": "A",
+    "tid": "t3'~I-01:unordered",
+    "action": "close"
+   },
+   {
+    "impl": "B",
+    "tid": "t2",
+    "action": "?FRAME"
+   },
+   {
+    "impl": "B",
+    "tid": "t3'~I-01:unordered",
+    "action": "close"
+   }
+  ],
+  "expected": {
+   "outcome": "a conforming implementation of the REVISED specification must not be able to produce this sequence",
+   "model_check": "sequence not enabled in revised baseline model"
+  },
+  "targets": "clarification intended to remove the P3 violation",
+  "assumptions": {
+   "channel_capacity": 2,
+   "communication": "asynchronous",
+   "channels": "FIFO",
+   "message_loss": false,
+   "defaulted": []
+  },
+  "certified": false,
+  "kind": "clarification_regression",
+  "source_instructions": [
+   "I-01"
+  ],
+  "motivating_property": "P3",
+  "preconditions": {},
+  "expected_transitions": [],
+  "execution_status": "generated",
+  "traceability": {
+   "spec_sha256": "de800b585ab252aa99e1bbd617025a3c8e93fc4accd8fc653e38971b420cc29c",
+   "certificate_claim": "revised: targeted profiles removed"
+  },
+  "signature": "9b5ba51ad13a",
+  "duplicate_of": "CT-043"
+ },
+ {
+  "id": "CT-056",
+  "setup": {
+   "profile": [
+    "unordered",
+    "relaxed",
+    "unordered",
+    "relaxed"
+   ],
+   "profile_readings": {
+    "A::I-01": "unordered",
+    "A::I-02": "relaxed",
+    "B::I-01": "unordered",
+    "B::I-02": "relaxed"
+   },
+   "model_version": "original"
+  },
+  "steps": [
+   {
+    "impl": "A",
+    "tid": "t1",
+    "action": "!FRAME"
+   },
+   {
+    "impl": "B",
+    "tid": "t1",
+    "action": "!FRAME"
+   },
+   {
+    "impl": "A",
+    "tid": "t2",
+    "action": "?FRAME"
+   },
+   {
+    "impl": "A",
+    "tid": "t3'~I-01:unordered",
+    "action": "close"
+   },
+   {
+    "impl": "B",
+    "tid": "t2",
+    "action": "?FRAME"
+   },
+   {
+    "impl": "B",
+    "tid": "t3'~I-01:unordered",
+    "action": "close"
+   }
+  ],
+  "expected": {
+   "outcome": "property P3 violated by this sequence under the ORIGINAL reading profile",
+   "witness_kind": "state from which the completion goal is unreachable (deadlock/livelock/bad closure)"
+  },
+  "targets": "reproduces counterexample for P3",
+  "assumptions": {
+   "channel_capacity": 2,
+   "communication": "asynchronous",
+   "channels": "FIFO",
+   "message_loss": false,
+   "defaulted": []
+  },
+  "certified": true,
+  "kind": "counterexample",
+  "source_instructions": [
+   "I-01"
+  ],
+  "motivating_property": "P3",
+  "preconditions": {},
+  "expected_transitions": [],
+  "execution_status": "replayed_in_model",
+  "traceability": {
+   "spec_sha256": "0ed5fb811aca8263bf6fdb91ed58b2baaa5f1e1ddc8a5ceba814f4ad11db531a",
+   "certificate_claim": "original: profile ['unordered', 'relaxed', 'unordered', 'relaxed'] / P3"
+  },
+  "signature": "16fe9b7fa1c2",
+  "duplicate_of": "CT-042"
+ },
+ {
+  "id": "CT-057",
+  "setup": {
+   "profile": [
+    "unordered",
+    "relaxed",
+    "unordered",
+    "relaxed"
+   ],
+   "model_version": "revised"
+  },
+  "steps": [
+   {
+    "impl": "A",
+    "tid": "t1",
+    "action": "!FRAME"
+   },
+   {
+    "impl": "B",
+    "tid": "t1",
+    "action": "!FRAME"
+   },
+   {
+    "impl": "A",
+    "tid": "t2",
+    "action": "?FRAME"
+   },
+   {
+    "impl": "A",
+    "tid": "t3'~I-01:unordered",
+    "action": "close"
+   },
+   {
+    "impl": "B",
+    "tid": "t2",
+    "action": "?FRAME"
+   },
+   {
+    "impl": "B",
+    "tid": "t3'~I-01:unordered",
+    "action": "close"
+   }
+  ],
+  "expected": {
+   "outcome": "a conforming implementation of the REVISED specification must not be able to produce this sequence",
+   "model_check": "sequence not enabled in revised baseline model"
+  },
+  "targets": "clarification intended to remove the P3 violation",
+  "assumptions": {
+   "channel_capacity": 2,
+   "communication": "asynchronous",
+   "channels": "FIFO",
+   "message_loss": false,
+   "defaulted": []
+  },
+  "certified": false,
+  "kind": "clarification_regression",
+  "source_instructions": [
+   "I-01"
+  ],
+  "motivating_property": "P3",
+  "preconditions": {},
+  "expected_transitions": [],
+  "execution_status": "generated",
+  "traceability": {
+   "spec_sha256": "de800b585ab252aa99e1bbd617025a3c8e93fc4accd8fc653e38971b420cc29c",
+   "certificate_claim": "revised: targeted profiles removed"
+  },
+  "signature": "9b5ba51ad13a",
+  "duplicate_of": "CT-043"
+ }
+]

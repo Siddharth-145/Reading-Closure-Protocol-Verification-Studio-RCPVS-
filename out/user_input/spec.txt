@@ -1,5 +1,3 @@
-[I-01]
-The sender MUST receive an acknowledgement before closing the session.
-
-[I-02]
-The receiver MUST send an acknowledgement after receiving the message.
+# Hypothetical Ack-Close protocol (illustrative, not a real standard)
+[I-01] After receiving the data message, the endpoint sends an acknowledgement and closes the session.
+[I-02] The endpoint SHOULD retain the session until the peer's acknowledgement is received.

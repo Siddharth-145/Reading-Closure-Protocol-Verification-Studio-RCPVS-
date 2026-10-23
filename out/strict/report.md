@@ -2,7 +2,7 @@
 _Reading-Closure Protocol Verification Studio. Engineered examples are illustrative, not evidence from real protocols._
 
 ## 1. Input specification
-- Mode: **compile**; source SHA-256 `b2064c70c798a17d54bc296e3d542780f47a036ed6bc95b86ac4f7882e73a542`; rule set `2.0.0`
+- Mode: **compile**; source SHA-256 `55de7008775a1d87a64500a5d435e0ae4b18d2c2e7c1162aaa5b1422abae5f07`; rule set `2.0.0`
 - Original status: **VIOLATION_FOUND**; final status: **VERIFIED_SAFE_WITHIN_SCOPE**
 
 ## 2. Model description and assumptions
@@ -170,7 +170,7 @@ Objective: 1. hit every nogood (hard constraint; admitted profiles must exclude 
 Tie-breaking: tuples compared lexicographically; first-found wins exact ties (deterministic candidate order). This is bounded exact enumeration, not MaxSAT.
 
 ## 10. Revised specification and re-verification
-Revised SHA-256 `0fdacd313ada320c41690c3bd3a63fd09778e05b944b363903d1f544ff0b8462`; re-verification status **VERIFIED_SAFE_WITHIN_SCOPE**.
+Revised SHA-256 `9a7b9107b88e82a0586ca804e8f97bc965fd59408d374caa8510c33c9657464a`; re-verification status **VERIFIED_SAFE_WITHIN_SCOPE**.
 - I-01 [clarify-event-order] line 2:8: original “After receiving the data message, the endpoint sends an acknowledgement and closes the session.” → proposed “The endpoint MUST complete the acknowledgement exchange before closing the session.” → final (re-read) “The endpoint MUST complete the acknowledgement exchange before closing the session.”
 - I-02 [change-constraint-strength] line 3:8: original “The endpoint SHOULD retain the session until the peer's acknowledgement is received.” → proposed “The endpoint MUST retain the session until the peer's acknowledgement is received.” → final (re-read) “The endpoint MUST retain the session until the peer's acknowledgement is received.”
 - round 1: status VERIFIED_SAFE_WITHIN_SCOPE; optimiser OPTIMAL; necessity [{'edit': 'I-01:ordered', 'nogoods_unsatisfied_without_it': ['NG-01', 'NG-03']}, {'edit': 'I-02:enforced', 'nogoods_unsatisfied_without_it': ['NG-02', 'NG-04']}]

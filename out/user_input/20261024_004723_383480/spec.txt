@@ -1,0 +1,3 @@
+# Hypothetical Ping-Retry protocol (illustrative, not a real standard)
+[I-01] The client MAY retransmit the ping.
+[I-02] The client MUST NOT close the session before the response is received.

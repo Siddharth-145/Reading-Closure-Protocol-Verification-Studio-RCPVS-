@@ -1,0 +1,4 @@
+# Hypothetical Receipt-Close protocol (illustrative, not a real standard)
+[I-01] The endpoint MUST complete the receipt exchange before closing the session.
+[I-02] The endpoint MUST retain the session until the peer's receipt is received.
+ 

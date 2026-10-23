@@ -1,0 +1,4 @@
+# Hypothetical Receipt-Close protocol (illustrative, not a real standard)
+[I-01] After receiving the frame, the endpoint sends a receipt and closes the session.
+[I-02] The endpoint SHOULD retain the session until the peer's receipt is received.
+ 

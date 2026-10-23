@@ -13,6 +13,9 @@ OUT_DIR = ROOT / "out" / "strict"
 REPORT_PATH = OUT_DIR / "report.md"
 CERT_PATH = OUT_DIR / "certificate.json"
 
+EXAMPLE_SPEC = "examples/ack_close/spec.txt"
+EXAMPLE_MODEL = "examples/ack_close/model.json"
+
 st.set_page_config(
     page_title="RCPVS | Verification Studio",
     page_icon="🔎",
@@ -104,6 +107,10 @@ def save_upload(upload, destination: Path) -> Path:
     return destination
 
 
+def rel(path: Path) -> str:
+    return str(path.relative_to(ROOT)).replace("\\", "/")
+
+
 def find_count(cert: dict, key: str):
     counts = cert.get("counts", {})
     if isinstance(counts, dict) and key in counts:
@@ -111,13 +118,36 @@ def find_count(cert: dict, key: str):
     return cert.get(key)
 
 
-# Session values preserve the latest run even after Streamlit reruns.
-if "selected_spec" not in st.session_state:
-    st.session_state["selected_spec"] = "example"
-if "last_compile" not in st.session_state:
-    st.session_state["last_compile"] = None
-if "last_check" not in st.session_state:
-    st.session_state["last_check"] = None
+def checker_result() -> dict:
+    """Parse the checker's JSON output (tolerates extra text around the JSON)."""
+    check = st.session_state.get("last_check")
+    if not check:
+        return {}
+    text = check.get("output", "") or ""
+    start, end = text.find("{"), text.rfind("}")
+    if start == -1 or end <= start:
+        return {}
+    try:
+        data = json.loads(text[start:end + 1])
+    except json.JSONDecodeError:
+        return {}
+    return data if isinstance(data, dict) else {}
+
+
+def checker_counts() -> dict:
+    counts = checker_result().get("counts")
+    return counts if isinstance(counts, dict) else {}
+
+
+# Session-scoped results: never load stale artifacts left in out/strict at startup.
+for _key, _default in (
+    ("last_compile", None),
+    ("last_check", None),
+    ("active_report", ""),
+    ("active_certificate", None),
+):
+    if _key not in st.session_state:
+        st.session_state[_key] = _default
 
 with st.sidebar:
     st.markdown("""
@@ -134,14 +164,11 @@ with st.sidebar:
     st.divider()
     st.markdown("**Workspace status**")
     st.caption("Local prototype · Files stay in your project folder")
-    st.caption("Output folder: `out/strict/`")
+    st.caption("Output folder: `out/runs/<run id>/`")
 
-report = read_text(REPORT_PATH)
-certificate = read_json(CERT_PATH)
-if st.session_state.get("last_compile"):
-    report = read_text(REPORT_PATH) or report
-if st.session_state.get("last_check"):
-    certificate = read_json(CERT_PATH) or certificate
+# Populated only after a successful verification in this dashboard session.
+report = st.session_state.get("active_report", "")
+certificate = st.session_state.get("active_certificate")
 
 st.markdown("""
 <div class="hero">
@@ -174,24 +201,63 @@ def show_stepper(active: int, completed: set[int] | None = None):
 
 
 def execute_compile(spec_path: str, model_path: str):
-    with st.spinner("Running RCPVS analysis and bounded re-verification…"):
+    run_id = datetime.now().strftime("%Y%m%d_%H%M%S_%f")
+    run_dir = ROOT / "out" / "runs" / run_id
+    run_dir.mkdir(parents=True, exist_ok=True)
+
+    with st.spinner("Running RCPVS verification..."):
         rc, output = run_cli([
-            "compile", "--spec", spec_path, "--model", model_path, "--out", "out/strict"
+            "compile",
+            "--spec", spec_path,
+            "--model", model_path,
+            "--out", rel(run_dir),
         ])
+
+    report_path = run_dir / "report.md"
+    cert_path = run_dir / "certificate.json"
+
     st.session_state["last_compile"] = {
-        "rc": rc, "output": output, "time": datetime.now().astimezone().isoformat(),
-        "spec": spec_path, "model": model_path,
+        "rc": rc,
+        "output": output,
+        "time": datetime.now().astimezone().isoformat(),
+        "spec": spec_path,
+        "model": model_path,
+        "report_path": str(report_path),
+        "cert_path": str(cert_path),
     }
     st.session_state["last_check"] = None
+
+    # Always reset first so a previous run's results can never leak into this one.
+    st.session_state["active_report"] = ""
+    st.session_state["active_certificate"] = None
+
+    if rc == 0:
+        st.session_state["active_report"] = read_text(report_path)
+        st.session_state["active_certificate"] = read_json(cert_path)
+
     return rc, output
 
 
 def execute_check():
+    last = st.session_state.get("last_compile")
+
+    if not last or last.get("rc") != 0:
+        return 2, "No successful verification in this session. Go to New Verification first."
+
+    cert_path = Path(last["cert_path"])
+
+    if not cert_path.exists():
+        return 2, "Certificate file not found. Run verification again."
+
     with st.spinner("Running the certificate checker…"):
-        rc, output = run_cli(["check", "out/strict/certificate.json"])
+        rc, output = run_cli(["check", rel(cert_path)])
+
     st.session_state["last_check"] = {
-        "rc": rc, "output": output, "time": datetime.now().astimezone().isoformat()
+        "rc": rc,
+        "output": output,
+        "time": datetime.now().astimezone().isoformat(),
     }
+
     return rc, output
 
 
@@ -205,38 +271,79 @@ if page == "New Verification":
         key="input_source_choice",
     )
 
-    spec_path, model_path = None, None
+    spec_upload = model_upload = None
+    input_error = None
+
     if source_choice == "Use Ack-Close example":
         st.markdown('<div class="panel">', unsafe_allow_html=True)
         st.markdown("**Example input**")
         st.write("Uses the bundled hypothetical Ack-Close specification and model.")
         st.caption("The example is for demonstrating the tool, not a real TCP implementation test.")
         st.markdown("</div>", unsafe_allow_html=True)
-        spec_path = "examples/ack_close/spec.txt"
-        model_path = "examples/ack_close/model.json"
+        selected_ready = True
     else:
         st.markdown("**Upload input files**")
         st.caption("Upload a plain-text specification and a JSON FSM model compatible with the RCPVS CLI.")
         spec_upload = st.file_uploader("Protocol specification (.txt)", type=["txt", "md"], key="spec_upload")
         model_upload = st.file_uploader("FSM model (.json)", type=["json"], key="model_upload")
+
+        selected_ready = False
         if spec_upload and model_upload:
-            custom_dir = ROOT / "out" / "user_input"
-            spec_path = str(save_upload(spec_upload, custom_dir / "spec.txt").relative_to(ROOT)).replace("\\", "/")
-            model_path = str(save_upload(model_upload, custom_dir / "model.json").relative_to(ROOT)).replace("\\", "/")
-            st.success("Both input files are ready. Review the filenames, then run verification.")
+            try:
+                json.loads(model_upload.getvalue().decode("utf-8-sig"))
+                selected_ready = True
+                st.success(
+                    f"Both input files are ready: **{spec_upload.name}** and **{model_upload.name}**. "
+                    "Click Run verification."
+                )
+            except (UnicodeDecodeError, json.JSONDecodeError) as exc:
+                input_error = f"The uploaded model is not valid JSON: {exc}"
+                st.error(input_error)
         else:
             st.info("Choose both files to enable the run button.")
 
+    # Optional override. Empty by default so it can NEVER silently replace the
+    # selected source (the old version pre-filled these with the example paths).
     with st.expander("Advanced settings / file paths", expanded=False):
-        st.caption("For debugging only. Paths must be relative to the project root.")
-        spec_path = st.text_input("Specification path", value=spec_path or "", key="advanced_spec_path")
-        model_path = st.text_input("Model path", value=model_path or "", key="advanced_model_path")
+        st.caption(
+            "Optional, for debugging. Leave empty to use the source selected above. "
+            "If filled, the path overrides it. Paths must be relative to the project root."
+        )
+        spec_override = st.text_input(
+            "Specification path override", value="", placeholder=EXAMPLE_SPEC, key="advanced_spec_path"
+        ).strip()
+        model_override = st.text_input(
+            "Model path override", value="", placeholder=EXAMPLE_MODEL, key="advanced_model_path"
+        ).strip()
 
-    ready = bool(spec_path and model_path)
+    override_active = bool(spec_override and model_override)
+    ready = override_active or selected_ready
+
+    if override_active:
+        st.warning("Path overrides are set and will be used instead of the selection above.")
+
     if st.button("Run verification", type="primary", disabled=not ready, use_container_width=True):
+        # Resolve the paths only now, at click time.
+        if override_active:
+            spec_path, model_path = spec_override, model_override
+        elif source_choice == "Use Ack-Close example":
+            spec_path, model_path = EXAMPLE_SPEC, EXAMPLE_MODEL
+        else:
+            upload_dir = ROOT / "out" / "user_input" / datetime.now().strftime("%Y%m%d_%H%M%S_%f")
+            spec_path = rel(save_upload(spec_upload, upload_dir / "spec.txt"))
+            model_path = rel(save_upload(model_upload, upload_dir / "model.json"))
+
+        st.caption(f"Running with → specification: `{spec_path}` · model: `{model_path}`")
+
         rc, output = execute_compile(spec_path, model_path)
         if rc == 0:
-            st.success("Pipeline command completed. Review the generated report and checker result.")
+            if st.session_state["active_report"] and st.session_state["active_certificate"] is not None:
+                st.success("Pipeline command completed. Review the generated report and checker result.")
+            else:
+                st.warning(
+                    "The command exited successfully, but no report/certificate was found in the run folder. "
+                    "Check the command output below."
+                )
         else:
             st.error(f"Pipeline command failed (exit code {rc}).")
         st.code(output or "(No command output)", language="text")
@@ -249,10 +356,13 @@ if page == "Report":
     st.markdown('<div class="section-title">Verification report</div>', unsafe_allow_html=True)
     st.markdown('<div class="section-sub">The generated Markdown report from the most recent compile run.</div>', unsafe_allow_html=True)
     if report:
+        last = st.session_state.get("last_compile")
+        if last:
+            st.caption(f"Specification: `{last['spec']}` · Model: `{last['model']}`")
         st.download_button("Download report.md", report, file_name="report.md", mime="text/markdown")
         st.markdown(report)
     else:
-        st.info("No report is available yet. Open New Verification and run the pipeline.")
+        st.info("No report yet. Go to **New Verification**, select the example or upload your own protocol and model, then run verification.")
     st.stop()
 
 
@@ -275,25 +385,40 @@ if page == "Certificate":
         st.code(check["output"] or "(No output)", language="json")
 
     if certificate is None:
-        st.warning("Certificate file not found. Run a verification first.")
+        st.info("No certificate yet. Go to **New Verification**, select the example or upload your own protocol and model, then run verification.")
+        st.stop()
     else:
-        counts = certificate.get("counts", {}) if isinstance(certificate, dict) else {}
-        status = certificate.get("status", "Status not included") if isinstance(certificate, dict) else "Unknown"
-        accepted = certificate.get("accepted") if isinstance(certificate, dict) else None
-        if status == "CERTIFICATE_ACCEPTED" or accepted is True:
+        last = st.session_state.get("last_compile")
+        if last:
+            st.caption(f"Specification: `{last['spec']}` · Model: `{last['model']}`")
+
+        chk = checker_result()
+        if chk.get("status") == "CERTIFICATE_ACCEPTED" or chk.get("accepted") is True:
             st.markdown(
-                '<div class="cert-banner"><div class="cert-title">✓ Certificate checker acceptance recorded</div>'
-                '<div class="cert-sub">See the checker output below for the authoritative result.</div></div>',
+                '<div class="cert-banner"><div class="cert-title">✓ CERTIFICATE_ACCEPTED</div>'
+                '<div class="cert-sub">The independent checker accepted this certificate.</div></div>',
                 unsafe_allow_html=True,
             )
+        elif chk:
+            st.error(f"Checker status: {chk.get('status', 'unknown')}")
         else:
-            st.info(f"Certificate file loaded. Status: {status}. Run the checker to validate it.")
+            st.info("Certificate file loaded. Click **Check certificate now** to validate it.")
 
         st.write("")
+        cc = checker_counts()
+
+        def claim_count(key):
+            if key in cc:
+                return cc[key]
+            v = find_count(certificate, key)
+            return v if v is not None else "—"
+
+        if not cc:
+            st.caption("Claim counts appear after you run **Check certificate now**.")
         a, b, c = st.columns(3)
-        a.metric("Verified claims", find_count(certificate, "verified") if find_count(certificate, "verified") is not None else "—")
-        b.metric("Rejected claims", find_count(certificate, "rejected") if find_count(certificate, "rejected") is not None else "—")
-        c.metric("Unverified claims", find_count(certificate, "unverified") if find_count(certificate, "unverified") is not None else "—")
+        a.metric("Verified claims", claim_count("verified"))
+        b.metric("Rejected claims", claim_count("rejected"))
+        c.metric("Unverified claims", claim_count("unverified"))
 
         st.download_button(
             "Download certificate JSON",
@@ -328,7 +453,7 @@ last_compile = st.session_state.get("last_compile")
 last_check = st.session_state.get("last_check")
 completed = set()
 active = 1
-if last_compile:
+if last_compile and last_compile.get("rc") == 0:
     completed = {1, 2, 3, 4}
     active = 5
 if last_check and last_check.get("rc") == 0 and "CERTIFICATE_ACCEPTED" in last_check.get("output", ""):
@@ -407,7 +532,7 @@ with col1:
             with st.expander("Preview report"):
                 st.markdown(report)
         else:
-            st.caption("No report yet. Run a verification first.")
+            st.info("No report yet. Go to **New Verification**, select the example or upload your own protocol and model, then run verification.")
 with col2:
     with st.container(border=True):
         st.markdown("**Certificate**")
@@ -423,7 +548,7 @@ with col2:
             with st.expander("Preview certificate JSON"):
                 st.json(certificate)
         else:
-            st.caption("No certificate yet. Run a verification first.")
+            st.info("No certificate yet. Go to **New Verification**, select the example or upload your own protocol and model, then run verification.")
 
 st.divider()
 st.caption(
